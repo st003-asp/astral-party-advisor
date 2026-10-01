@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+
+# wikiから取得した本文(各執筆者の著作物なので再配布しない)。日本語・英語・中国語すべて
+data/
+
+# 解析結果と録画
+reports/
+*.mp4
+*.mkv
+*.mov
+
+.env

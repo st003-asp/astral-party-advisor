@@ -1,0 +1,235 @@
+"""ゲーム内リプレイ再生の録画を、手番ごとに講評する。
+
+流れ: フレーム抽出 → 再生バーのアイコンで手番ごとに区切る(API不要)
+      → 各アイコンが誰の手番かを1回ずつ読み取る → 対象プレイヤーの手番と敵の手番を講評。
+途中結果は out_dir の JSON に保存し、再実行時は続きから再開する。
+"""
+
+from __future__ import annotations
+
+import json
+import unicodedata
+from pathlib import Path
+from typing import Callable
+
+from . import knowledge_base
+from .analyze import Decision
+from .llm import Advisor, Refused
+from .schemas import Advice, TurnOwner, TurnReview
+from .video import Frame, TurnSegment, extract_keyframes, load_frames, pick_key_frames, segment_turns
+
+Progress = Callable[[str], None]
+MAX_FRAMES_PER_TURN = 20
+OWNER_FRAMES = 3
+ROSTER_FRAMES = 4
+EXTRA_FRAMES_FOR_LONG_TURN = 16
+
+
+def _load(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+
+def _save(path: Path, data: dict) -> None:
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def _norm(text: str | None) -> str:
+    return unicodedata.normalize("NFKC", text or "").strip().lower()
+
+
+def pick_frames(frames: list[Frame], limit: int = MAX_FRAMES_PER_TURN) -> list[Frame]:
+    """長い手番は等間隔に間引く(最初と最後は必ず残す)。"""
+    if len(frames) <= limit:
+        return list(frames)
+    step = (len(frames) - 1) / (limit - 1)
+    return [frames[round(i * step)] for i in range(limit)]
+
+
+def identify_owners(
+    advisor: Advisor, out_dir: Path, segments: list[TurnSegment], log: Progress
+) -> dict[int, TurnOwner]:
+    """手番アイコンの種類ごとに、誰の手番かを1回だけ読み取る。"""
+    cache_path = out_dir / "owners.json"
+    cache = _load(cache_path)
+    for cluster in sorted({s.cluster for s in segments}):
+        key = str(cluster)
+        if key in cache:
+            continue
+        # 手番の最初には「〇〇ターン開始」の表示とプレイヤー一覧が映るので、いちばん長い区間の冒頭を見せる
+        longest = max((s for s in segments if s.cluster == cluster), key=lambda s: len(s.frames))
+        owner = advisor.identify_owner([out_dir / f.file for f in longest.frames[:OWNER_FRAMES]])
+        cache[key] = owner.model_dump()
+        _save(cache_path, cache)
+        who = owner.player_name or {"enemy": "敵", "none": "(手番なし)"}.get(owner.kind, "?")
+        log(f"  手番アイコン{cluster}: {who}" + (f"({owner.turn_order}番手)" if owner.turn_order else ""))
+    return {int(k): TurnOwner(**v) for k, v in cache.items()}
+
+
+def read_party(
+    advisor: Advisor, out_dir: Path, frames: list[Frame], segments: list[TurnSegment], log: Progress
+) -> list[dict]:
+    """録画冒頭のリプレイ選択画面から、参加者(手番順)と使用キャラを読み取る。写っていなければ空。
+
+    画面にはキャラ名ではなく二つ名が出るので、characters.json の対応表でキャラ名に直す。
+    """
+    cache_path = out_dir / "roster.json"
+    if cache_path.exists():
+        return _load(cache_path)["players"]
+    first_turn = segments[0].frames[0].index
+    intro = [f for f in frames if f.index < first_turn]
+    players: list[dict] = []
+    if intro:
+        roster = advisor.read_roster([out_dir / f.file for f in pick_frames(intro, ROSTER_FRAMES)])
+        if roster.found:
+            players = [
+                {
+                    "player_name": e.player_name,
+                    "label": e.label,
+                    "character": knowledge_base.character_from_label(e.label),
+                }
+                for e in roster.players
+            ]
+    _save(cache_path, {"players": players})
+    if players:
+        log("参加者: " + "、".join(f"{p['player_name']}={p['character'] or p['label'] + '(不明)'}" for p in players))
+    else:
+        log("参加者一覧の画面は見つかりませんでした(リプレイ選択画面から録画すると、キャラを自動で判定できます)。")
+    return players
+
+
+def find_my_cluster(owners: dict[int, TurnOwner], player: str | None, order: int | None) -> int:
+    for cluster, owner in owners.items():
+        if owner.kind != "player":
+            continue
+        if order is not None and owner.turn_order == order:
+            return cluster
+        # 「〇〇ターン開始」の表示は文字が重なって、名前の一部が二重に読まれることがあるので、部分一致で探す
+        if player and _norm(player) and (
+            _norm(player) in _norm(owner.player_name) or _norm(player) == _norm(owner.character)
+        ):
+            return cluster
+    found = "、".join(
+        f"{o.player_name}({o.turn_order}番手)" for o in owners.values() if o.kind == "player"
+    ) or "なし"
+    raise KeyError(
+        f"対象プレイヤーが見つかりませんでした。--player に表示名、または --order に手番順(1〜4)を指定してください。"
+        f"読み取れたプレイヤー: {found}"
+    )
+
+
+def analyze_replay(
+    video: Path,
+    out_dir: Path,
+    advisor: Advisor | None,
+    *,
+    player: str | None = None,
+    order: int | None = None,
+    me_character: str | None = None,
+    base_context: str = "",
+    interval: float = 0.5,
+    diff_threshold: float = 2.0,
+    start: float = 0.0,
+    end: float | None = None,
+    max_turns: int | None = None,
+    include_enemy_turns: bool = True,
+    frames_per_turn: int = MAX_FRAMES_PER_TURN,
+    effort: str = "high",
+    frames_only: bool = False,
+    log: Progress = print,
+) -> tuple[list[Decision], dict[str, Advice]]:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    frames = load_frames(out_dir)
+    if frames is None:
+        log("フレームを抽出中…")
+        frames = extract_keyframes(
+            video, out_dir, interval=interval, diff_threshold=diff_threshold, start=start, end=end
+        )
+    segments = segment_turns(out_dir, frames)
+    log(f"フレーム {len(frames)} 枚、手番の区間 {len(segments)} 個")
+    if frames_only:
+        for s in segments:
+            log(f"  {s.id} {s.frames[0].timestamp}〜 アイコン{s.cluster} {len(s.frames)}枚")
+        return [], {}
+    if not segments:
+        raise KeyError("再生バーが見つかりませんでした。リプレイ再生の録画でなければ --mode live を指定してください。")
+
+    party = read_party(advisor, out_dir, frames, segments, log)
+    log("手番の持ち主を読み取り中…")
+    owners = identify_owners(advisor, out_dir, segments, log)
+    mine = find_my_cluster(owners, player, order)
+    me = owners[mine]
+    if player and _norm(player) in _norm(me.player_name):
+        me = me.model_copy(update={"player_name": player})  # 読み取りの揺れを指定の表記に揃える
+    # 使用キャラは、指定(--me) > 冒頭の参加者一覧の二つ名 の順で決める。画面の見た目からの推測は使わない
+    from_roster = next((p["character"] for p in party if _norm(p["player_name"]) == _norm(me.player_name)), None)
+    if from_roster is None and me.turn_order and len(party) >= me.turn_order:
+        from_roster = party[me.turn_order - 1]["character"]
+    me = me.model_copy(update={"character": me_character or from_roster})
+    if me.character is None:
+        log("  使用キャラが分かりません。--me でキャラ名を指定すると講評が正確になります。")
+    targets = [
+        (s, "my_turn" if s.cluster == mine else "enemy_turn")
+        for s in segments
+        if s.cluster == mine or (include_enemy_turns and owners[s.cluster].kind == "enemy")
+    ]
+    if max_turns is not None:
+        targets = targets[:max_turns]
+    log(
+        f"対象プレイヤー: {me.player_name}({me.turn_order}番手、{me.character or 'キャラ不明'})。"
+        f"講評する区間 {len(targets)} 個"
+    )
+
+    cache_path = out_dir / "reviews.json"
+    cache = _load(cache_path)
+    party_line = "、".join(
+        f"{i}番手 {p['player_name']}={p['character'] or p['label']}" for i, p in enumerate(party, 1)
+    )
+    context = "\n".join(
+        x
+        for x in (
+            base_context.strip(),
+            f"パーティ(手番順): {party_line}" if party_line else "",
+            f"対象プレイヤー: {me.player_name}(手番 {me.turn_order}番手、"
+            + (f"使用キャラ {me.character}" if me.character else "使用キャラ不明。見た目から決めつけず、キャラ固有の指摘は控える")
+            + ")",
+        )
+        if x
+    )
+    for i, (segment, phase) in enumerate(targets, 1):
+        if segment.id in cache:
+            continue
+        # 画面の内容が変わったところを優先して選ぶ(等間隔だと短い戦闘画面やカード表示を取りこぼす)
+        # 長い手番(あとに敵の手番が続く4番手など)は、取りこぼさないよう枚数を増やす
+        limit = min(max(frames_per_turn, round(len(segment.frames) / 3)), frames_per_turn + EXTRA_FRAMES_FOR_LONG_TURN)
+        shown = pick_key_frames(out_dir, segment.frames, limit)
+        try:
+            review = advisor.review_turn(
+                [out_dir / f.file for f in shown],
+                phase=phase,
+                context=f"{context}\n動画内の時刻: {segment.frames[0].timestamp}〜{segment.frames[-1].timestamp}",
+                effort=effort,
+            )
+        except Refused as exc:
+            log(f"  [{i}/{len(targets)}] {segment.frames[0].timestamp} 拒否されたためスキップ: {exc}")
+            continue
+        cache[segment.id] = {"phase": phase, "frames": [f.index for f in shown], "review": review.model_dump()}
+        _save(cache_path, cache)
+        label = "自分の手番" if phase == "my_turn" else "敵の手番"
+        log(f"  [{i}/{len(targets)}] {segment.frames[0].timestamp} {label}: 判断{len(review.decisions)}件 — {review.turn_summary}")
+    _save(out_dir / "usage.json", advisor.usage.as_dict())
+
+    by_index = {f.index: f for f in frames}
+    decisions: list[Decision] = []
+    advice: dict[str, Advice] = {}
+    for segment, _phase in targets:
+        entry = cache.get(segment.id)
+        if entry is None:
+            continue
+        shown = [by_index[i] for i in entry["frames"]]
+        review = TurnReview(**entry["review"])
+        for n, item in enumerate(review.decisions):
+            pos = max(1, min(item.image_number, len(shown))) - 1
+            decision = Decision(f"{segment.id}-{n}", item.decision_type, [shown[pos]], after=shown[pos + 1 : pos + 2])
+            decisions.append(decision)
+            advice[decision.id] = item
+    return decisions, advice

@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "astral-party-advisor"
+version = "0.1.0"
+description = "アストラルパーティー(PvE)のプレイ録画を解析し、判断場面ごとに最善手を助言するツール"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "anthropic>=1.0",
+    "pydantic>=2",
+    "opencv-python-headless",
+    "numpy",
+    "pillow",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+scrape = ["requests", "beautifulsoup4"]
+
+[project.scripts]
+apadvisor = "apadvisor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+apadvisor = ["knowledge/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
