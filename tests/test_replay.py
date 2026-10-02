@@ -211,6 +211,18 @@ def test_map_from_intro_gives_board_and_position(tmp_path):
     assert "現在地(推定): A8(直前に通ったマスは A9)" in enemy_turn
     assert "end_position" in messages.create_calls[0]["output_config"]["format"]["schema"]["required"]
 
+    # 位置を見失ったあとは、最後に分かっていた位置を手がかりとして渡す
+    from apadvisor.replay import PositionTracker
+
+    tracker = PositionTracker(("F0", "G1"))
+    assert tracker.text() == "スタートポイント F0(最初の向きは G1)"
+    tracker.update({"phase": "my_turn", "review": {"end_position": "H3", "came_from": "H2"}})
+    tracker.update({"phase": "enemy_turn", "review": {"end_position": None}})  # 敵の手番では動かない
+    assert tracker.text() == "H3(直前に通ったマスは H2)"
+    tracker.update({"phase": "my_turn", "review": {"end_position": None}})
+    tracker.update(None)
+    assert tracker.text().startswith("不明。2手番前の開始時点では H3(直前に通ったマスは H2) にいた")
+
     # 指定したマップが優先。盤面データのないマップでは盤面を渡さない
     analyze_replay(video, tmp_path / "out2", advisor, player="hogehoge", map_name="決勝大会場", log=logs.append)
     text = messages.create_calls[-2]["messages"][0]["content"][-1]["text"]

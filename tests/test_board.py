@@ -102,3 +102,15 @@ def test_route_from_start_point_follows_initial_facing():
     # 来た方向を指定すれば、そちらが優先(試合の途中でスタートポイントを通るとき)
     text, _ = run_tool("route_odds", {"map": "異変図書館", "position": "F0", "came_from": "G1", "fixed_move": 3})
     assert json.loads(text)["(分岐なし)"]["出目ごとの止まるマス"] == {"3": ["C0 リカバリー"]}
+
+
+def test_without_tile_ids_hides_wiki_coordinates():
+    plain = board_module.without_tile_ids
+    text = "F0からH3(ショップ)へ進み、次はI3方向。J5のセーフティポイントまで3歩。HP3、Lv2、A案"
+    assert plain(text, "異変図書館") == (
+        "スタートポイント(4番手)からショップへ進み、次は災厄方向。セーフティポイントまで3歩。HP3、Lv2、A案"
+    )
+    assert plain("疾走A1に止まり、自分のスタートポイントF0へ。J5セーフティポイント側", "異変図書館") == (
+        "疾走に止まり、自分のスタートポイント(4番手)へ。セーフティポイント側"
+    )
+    assert plain("C4に止まった", None) == "C4に止まった"  # 盤面データがなければ何もしない

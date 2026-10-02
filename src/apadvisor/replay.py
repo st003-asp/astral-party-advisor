@@ -127,25 +127,55 @@ def read_match(
     return match
 
 
-def _position_after(entry: dict, previous: str | None) -> str | None:
-    """講評が出した手番終了時のマス。分からなかった手番のあとは「不明」にして、古い位置を引きずらない。
+class PositionTracker:
+    """盤面上の現在地を手番から手番へ引き継ぐ。
 
-    敵の手番では対象プレイヤーは動かないので、書かれていなければ前の位置のまま。
+    見失ったあとは古い位置を現在地として渡さない。代わりに「何手番前にどこにいたか」を伝え、
+    止まったマスの表示から位置を取り戻す手がかりにする。
     """
-    review = entry["review"]
-    end = review.get("end_position")
-    if not end:
-        if entry["phase"] == "enemy_turn":
-            return previous
-        return "不明(前の手番で位置を見失った)" if previous else None
-    came = review.get("came_from")
-    return f"{end}" + (f"(直前に通ったマスは {came})" if came else "")
+
+    def __init__(self, start: tuple[str, str | None] | None):
+        self.known: str | None = None
+        self.missed = 0  # 最後に位置が分かってから、位置を追えなかった自分の手番の数
+        if start:
+            self.known = f"スタートポイント {start[0]}" + (f"(最初の向きは {start[1]})" if start[1] else "")
+
+    def update(self, entry: dict | None) -> None:
+        """entry: 講評の結果(講評できなかった手番は None)。"""
+        end = entry["review"].get("end_position") if entry else None
+        if end:
+            came = entry["review"].get("came_from")
+            self.known = f"{end}" + (f"(直前に通ったマスは {came})" if came else "")
+            self.missed = 0
+        elif entry is None or entry["phase"] != "enemy_turn":  # 敵の手番では対象プレイヤーは動かない
+            self.missed += 1
+
+    def text(self) -> str:
+        if self.known is None:
+            return "不明"
+        if self.missed == 0:
+            return self.known
+        return (
+            f"不明。{self.missed}手番前の開始時点では {self.known} にいたが、その後の移動を追えていない"
+            "(1手番の移動はふつう1〜10マス。そこから届く範囲で、止まったマスの表示から位置を取り戻すこと)"
+        )
 
 
-def _turn_context(context: str, segment: TurnSegment, board_note: str, position: str | None) -> str:
+def _plain(value, map_name: str | None):
+    """講評の文章に残ったマスの名前を、マスの種類に置き換える(位置の項目はそのまま)。"""
+    if isinstance(value, str):
+        return board.without_tile_ids(value, map_name)
+    if isinstance(value, list):
+        return [_plain(v, map_name) for v in value]
+    if isinstance(value, dict):
+        return {k: v if k in ("end_position", "came_from") else _plain(v, map_name) for k, v in value.items()}
+    return value
+
+
+def _turn_context(context: str, segment: TurnSegment, board_note: str, position: str) -> str:
     lines = [context, f"動画内の時刻: {segment.frames[0].timestamp}〜{segment.frames[-1].timestamp}"]
     if board_note:
-        lines.append(f"この手番の開始時点の現在地(推定): {position or '不明'}")
+        lines.append(f"この手番の開始時点の現在地(推定): {position}")
         lines.append("\n# 盤面\n" + board_note)
     return "\n".join(lines)
 
@@ -260,13 +290,10 @@ def analyze_replay(
         if x
     )
     # 盤面上の現在地。最初は自分のスタートポイント、以後は前の手番の講評が出した終了位置を引き継ぐ
-    start = board.start_tile(map_name, me.turn_order)
-    position = (
-        f"スタートポイント {start[0]}" + (f"(最初の向きは {start[1]})" if start[1] else "") if start else None
-    )
+    position = PositionTracker(board.start_tile(map_name, me.turn_order))
     for i, (segment, phase) in enumerate(targets, 1):
         if segment.id in cache:
-            position = _position_after(cache[segment.id], position)
+            position.update(cache[segment.id])
             continue
         # 画面の内容が変わったところを優先して選ぶ(等間隔だと短い戦闘画面やカード表示を取りこぼす)
         # 長い手番(あとに敵の手番が続く4番手など)は、取りこぼさないよう枚数を増やす
@@ -278,7 +305,7 @@ def analyze_replay(
                 [out_dir / f.file for f in shown],
                 max_edges=image_sizes([is_map for _, is_map in selected]),
                 phase=phase,
-                context=_turn_context(context, segment, board_note, position),
+                context=_turn_context(context, segment, board_note, position.text()),
                 effort=effort,
             )
         except Refused as exc:
@@ -286,13 +313,14 @@ def analyze_replay(
             continue
         except Truncated as exc:
             log(f"  [{i}/{len(targets)}] {segment.frames[0].timestamp} スキップ({exc})。もう一度実行すると、この手番だけやり直します")
-            position = "不明(前の手番を講評できなかった)" if position else None
+            position.update(None)
             continue
         cache[segment.id] = {"phase": phase, "frames": [f.index for f in shown], "review": review.model_dump()}
         _save(cache_path, cache)
-        position = _position_after(cache[segment.id], position)
+        position.update(cache[segment.id])
         label = "自分の手番" if phase == "my_turn" else "敵の手番"
-        log(f"  [{i}/{len(targets)}] {segment.frames[0].timestamp} {label}: 判断{len(review.decisions)}件 — {review.turn_summary}")
+        summary = board.without_tile_ids(review.turn_summary, map_name)
+        log(f"  [{i}/{len(targets)}] {segment.frames[0].timestamp} {label}: 判断{len(review.decisions)}件 — {summary}")
     _save(out_dir / "usage.json", advisor.usage.as_dict())
 
     by_index = {f.index: f for f in frames}
@@ -303,7 +331,8 @@ def analyze_replay(
         if entry is None:
             continue
         shown = [by_index[i] for i in entry["frames"]]
-        review = TurnReview(**entry["review"])
+        # マスの名前(C4 など)は読む人に通じないので、レポートに出す文章からは除く
+        review = TurnReview(**_plain(entry["review"], map_name))
         for n, item in enumerate(review.decisions):
             pos = max(1, min(item.image_number, len(shown))) - 1
             decision = Decision(f"{segment.id}-{n}", item.decision_type, [shown[pos]], after=shown[pos + 1 : pos + 2])

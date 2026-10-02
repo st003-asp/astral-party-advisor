@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import json
+import re
 import unicodedata
 from fractions import Fraction
 from functools import lru_cache
@@ -224,6 +225,29 @@ def behind_start(name: str, tile: str) -> str | None:
     facing = data.get("start_facing")
     others = [n for n in data.get("next", []) if n != facing]
     return others[0] if facing and len(others) == 1 else None
+
+
+def without_tile_ids(text: str, name: str | None) -> str:
+    """文章に残ったマスの名前(C4 など)を、マスの種類に置き換える。
+
+    マスの名前はwikiの図を知らない人には通じないので、レポートには出さない。
+    「H3(ショップ)」「H3のショップ」は「ショップ」に、単独の「H3」も「ショップ」にする。
+    """
+    key = find_map(name)
+    if key is None or not text:
+        return text
+    tiles = _maps()[key]["tiles"]
+    ids = "|".join(re.escape(t) for t in sorted(tiles, key=len, reverse=True))
+    out = re.sub(rf"(?<![A-Za-z0-9.])({ids})(?![A-Za-z0-9]|\.\d)", lambda m: tiles[m.group(1)]["kind"], text)
+    if out == text:
+        return text
+    # 「H3(ショップ)」「ショップのH3」のように種類が添えてあった箇所は、同じ言葉が重なるのでまとめる
+    for kind in sorted({t["kind"] for t in tiles.values()}, key=len, reverse=True):
+        k, base = re.escape(kind), re.escape(kind.split("(")[0])
+        out = re.sub(rf"{k}\s*[(（]\s*{base}\s*[)）]", kind, out)
+        out = re.sub(rf"{base}(?:の|\s+)?{k}", kind, out)
+        out = re.sub(rf"{k}(?:の|\s+)?{base}(?![(（])", kind, out)
+    return out
 
 
 def board_text(name: str | None) -> str:
