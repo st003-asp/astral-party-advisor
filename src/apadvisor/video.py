@@ -279,6 +279,109 @@ def is_map_view(image: np.ndarray) -> bool:
     return turn_portrait(image) is not None
 
 
+ROUTE_MIN_DASHES = 4  # 一直線に並んだ破線がこれ以上あれば、移動の道筋(点線)が出ているとみなす
+MAX_MOVE_FRAMES = 8  # 1手番で、移動の手がかりとして追加で残すフレームの上限
+
+
+def route_dashes(image: np.ndarray) -> int:
+    """移動の道筋を示す点線の「一直線に並んだ破線」の数。
+
+    点線はプレイヤーごとに色が違う(黄、青など)が、どれも明るく鮮やかな細い破線が等間隔に並ぶ。
+    色の近い細長い小片を拾い、両隣の小片とほぼ一直線になっているものを数える。
+    """
+    h, w = image.shape[:2]
+    scale = w / 1376
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    mask = ((hsv[..., 1] > 90) & (hsv[..., 2] > 235)).astype(np.uint8)
+    mask[: int(h * 0.06)] = 0  # 上部のバー
+    mask[int(h * 0.76) :] = 0  # 手札と立ち絵
+    mask[: int(h * 0.62), : int(w * 0.2)] = 0  # プレイヤー一覧
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    pieces = []
+    for contour in contours:
+        area = cv2.contourArea(contour)
+        if not 20 * scale**2 <= area <= 700 * scale**2:
+            continue
+        (cx, cy), (rw, rh), _ = cv2.minAreaRect(contour)
+        if not (4 * scale <= min(rw, rh) <= 15 * scale and max(rw, rh) <= 70 * scale and area >= 0.6 * rw * rh):
+            continue
+        hue = float(hsv[int(round(cy)), int(round(cx)), 0])
+        pieces.append((cx, cy, hue))
+    best = 0
+    for low in range(0, 180, 10):
+        pts = np.array([(x, y) for x, y, hue in pieces if low <= hue < low + 20])
+        if len(pts) < ROUTE_MIN_DASHES:
+            continue
+        dist = np.linalg.norm(pts[:, None] - pts[None], axis=2)
+        count = 0
+        for i in range(len(pts)):
+            near = [j for j in np.argsort(dist[i])[1:4] if dist[i, j] <= 80 * scale]
+            vectors = [pts[j] - pts[i] for j in near]
+            count += any(
+                float(a @ b) < -0.96 * float(np.linalg.norm(a) * np.linalg.norm(b))
+                for n, a in enumerate(vectors)
+                for b in vectors[n + 1 :]
+            )
+        best = max(best, count)
+    return best
+
+
+_BANNER_BOX = (0.30, 0.135, 0.78, 0.25)  # 止まったマスの名前(「セーフティポイント」など)が出る帯
+
+
+_SCENE_BOX = (0.25, 0.10, 0.95, 0.70)  # マップが見える範囲(プレイヤー一覧と手札を除く)
+
+
+def _is_cut_in(image: np.ndarray) -> bool:
+    """キャラの全画面カットイン(「FIGHT!」など)か。マップと違い、鮮やかな単色が画面を埋める。"""
+    hsv = cv2.cvtColor(_crop(image, _SCENE_BOX), cv2.COLOR_BGR2HSV)
+    return float(((hsv[..., 1] > 150) & (hsv[..., 2] > 200)).mean()) > 0.3
+
+
+def has_tile_banner(image: np.ndarray) -> bool:
+    """画面上部に、マス名の帯(白くて太い大きな文字)が出ているか。"""
+    if _is_cut_in(image):  # カットインの白い文字を帯と取り違えない
+        return False
+    hsv = cv2.cvtColor(_crop(image, _BANNER_BOX), cv2.COLOR_BGR2HSV)
+    white = ((hsv[..., 1] < 35) & (hsv[..., 2] > 235)).astype(np.uint8)
+    core = cv2.erode(white, np.ones((5, 5), np.uint8))  # 太い文字だけが残る
+    return float(core.mean()) >= 0.06 and float(core.any(axis=0).mean()) >= 0.45
+
+
+def _runs(flags: list[bool], max_gap: int = 1) -> list[tuple[int, int]]:
+    """True が続く区間の (最初, 最後) の位置。max_gap 個までの途切れはつなげる。"""
+    runs: list[tuple[int, int]] = []
+    for i, flag in enumerate(flags):
+        if not flag:
+            continue
+        if runs and i - runs[-1][1] <= max_gap + 1:
+            runs[-1] = (runs[-1][0], i)
+        else:
+            runs.append((i, i))
+    return runs
+
+
+def movement_frames(images: list[np.ndarray | None]) -> list[int]:
+    """移動の手がかりになるフレームの位置(images の添字)。None はマップ画面でないフレーム。
+
+    - 点線が出ている区間の最初(動き出す前で、出目ぶんの道筋と分岐の選択肢が全部見える)と最後
+    - マス名の帯が出ている区間から1枚(止まったマスが分かる)
+    画面の変化が小さいので、内容の違いで選ぶ pick_key_frames では落ちやすい。
+    """
+    dashes = [route_dashes(im) if im is not None else 0 for im in images]
+    banner = [im is not None and has_tile_banner(im) for im in images]
+    chosen: list[int] = []
+    for first, last in _runs([d >= ROUTE_MIN_DASHES for d in dashes]):
+        chosen.append(first)
+        if last - first >= 3:
+            chosen.append(last)
+    for first, last in _runs(banner):
+        if not any(first <= i <= last for i in chosen):
+            # 帯の文字は出始めが欠けるので、区間の中ほどを使う
+            chosen.append((first + last + 1) // 2)
+    return sorted(set(chosen))[:MAX_MOVE_FRAMES]
+
+
 def select_turn_frames(
     out_dir: Path, frames: list[Frame], limit: int, *, max_per_battle: int = 5
 ) -> list[tuple[Frame, bool]]:
@@ -288,13 +391,18 @@ def select_turn_frames(
     選ばれた枚数が多すぎるときは、最初・途中2枚・最後2枚に絞る。戦闘は演出のコマが多く、
     必要なのは「使ったカードと数値(最初)」「ダイス(途中)」「ダメージと結果(最後)」だけなので。
     マップ画面かどうかは、送るときの解像度を決めるのに使う(戦闘画面は文字が大きいので縮小できる)。
+    これとは別に、移動の手がかりになるフレーム(movement_frames)を最大 MAX_MOVE_FRAMES 枚足す。
     """
     flags = {}
+    map_images: list[np.ndarray | None] = []
     for f in frames:
         image = cv2.imdecode(np.fromfile(str(out_dir / f.file), dtype=np.uint8), cv2.IMREAD_COLOR)
         flags[f.index] = is_map_view(image)
+        map_images.append(image if flags[f.index] else None)
     picked = pick_key_frames(out_dir, frames, limit)
     picked_ids = {f.index for f in picked}
+    # 移動の道筋とマス名の帯が写ったフレームは、枚数の上限とは別に必ず残す(現在地を追うのに要る)
+    picked_ids |= {frames[i].index for i in movement_frames(map_images)}
 
     result: list[Frame] = []
     battle: list[Frame] = []  # いま見ている戦闘区間のうち、選ばれているフレーム

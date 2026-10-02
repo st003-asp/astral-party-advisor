@@ -273,3 +273,40 @@ def test_export_hides_player_names(tmp_path):
     html = index.read_text(encoding="utf-8")
     assert "hogehoge" not in html and "疑問手" in html
     assert len(list((tmp_path / "public" / "frames").glob("*.jpg"))) >= 1
+
+
+def _map_canvas() -> np.ndarray:
+    return np.full((776, 1376, 3), (40, 30, 90), np.uint8)
+
+
+def test_route_dashes_finds_dotted_line():
+    from apadvisor.video import ROUTE_MIN_DASHES, route_dashes
+
+    image = _map_canvas()
+    assert route_dashes(image) == 0
+    # 黄色の破線を右上がりに並べる
+    for k in range(8):
+        x, y = 500 + 45 * k, 520 - 30 * k
+        cv2.line(image, (x, y), (x + 22, y - 15), (60, 230, 255), 8)
+    assert route_dashes(image) >= ROUTE_MIN_DASHES
+    # ばらばらに散った同じ色の点は、点線とはみなさない
+    scattered = _map_canvas()
+    rng = np.random.default_rng(0)
+    for x, y in zip(rng.integers(320, 1300, 12), rng.integers(80, 560, 12)):
+        cv2.circle(scattered, (int(x), int(y)), 6, (60, 230, 255), -1)
+    assert route_dashes(scattered) < ROUTE_MIN_DASHES
+
+
+def test_movement_frames_keep_route_start_and_banner():
+    from apadvisor.video import has_tile_banner, movement_frames
+
+    plain = _map_canvas()
+    route = _map_canvas()
+    for k in range(8):
+        cv2.line(route, (500 + 45 * k, 520 - 30 * k), (522 + 45 * k, 505 - 30 * k), (60, 230, 255), 8)
+    banner = _map_canvas()
+    cv2.putText(banner, "SAFETY POINT", (430, 170), cv2.FONT_HERSHEY_DUPLEX, 2.6, (255, 255, 255), 14)
+    assert has_tile_banner(banner) and not has_tile_banner(plain)
+    # None は戦闘画面。点線の区間(1〜2)の最初と、帯の区間(5〜7)の中ほどを残す
+    images = [plain, route, route, None, plain, banner, banner, banner, plain]
+    assert movement_frames(images) == [1, 6]

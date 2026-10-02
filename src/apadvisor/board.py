@@ -14,6 +14,9 @@ from importlib import resources
 
 from .dice import Dist, pct
 
+# 最大の歩数がこれ以上になる移動(早すぎるおんな、大きな移動補正)は、止まるマスがばらけすぎて
+# 狙う意味がないので、「途中で何を通れるか」だけを出す
+LONG_MOVE_STEPS = 13
 SAFETY = "セーフティポイント"
 SHOP = "ショップ"
 CHIP_SHOP = "強化チップショップ"
@@ -127,7 +130,9 @@ class Board:
 
         2つ目以降の分岐は、各選択肢を等確率で選ぶものとして平均する。
         own_start: 自分のスタートポイントのマス(通過時に止まれるので、セーフティポイントと同じ扱いにする)。
+        歩数が決まっていない長い移動(最大 LONG_MOVE_STEPS 歩以上)では、止まるマスの内訳は出さない。
         """
+        long_move = dist.max() >= LONG_MOVE_STEPS and len(dist.pmf) > 1
         junction = self._first_junction(start, came_from, dist.max())
         choices: list[str | None] = list(junction[1]) if junction else [None]
         stoppable = {t for t, v in self.tiles.items() if v["kind"] == SAFETY} | ({own_start} if own_start else set())
@@ -165,12 +170,18 @@ class Board:
                 upcoming = [self.label(choice), *self.ahead(choice, junction[0])]
             table[name] = {
                 "この先のマス": upcoming,
-                "止まるマスの種類(%)": {k: pct(v) for k, v in sorted(land.items(), key=lambda kv: -kv[1])},
                 "ショップを通る(%)": pct(passes[SHOP]),
                 "強化チップショップを通る(%)": pct(passes[CHIP_SHOP]),
                 "セーフティポイントか自分のスタートポイントで止まれる(%)": pct(passes["stop"]),
-                "出目ごとの止まるマス": {str(k): v for k, v in sorted(by_roll.items())},
             }
+            if not long_move:
+                table[name]["止まるマスの種類(%)"] = {k: pct(v) for k, v in sorted(land.items(), key=lambda kv: -kv[1])}
+                table[name]["出目ごとの止まるマス"] = {str(k): v for k, v in sorted(by_roll.items())}
+        if long_move:
+            table["注"] = (
+                f"最大{dist.max()}歩の長い移動なので、止まるマスは狙えない(内訳は省略)。"
+                "どの道なら途中でショップやセーフティポイントを通れるかだけで比べること"
+            )
         return table
 
 

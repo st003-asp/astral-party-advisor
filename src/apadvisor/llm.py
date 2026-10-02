@@ -256,6 +256,14 @@ class Advisor:
                     results.append(
                         {"type": "tool_result", "tool_use_id": block.id, "content": text, "is_error": is_error}
                     )
+            # ここまでのやり取り(思考とツール結果)もキャッシュする。しないと、ツールを呼ぶたびに
+            # それまでの結果を定価で送り直すことになり、何度も調べる手番で費用が跳ねる。
+            # キャッシュの目印は数に上限があるので、前回のツール結果に付けた分は外す
+            for message in messages[1:]:
+                if message["role"] == "user":
+                    for item in message["content"]:
+                        item.pop("cache_control", None)
+            results[-1]["cache_control"] = {"type": "ephemeral"}
             messages.append({"role": "user", "content": results})
         raise RuntimeError("ツール呼び出しが上限回数を超えました")
 

@@ -114,3 +114,22 @@ def test_without_tile_ids_hides_wiki_coordinates():
         "疾走に止まり、自分のスタートポイント(4番手)へ。セーフティポイント側"
     )
     assert plain("C4に止まった", None) == "C4に止まった"  # 盤面データがなければ何もしない
+
+
+def test_long_move_reports_only_what_is_passed():
+    from apadvisor.tools import run_tool
+
+    # 早すぎるおんな(ダイス2個、最大20歩): 止まるマスの内訳は出さず、通過の確率だけにする
+    text, is_error = run_tool("route_odds", {"map": "異変図書館", "position": "H3", "came_from": "H2", "dice": 2})
+    assert not is_error
+    table = json.loads(text)
+    assert "止まるマスは狙えない" in table.pop("注")
+    for row in table.values():
+        assert "出目ごとの止まるマス" not in row and "止まるマスの種類(%)" not in row
+        assert "ショップを通る(%)" in row
+    # 歩数が決まっていれば(出目が見えた、リモコンダイス)、長くても止まるマスを出す
+    text, _ = run_tool("route_odds", {"map": "異変図書館", "position": "H3", "came_from": "H2", "fixed_move": 17})
+    assert all("出目ごとの止まるマス" in row for row in json.loads(text).values())
+    # ダイス1個に補正+2(最大12歩)はふつうの移動として扱う
+    text, _ = run_tool("route_odds", {"map": "異変図書館", "position": "H3", "came_from": "H2", "move_bonus": 2})
+    assert "注" not in json.loads(text)
