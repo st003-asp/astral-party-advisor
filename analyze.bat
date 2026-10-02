@@ -30,11 +30,12 @@ if not defined PLAYER (
 )
 
 echo.
-echo 難易度を入力してください(普通 / 困難 / 悪夢 / 狂気 / 極限)。分からなければそのまま Enter。
+echo 難易度を入力してください(普通 / 困難 / 悪夢 / 狂気 / 極限)。
+echo リプレイ選択画面から録画していれば自動で読み取るので、そのまま Enter。
 set "DIFFICULTY="
 set /p "DIFFICULTY=難易度: "
 echo.
-echo マップ名を入力してください(例: 夢想号、異変図書館)。分からなければそのまま Enter。
+echo マップ名を入力してください(例: 夢想号、異変図書館)。こちらも自動で読み取るので、そのまま Enter でかまいません。
 set "MAPNAME="
 set /p "MAPNAME=マップ: "
 

@@ -52,9 +52,10 @@ def _base_context(args) -> str:
         parts.append(f"録画者の使用キャラ: {args.me}")
     if args.party:
         parts.append(f"パーティ(手番順): {args.party}")
-    if args.difficulty:
+    replay = getattr(args, "mode", "live") == "replay"  # replay ではマップ・難易度を解析側でまとめて書く
+    if args.difficulty and not replay:
         parts.append(f"難易度: {args.difficulty}")
-    if args.map:
+    if args.map and not replay:
         parts.append(f"マップ: {args.map}")
     if args.note:
         parts.append(f"メモ: {args.note}")
@@ -94,12 +95,20 @@ def _report_usage(usage, model: str) -> None:
 
 
 def cmd_analyze(args) -> int:
-    from .analyze import analyze
-    from .report import write_html, write_markdown
-
     video = Path(args.video)
     out_dir = Path(args.out) if args.out else Path("reports") / video.stem
     advisor = None if args.frames_only else _make_advisor(args)
+    try:
+        return _analyze(args, video, out_dir, advisor)
+    finally:
+        if advisor is not None:  # 途中で止まっても、それまでに使った分は表示する
+            _report_usage(advisor.usage, advisor.model)
+
+
+def _analyze(args, video: Path, out_dir: Path, advisor) -> int:
+    from .analyze import analyze
+    from .report import write_html, write_markdown
+
     if args.mode == "replay":
         from .replay import analyze_replay
 
@@ -110,6 +119,8 @@ def cmd_analyze(args) -> int:
             player=args.player,
             order=args.order,
             me_character=args.me,
+            map_name=args.map,
+            difficulty=args.difficulty,
             base_context=_base_context(args),
             interval=args.interval if args.interval is not None else 0.5,
             diff_threshold=args.threshold if args.threshold is not None else 2.0,
@@ -142,7 +153,6 @@ def cmd_analyze(args) -> int:
     title = f"{video.stem} の解析"
     html = write_html(out_dir, decisions, advice, title)
     write_markdown(out_dir, decisions, advice, title)
-    _report_usage(advisor.usage, advisor.model)
     print(f"レポート: {html}")
     return 0
 

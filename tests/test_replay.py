@@ -71,6 +71,7 @@ class FakeMessages:
         self.roster_calls = 0
         self.roster = Roster(found=False, players=[])
         self.create_calls = []
+        self.position = {}
 
     def parse(self, **kwargs):
         if kwargs["output_format"] is Roster:
@@ -90,7 +91,10 @@ class FakeMessages:
     def create(self, **kwargs):
         self.create_calls.append(kwargs)
         task = kwargs["messages"][0]["content"][-1]["text"]
-        review = dict(REVIEW, decisions=[] if "これは敵(モンスター)の手番です" in task else REVIEW["decisions"])
+        enemy = "これは敵(モンスター)の手番です" in task
+        review = dict(REVIEW, decisions=[] if enemy else REVIEW["decisions"])
+        if not enemy:
+            review.update(self.position)
         text = SimpleNamespace(type="text", text=json.dumps(review, ensure_ascii=False))
         return SimpleNamespace(stop_reason="end_turn", content=[text], usage=USAGE)
 
@@ -185,6 +189,32 @@ def test_roster_gives_character_from_title(tmp_path):
     # --me を指定したらそちらを優先する
     analyze_replay(video, tmp_path / "out2", advisor, player="hogehoge", me_character="リン", log=logs.append)
     assert "使用キャラ リン" in messages.create_calls[-2]["messages"][0]["content"][-1]["text"]
+
+
+def test_map_from_intro_gives_board_and_position(tmp_path):
+    video = tmp_path / "replay.mp4"
+    make_replay_video(video, [(GRAY, 2, False), *TURNS])
+    messages = FakeMessages()
+    messages.roster = Roster(found=False, players=[], map_name="異変図書館", difficulty="狂気")
+    messages.position = {"end_position": "A8", "came_from": "A9"}
+    advisor = Advisor(client=SimpleNamespace(beta=SimpleNamespace(messages=messages)))
+    logs = []
+    analyze_replay(video, tmp_path / "out", advisor, player="hogehoge", log=logs.append)
+    assert any("マップ: 異変図書館、難易度: 狂気" in line for line in logs)
+
+    my_turn, enemy_turn = (c["messages"][0]["content"][-1]["text"] for c in messages.create_calls)
+    assert "マップ: 異変図書館" in my_turn and "難易度: 狂気" in my_turn
+    # hogehoge は2番手 → 2番手のスタートポイントから始まる
+    assert "現在地(推定): スタートポイント A10(最初の向きは A9)" in my_turn
+    assert "A10: スタートポイント(2番手)" in my_turn
+    # 次の講評には、前の手番の終了位置が渡る
+    assert "現在地(推定): A8(直前に通ったマスは A9)" in enemy_turn
+    assert "end_position" in messages.create_calls[0]["output_config"]["format"]["schema"]["required"]
+
+    # 指定したマップが優先。盤面データのないマップでは盤面を渡さない
+    analyze_replay(video, tmp_path / "out2", advisor, player="hogehoge", map_name="決勝大会場", log=logs.append)
+    text = messages.create_calls[-2]["messages"][0]["content"][-1]["text"]
+    assert "マップ: 決勝大会場" in text and "# 盤面" not in text
 
 
 def test_pick_key_frames_keeps_brief_distinct_screen(tmp_path):

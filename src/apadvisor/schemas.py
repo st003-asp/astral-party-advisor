@@ -73,6 +73,10 @@ class Roster(BaseModel):
 
     found: bool = Field(description="4人ぶんの二つ名とプレイヤー名が並ぶ画面が写っていれば true")
     players: list[RosterEntry] = Field(description="上から順に。写っていなければ空")
+    map_name: Optional[str] = Field(default=None, description="マップ名(例: 異変図書館、夢想号)。画面に出ていなければ null")
+    difficulty: Optional[str] = Field(
+        default=None, description="難易度(普通/困難/悪夢/狂気/極限)。画面に出ていなければ null"
+    )
 
 
 class ReviewedDecision(Advice):
@@ -84,4 +88,11 @@ class TurnReview(BaseModel):
 
     round: Optional[int] = Field(description="ラウンド数。読めなければ null")
     turn_summary: str = Field(description="この手番で起きたことを時系列で簡潔に")
+    end_position: Optional[str] = Field(
+        default=None,
+        description="この手番の移動後に対象プレイヤーがいるマス(盤面の表の名前、例: C4)。盤面が渡されていない、または確信が持てなければ null",
+    )
+    came_from: Optional[str] = Field(
+        default=None, description="end_position の1つ手前に通ったマス(次の手番で引き返せない方向)。分からなければ null"
+    )
     decisions: list[ReviewedDecision] = Field(description="この手番で対象プレイヤーが行った判断と、その評価。なければ空")

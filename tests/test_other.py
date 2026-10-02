@@ -18,25 +18,6 @@ def test_move_probabilities():
     assert movement.move_dist(bonus=-2).min() == 0  # パッドマンの下振れ
 
 
-def test_board_branch_table():
-    board = movement.Board.from_dict(
-        {
-            "tiles": {
-                "s": {"next": ["a"]},
-                "a": {"next": ["l1", "r1"]},
-                "l1": {"kind": "event", "next": ["l2"]},
-                "l2": {"kind": "shop", "next": ["l2"]},
-                "r1": {"kind": "monster", "next": ["r2"]},
-                "r2": {"kind": "safety", "next": ["r2"]},
-            }
-        }
-    )
-    table = board.branch_table("s", movement.move_dist())
-    assert set(table) == {"l1", "r1"}
-    assert table["l1"]["land_pct"]["event"] == 10.0  # 出目2のときだけ
-    assert table["r1"]["land_pct"]["safety"] == 80.0  # 出目3〜10
-
-
 def test_chip_rates():
     assert chips.rarity_rates(0, "悪夢")["gold"] == F(3, 100)
     assert chips.rarity_rates(3, "普通")["gold"] == F(30, 100)

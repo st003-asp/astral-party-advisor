@@ -21,10 +21,14 @@ DEFAULT_MODEL = os.environ.get("APADVISOR_MODEL", "claude-opus-5-5")
 # 安全分類器に誤って拒否された場合、サーバー側で別モデルに自動で振り替える
 FALLBACK_BETAS = ["server-side-fallback-2026-07-01"]
 MAX_TOOL_ROUNDS = 8
+# 思考を含めた1回の出力の上限。SDK はストリーミングなしだと約21000を超える指定を受け付けない
+REVIEW_MAX_TOKENS = 20000
 FULL_EDGE = 1376  # 手札の小さい文字まで読ませたい画面の解像度
 HAIKU_THINKING_BUDGET = 6000
 _ADVICE_SCHEMA = anthropic.transform_schema(Advice)
 _REVIEW_SCHEMA = anthropic.transform_schema(TurnReview)
+# 位置の項目は、古い解析結果を読み込めるよう Python 側では省略可にしてあるが、APIには必ず書かせる
+_REVIEW_SCHEMA["required"] = [*_REVIEW_SCHEMA["required"], "end_position", "came_from"]
 
 CLASSIFY_SYSTEM = """\
 あなたはボードゲーム「アストラルパーティー」(Steam版、PvE協力モード)のプレイ録画を解析する助手です。
@@ -89,6 +93,10 @@ class Usage:
 
     def as_dict(self) -> dict:
         return dict(self.__dict__)
+
+
+class Truncated(RuntimeError):
+    """出力が上限に達して途中で切れた。"""
 
 
 class Refused(RuntimeError):
@@ -225,7 +233,7 @@ class Advisor:
         for _ in range(MAX_TOOL_ROUNDS):
             response = self.client.beta.messages.create(
                 model=self.model,
-                max_tokens=16000,
+                max_tokens=REVIEW_MAX_TOKENS,
                 **options,
                 system=system,
                 tools=TOOLS,
@@ -282,7 +290,7 @@ def _check_stop(response) -> None:
     if response.stop_reason == "refusal":
         raise Refused(getattr(response.stop_details, "explanation", None) or "モデルが応答を拒否しました")
     if response.stop_reason == "max_tokens":
-        raise RuntimeError("出力が max_tokens に達して途中で切れました")
+        raise Truncated("出力が max_tokens に達して途中で切れました")
 
 
 def _parsed(response):

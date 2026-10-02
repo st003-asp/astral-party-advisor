@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from typing import Any, Callable
 
-from . import chips, combat, events, knowledge_base, movement
+from . import board, chips, combat, events, knowledge_base, movement
 from .dice import Dist
 
 _CARD_SCHEMA = {
@@ -92,6 +92,51 @@ TOOLS: list[dict[str, Any]] = [
                 "sides": {"type": "integer", "description": "ダイスの面数(通常の移動は10。ルカのスキル中は6)"},
             },
             "required": ["distance"],
+        },
+    },
+    {
+        "name": "route_odds",
+        "description": (
+            "盤面データを使って、いまのマスから移動したときに「分岐のどちらへ進むと、どのマスに何%で止まるか、"
+            "ショップやセーフティポイントを通れるか」を計算する。分岐の行き先や、リモコンダイス・"
+            "早すぎるおんなを使うかの判断に使う。現在地のマスが分かっているときだけ使える。"
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "map": {"type": "string", "description": "マップ名(例: 夢想号、異変図書館)"},
+                "position": {"type": "string", "description": "いまいるマス(例: C4)"},
+                "came_from": {
+                    "type": "string",
+                    "description": "直前にいたマス(来た方向。引き返せないので除外される)。分からなければ省略。"
+                    "スタートポイントで省略すると、試合開始時として最初の向きへ進む",
+                },
+                "move_bonus": {"type": "integer", "description": "移動補正"},
+                "dice": {"type": "integer", "description": "振るダイスの数(通常1、早すぎるおんなで2)"},
+                "sides": {"type": "integer", "description": "ダイスの面数(通常の移動は10。ルカのスキル中は6)"},
+                "fixed_move": {"type": "integer", "description": "リモコンダイスなどで歩数が決まっている場合の歩数"},
+                "turn_order": {"type": "integer", "description": "自分の手番順(1〜4)。自分のスタートポイントで止まれる確率を出すのに使う"},
+            },
+            "required": ["map", "position"],
+        },
+    },
+    {
+        "name": "locate_tile",
+        "description": (
+            "盤面データから現在地の候補を出す。止まったマスの種類(画面に出る「セーフティポイント」「金儲け」などの帯)が"
+            "分かったときに使う。手番開始時のマスが分かっていれば、そこから歩いて着ける候補を歩数と経路つきで返す。"
+            "分からなければ、その種類のマスすべてを隣のマスの種類つきで返す。候補が1つならそこが現在地。"
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "map": {"type": "string", "description": "マップ名"},
+                "landed_kind": {"type": "string", "description": "止まったマスの種類(例: セーフティポイント、ショップ、金儲け)"},
+                "position": {"type": "string", "description": "手番開始時にいたマス(例: H3)。分からなければ省略"},
+                "came_from": {"type": "string", "description": "その直前に通ったマス(引き返せない方向)。分からなければ省略"},
+                "max_steps": {"type": "integer", "description": "最大の歩数。省略時は10(ダイス1個、補正なし)"},
+            },
+            "required": ["map", "landed_kind"],
         },
     },
     {
@@ -192,6 +237,44 @@ def _move_odds(a: dict) -> dict:
     return movement.reach_summary(a["distance"], a.get("move_bonus", 0), a.get("dice", 1), a.get("sides", movement.MOVE_DIE_SIDES))
 
 
+def _route_odds(a: dict) -> dict:
+    game_board = board.get_board(a["map"])
+    position = a["position"].strip().upper()
+    if position not in game_board.tiles:
+        raise KeyError(f"マス {position} はこのマップにない")
+    # スタートポイントで来た方向の指定がなければ試合開始時とみなし、最初の向きへ進む
+    came_from = (a.get("came_from") or "").strip().upper() or board.behind_start(a["map"], position)
+    if came_from is not None and came_from not in game_board.tiles[position]["next"]:
+        raise ValueError(f"{came_from} は {position} の隣ではない(隣は {', '.join(game_board.tiles[position]['next'])})")
+    if a.get("fixed_move") is not None:
+        dist = Dist.const(a["fixed_move"])
+    else:
+        dist = movement.move_dist(a.get("move_bonus", 0), a.get("dice", 1), a.get("sides", movement.MOVE_DIE_SIDES))
+    own = board.start_tile(a["map"], a.get("turn_order"))
+    return game_board.route_table(position, came_from, dist, own_start=own[0] if own else None)
+
+
+def _locate_tile(a: dict) -> dict:
+    game_board = board.get_board(a["map"])
+    position = (a.get("position") or "").strip().upper() or None
+    came_from = (a.get("came_from") or "").strip().upper() or None
+    if position is not None and position not in game_board.tiles:
+        raise KeyError(f"マス {position} はこのマップにない")
+    if came_from is not None and (position is None or came_from not in game_board.tiles[position]["next"]):
+        came_from = None
+    if position is not None and came_from is None:
+        came_from = board.behind_start(a["map"], position)
+    found = game_board.candidates(a["landed_kind"], position, came_from, a.get("max_steps") or movement.MOVE_DIE_SIDES)
+    note = (
+        "候補が1つなのでそこが現在地"
+        if len(found) == 1
+        else "候補なし。開始位置か、読み取ったマスの種類が違う可能性がある"
+        if not found
+        else "候補が複数。隣のマスの種類・歩数・画面の様子で絞る。絞れなければ現在地は不明とする"
+    )
+    return {"候補": found, "注": note}
+
+
 def _chip_odds(a: dict) -> dict:
     out = chips.chip_offer_summary(a["star_level"], a["difficulty"], a.get("chip_shop_purchases", 0))
     if a.get("target_rarity") and a.get("target_pool_size"):
@@ -212,6 +295,8 @@ _HANDLERS: dict[str, Callable[[dict], Any]] = {
     "attack_odds": _attack_odds,
     "defense_odds": _defense_odds,
     "move_odds": _move_odds,
+    "route_odds": _route_odds,
+    "locate_tile": _locate_tile,
     "chip_odds": _chip_odds,
     "event_tile_odds": _event_tile_odds,
     "lookup": _lookup,

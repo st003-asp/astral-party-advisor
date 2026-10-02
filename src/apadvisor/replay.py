@@ -12,16 +12,17 @@ import unicodedata
 from pathlib import Path
 from typing import Callable
 
-from . import knowledge_base
+from . import board, knowledge_base
 from .analyze import Decision
-from .llm import Advisor, Refused
+from .llm import Advisor, Refused, Truncated
 from .schemas import Advice, TurnOwner, TurnReview
 from .video import Frame, TurnSegment, extract_keyframes, load_frames, segment_turns, select_turn_frames
 
 Progress = Callable[[str], None]
 MAX_FRAMES_PER_TURN = 20
 OWNER_FRAMES = 3
-ROSTER_FRAMES = 4
+ROSTER_FRAMES = 6
+DIFFICULTIES = ("普通", "困難", "悪夢", "狂気", "極限")
 FULL_EDGE, MAP_EDGE, BATTLE_EDGE = 1376, 1152, 800
 EXTRA_FRAMES_FOR_LONG_TURN = 16
 
@@ -86,23 +87,26 @@ def identify_owners(
     return {int(k): TurnOwner(**v) for k, v in cache.items()}
 
 
-def read_party(
+def read_match(
     advisor: Advisor, out_dir: Path, frames: list[Frame], segments: list[TurnSegment], log: Progress
-) -> list[dict]:
-    """録画冒頭のリプレイ選択画面から、参加者(手番順)と使用キャラを読み取る。写っていなければ空。
+) -> dict:
+    """録画の冒頭(リプレイ選択画面と試合結果の画面)から、参加者・マップ・難易度を読み取る。
 
-    画面にはキャラ名ではなく二つ名が出るので、characters.json の対応表でキャラ名に直す。
+    戻り値: {"players": [{"player_name","label","character"}], "map_name", "difficulty"}。写っていない項目は空/None。
+    選択画面にはキャラ名ではなく二つ名が出るので、characters.json の対応表でキャラ名に直す。
     """
     cache_path = out_dir / "roster.json"
     if cache_path.exists():
-        return _load(cache_path)["players"]
+        cached = _load(cache_path)
+        if "map_name" in cached:
+            return cached
     first_turn = segments[0].frames[0].index
     intro = [f for f in frames if f.index < first_turn]
-    players: list[dict] = []
+    match: dict = {"players": [], "map_name": None, "difficulty": None}
     if intro:
         roster = advisor.read_roster([out_dir / f.file for f in pick_frames(intro, ROSTER_FRAMES)])
         if roster.found:
-            players = [
+            match["players"] = [
                 {
                     "player_name": e.player_name,
                     "label": e.label,
@@ -110,12 +114,40 @@ def read_party(
                 }
                 for e in roster.players
             ]
-    _save(cache_path, {"players": players})
+        match["map_name"] = roster.map_name
+        match["difficulty"] = roster.difficulty if roster.difficulty in DIFFICULTIES else None
+    _save(cache_path, match)
+    players = match["players"]
     if players:
         log("参加者: " + "、".join(f"{p['player_name']}={p['character'] or p['label'] + '(不明)'}" for p in players))
     else:
         log("参加者一覧の画面は見つかりませんでした(リプレイ選択画面から録画すると、キャラを自動で判定できます)。")
-    return players
+    if match["map_name"] or match["difficulty"]:
+        log(f"マップ: {match['map_name'] or '不明'}、難易度: {match['difficulty'] or '不明'}")
+    return match
+
+
+def _position_after(entry: dict, previous: str | None) -> str | None:
+    """講評が出した手番終了時のマス。分からなかった手番のあとは「不明」にして、古い位置を引きずらない。
+
+    敵の手番では対象プレイヤーは動かないので、書かれていなければ前の位置のまま。
+    """
+    review = entry["review"]
+    end = review.get("end_position")
+    if not end:
+        if entry["phase"] == "enemy_turn":
+            return previous
+        return "不明(前の手番で位置を見失った)" if previous else None
+    came = review.get("came_from")
+    return f"{end}" + (f"(直前に通ったマスは {came})" if came else "")
+
+
+def _turn_context(context: str, segment: TurnSegment, board_note: str, position: str | None) -> str:
+    lines = [context, f"動画内の時刻: {segment.frames[0].timestamp}〜{segment.frames[-1].timestamp}"]
+    if board_note:
+        lines.append(f"この手番の開始時点の現在地(推定): {position or '不明'}")
+        lines.append("\n# 盤面\n" + board_note)
+    return "\n".join(lines)
 
 
 def find_my_cluster(owners: dict[int, TurnOwner], player: str | None, order: int | None) -> int:
@@ -146,6 +178,8 @@ def analyze_replay(
     player: str | None = None,
     order: int | None = None,
     me_character: str | None = None,
+    map_name: str | None = None,
+    difficulty: str | None = None,
     base_context: str = "",
     interval: float = 0.5,
     diff_threshold: float = 2.0,
@@ -174,7 +208,14 @@ def analyze_replay(
     if not segments:
         raise KeyError("再生バーが見つかりませんでした。リプレイ再生の録画でなければ --mode live を指定してください。")
 
-    party = read_party(advisor, out_dir, frames, segments, log)
+    match = read_match(advisor, out_dir, frames, segments, log)
+    party = match["players"]
+    # マップと難易度は、指定があればそれを、なければ録画の冒頭から読んだものを使う
+    map_name = map_name or match["map_name"]
+    difficulty = difficulty or match["difficulty"]
+    board_note = board.board_text(map_name)
+    if map_name and not board_note:
+        log(f"  マップ「{map_name}」の盤面データはありません(分岐の確率計算は行いません)。")
     log("手番の持ち主を読み取り中…")
     owners = identify_owners(advisor, out_dir, segments, log)
     mine = find_my_cluster(owners, player, order)
@@ -209,6 +250,8 @@ def analyze_replay(
         x
         for x in (
             base_context.strip(),
+            f"マップ: {map_name}" if map_name else "",
+            f"難易度: {difficulty}" if difficulty else "",
             f"パーティ(手番順): {party_line}" if party_line else "",
             f"対象プレイヤー: {me.player_name}(手番 {me.turn_order}番手、"
             + (f"使用キャラ {me.character}" if me.character else "使用キャラ不明。見た目から決めつけず、キャラ固有の指摘は控える")
@@ -216,8 +259,14 @@ def analyze_replay(
         )
         if x
     )
+    # 盤面上の現在地。最初は自分のスタートポイント、以後は前の手番の講評が出した終了位置を引き継ぐ
+    start = board.start_tile(map_name, me.turn_order)
+    position = (
+        f"スタートポイント {start[0]}" + (f"(最初の向きは {start[1]})" if start[1] else "") if start else None
+    )
     for i, (segment, phase) in enumerate(targets, 1):
         if segment.id in cache:
+            position = _position_after(cache[segment.id], position)
             continue
         # 画面の内容が変わったところを優先して選ぶ(等間隔だと短い戦闘画面やカード表示を取りこぼす)
         # 長い手番(あとに敵の手番が続く4番手など)は、取りこぼさないよう枚数を増やす
@@ -229,14 +278,19 @@ def analyze_replay(
                 [out_dir / f.file for f in shown],
                 max_edges=image_sizes([is_map for _, is_map in selected]),
                 phase=phase,
-                context=f"{context}\n動画内の時刻: {segment.frames[0].timestamp}〜{segment.frames[-1].timestamp}",
+                context=_turn_context(context, segment, board_note, position),
                 effort=effort,
             )
         except Refused as exc:
             log(f"  [{i}/{len(targets)}] {segment.frames[0].timestamp} 拒否されたためスキップ: {exc}")
             continue
+        except Truncated as exc:
+            log(f"  [{i}/{len(targets)}] {segment.frames[0].timestamp} スキップ({exc})。もう一度実行すると、この手番だけやり直します")
+            position = "不明(前の手番を講評できなかった)" if position else None
+            continue
         cache[segment.id] = {"phase": phase, "frames": [f.index for f in shown], "review": review.model_dump()}
         _save(cache_path, cache)
+        position = _position_after(cache[segment.id], position)
         label = "自分の手番" if phase == "my_turn" else "敵の手番"
         log(f"  [{i}/{len(targets)}] {segment.frames[0].timestamp} {label}: 判断{len(review.decisions)}件 — {review.turn_summary}")
     _save(out_dir / "usage.json", advisor.usage.as_dict())
