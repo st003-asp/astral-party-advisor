@@ -16,12 +16,13 @@ from . import knowledge_base
 from .analyze import Decision
 from .llm import Advisor, Refused
 from .schemas import Advice, TurnOwner, TurnReview
-from .video import Frame, TurnSegment, extract_keyframes, load_frames, pick_key_frames, segment_turns
+from .video import Frame, TurnSegment, extract_keyframes, load_frames, segment_turns, select_turn_frames
 
 Progress = Callable[[str], None]
 MAX_FRAMES_PER_TURN = 20
 OWNER_FRAMES = 3
 ROSTER_FRAMES = 4
+FULL_EDGE, MAP_EDGE, BATTLE_EDGE = 1376, 1152, 800
 EXTRA_FRAMES_FOR_LONG_TURN = 16
 
 
@@ -43,6 +44,26 @@ def pick_frames(frames: list[Frame], limit: int = MAX_FRAMES_PER_TURN) -> list[F
         return list(frames)
     step = (len(frames) - 1) / (limit - 1)
     return [frames[round(i * step)] for i in range(limit)]
+
+
+def image_sizes(is_map: list[bool]) -> list[int]:
+    """画像ごとの送信サイズ(長辺)。画像の量がそのまま費用になるので、読める範囲で小さくする。
+
+    - 最初のマップ画面: 元の大きさ(手札やチップの小さい文字を読ませる)
+    - 2枚目以降のマップ画面: やや縮小(何が起きたかと、HP・コイン・手札の変化が分かればよい)
+    - 戦闘画面など: 大きく縮小(数字もメッセージも文字が大きい)
+    """
+    sizes = []
+    seen_map = False
+    for flag in is_map:
+        if not flag:
+            sizes.append(BATTLE_EDGE)
+        elif not seen_map:
+            sizes.append(FULL_EDGE)
+            seen_map = True
+        else:
+            sizes.append(MAP_EDGE)
+    return sizes
 
 
 def identify_owners(
@@ -201,10 +222,12 @@ def analyze_replay(
         # 画面の内容が変わったところを優先して選ぶ(等間隔だと短い戦闘画面やカード表示を取りこぼす)
         # 長い手番(あとに敵の手番が続く4番手など)は、取りこぼさないよう枚数を増やす
         limit = min(max(frames_per_turn, round(len(segment.frames) / 3)), frames_per_turn + EXTRA_FRAMES_FOR_LONG_TURN)
-        shown = pick_key_frames(out_dir, segment.frames, limit)
+        selected = select_turn_frames(out_dir, segment.frames, limit)
+        shown = [f for f, _ in selected]
         try:
             review = advisor.review_turn(
                 [out_dir / f.file for f in shown],
+                max_edges=image_sizes([is_map for _, is_map in selected]),
                 phase=phase,
                 context=f"{context}\n動画内の時刻: {segment.frames[0].timestamp}〜{segment.frames[-1].timestamp}",
                 effort=effort,

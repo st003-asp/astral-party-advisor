@@ -272,3 +272,50 @@ def pick_key_frames(out_dir: Path, frames: list[Frame], limit: int) -> list[Fram
             chosen.append(best)
             nearest = [min(nearest[i], dist(i, best)) for i in range(n)]
     return [frames[i] for i in sorted(chosen)]
+
+
+def is_map_view(image: np.ndarray) -> bool:
+    """マップ画面(プレイヤー一覧や手札が出ている画面)か。戦闘画面や全画面の演出なら False。"""
+    return turn_portrait(image) is not None
+
+
+def select_turn_frames(
+    out_dir: Path, frames: list[Frame], limit: int, *, max_per_battle: int = 5
+) -> list[tuple[Frame, bool]]:
+    """1手番ぶんの講評に使うフレームを選び、(フレーム, マップ画面か) の組で返す。
+
+    pick_key_frames で選んだあと、1回の戦闘(マップ画面でないフレームが続く区間)から
+    選ばれた枚数が多すぎるときは、最初・途中2枚・最後2枚に絞る。戦闘は演出のコマが多く、
+    必要なのは「使ったカードと数値(最初)」「ダイス(途中)」「ダメージと結果(最後)」だけなので。
+    マップ画面かどうかは、送るときの解像度を決めるのに使う(戦闘画面は文字が大きいので縮小できる)。
+    """
+    flags = {}
+    for f in frames:
+        image = cv2.imdecode(np.fromfile(str(out_dir / f.file), dtype=np.uint8), cv2.IMREAD_COLOR)
+        flags[f.index] = is_map_view(image)
+    picked = pick_key_frames(out_dir, frames, limit)
+    picked_ids = {f.index for f in picked}
+
+    result: list[Frame] = []
+    battle: list[Frame] = []  # いま見ている戦闘区間のうち、選ばれているフレーム
+
+    def flush() -> None:
+        if len(battle) > max_per_battle:
+            middle = battle[1:-2]
+            step = (len(middle) - 1) / (max_per_battle - 4) if max_per_battle > 4 else 0
+            keep_mid = [middle[round(i * step)] for i in range(max_per_battle - 3)] if middle else []
+            thinned = [battle[0], *keep_mid, *battle[-2:]]
+            result.extend(dict.fromkeys(thinned))  # 重複を除きつつ順序を保つ
+        else:
+            result.extend(battle)
+        battle.clear()
+
+    for f in frames:
+        if flags[f.index]:
+            flush()
+            if f.index in picked_ids:
+                result.append(f)
+        elif f.index in picked_ids:
+            battle.append(f)
+    flush()
+    return [(f, flags[f.index]) for f in result]

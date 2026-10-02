@@ -45,7 +45,26 @@ dl{display:grid;grid-template-columns:7em 1fr;gap:6px 12px;margin:0}dt{color:var
 .rec{font-weight:700}table{border-collapse:collapse;width:100%;margin-top:8px}
 td,th{border-top:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top;font-size:.92rem}
 .note{color:var(--muted);font-size:.9rem}
+.highlights{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:24px}
+.highlights h2{font-size:1.1rem;margin:0 0 8px}.highlights ol{margin:0;padding-left:1.4em}
+.highlights li{margin-bottom:12px}.highlights a{color:inherit;text-decoration:none;font-weight:600}
 """
+
+
+def _highlights(decisions: list[Decision], advice: dict[str, Advice]) -> str:
+    """冒頭に置く「見直したい場面」。悪手・疑問手だけを、重いものから並べる。"""
+    flagged = [(d, advice[d.id]) for d in _sorted(decisions) if d.id in advice and advice[d.id].verdict in ("悪手", "疑問手")]
+    if not flagged:
+        return ""
+    flagged.sort(key=lambda pair: VERDICT_ORDER.index(pair[1].verdict))
+    items = "".join(
+        f'<li><a href="#{d.id}"><span class="pill {VERDICT_CLASS[a.verdict]}">{a.verdict}</span> '
+        f'<span class="time">{d.timestamp}</span> {escape(TYPE_LABEL.get(a.decision_type, a.decision_type))}</a>'
+        f'<div>実際: {escape(a.actual_action or "(読み取れず)")}</div>'
+        f'<div class="rec">推奨: {escape(a.recommended)}</div></li>'
+        for d, a in flagged
+    )
+    return f'<section class="highlights"><h2>見直したい場面({len(flagged)}件)</h2><ol>{items}</ol></section>'
 
 
 def _sorted(decisions: list[Decision]) -> list[Decision]:
@@ -90,6 +109,7 @@ def write_html(out_dir: Path, decisions: list[Decision], advice: dict[str, Advic
 <body><main><h1>{escape(title)}</h1>
 <p class="sub">自分の判断場面 {len(advice)} 件。評価は選択した時点での妥当性で、出目の結果ではありません。</p>
 <div class="summary">{pills}</div>
+{_highlights(decisions, advice)}
 {''.join(cards)}
 </main></body></html>"""
     path = out_dir / "report.html"

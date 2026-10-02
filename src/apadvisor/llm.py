@@ -21,6 +21,7 @@ DEFAULT_MODEL = os.environ.get("APADVISOR_MODEL", "claude-opus-5-5")
 # 安全分類器に誤って拒否された場合、サーバー側で別モデルに自動で振り替える
 FALLBACK_BETAS = ["server-side-fallback-2026-07-01"]
 MAX_TOOL_ROUNDS = 8
+FULL_EDGE = 1376  # 手札の小さい文字まで読ませたい画面の解像度
 HAIKU_THINKING_BUDGET = 6000
 _ADVICE_SCHEMA = anthropic.transform_schema(Advice)
 _REVIEW_SCHEMA = anthropic.transform_schema(TurnReview)
@@ -187,15 +188,24 @@ class Advisor:
         self.usage.add(response.usage)
         return _parsed(response)
 
-    def review_turn(self, frames: Sequence[Path], *, phase: str, context: str = "", effort: str = "high") -> TurnReview:
+    def review_turn(
+        self,
+        frames: Sequence[Path],
+        *,
+        phase: str,
+        context: str = "",
+        effort: str = "high",
+        max_edges: Sequence[int] | None = None,
+    ) -> TurnReview:
         """1手番ぶんの連続フレームを見て、対象プレイヤーの判断を講評する。
 
         phase: "my_turn"(対象プレイヤーの手番) / "enemy_turn"(敵の手番。対象プレイヤーが攻撃された場面だけ見る)
+        max_edges: 画像ごとの長辺の上限(ピクセル)。文字の大きい戦闘画面などを縮小して送り、費用を抑える。
         """
         content: list[dict] = []
         for i, path in enumerate(frames, 1):
             content.append({"type": "text", "text": f"画像{i}"})
-            content.append(image_block(path, max_edge=1376))
+            content.append(image_block(path, max_edge=max_edges[i - 1] if max_edges else FULL_EDGE))
         note = context.strip() or "(なし)"
         content.append({"type": "text", "text": f"# 補足情報\n{note}\n\n# 依頼\n{REVIEW_TASK[phase]}"})
         text = self._run_with_tools(_system(REVIEW_INSTRUCTIONS), content, _REVIEW_SCHEMA, effort)
