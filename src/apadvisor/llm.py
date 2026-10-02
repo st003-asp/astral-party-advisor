@@ -204,13 +204,15 @@ class Advisor:
         context: str = "",
         effort: str = "high",
         max_edges: Sequence[int] | None = None,
+        tile_kinds: Sequence[str] | None = None,
     ) -> TurnReview:
         """1手番ぶんの連続フレームを見て、対象プレイヤーの判断を講評する。
 
         phase: "my_turn"(対象プレイヤーの手番) / "enemy_turn"(敵の手番。対象プレイヤーが攻撃された場面だけ見る)
         max_edges: 画像ごとの長辺の上限(ピクセル)。文字の大きい戦闘画面などを縮小して送り、費用を抑える。
+        tile_kinds: 盤面を渡すときの、そのマップのマスの種類。絵柄の見本を画像の前に付ける。
         """
-        content: list[dict] = []
+        content: list[dict] = tile_legend(tile_kinds) if tile_kinds else []
         for i, path in enumerate(frames, 1):
             content.append({"type": "text", "text": f"画像{i}"})
             content.append(image_block(path, max_edge=max_edges[i - 1] if max_edges else FULL_EDGE))
@@ -306,6 +308,37 @@ def _parsed(response):
     if response.parsed_output is None:
         raise RuntimeError(f"構造化出力を取得できませんでした(stop_reason={response.stop_reason})")
     return response.parsed_output
+
+
+TILE_ICON_EDGE = 160
+
+
+def tile_legend(kinds: Sequence[str] | None = None) -> list[dict]:
+    """マスの絵柄の見本(種類の名前とアイコンの組)。アイコンを取得していなければ空。
+
+    kinds: このマップに出てくるマスの種類。指定すれば、出てこない種類の見本は省く。
+    """
+    icons = [(kind, path) for kind, path in knowledge_base.tile_icons() if kinds is None or kind in kinds]
+    if not icons:
+        return []
+    blocks: list[dict] = [
+        {
+            "type": "text",
+            "text": "# マスの絵柄の見本\n真上から見た絵。ゲーム画面のマスは同じ絵柄が斜めにつぶれ、向きも回って見える。",
+        }
+    ]
+    for kind, path in icons:
+        with Image.open(path) as img:
+            img = img.convert("RGBA")
+            img.thumbnail((TILE_ICON_EDGE, TILE_ICON_EDGE), Image.LANCZOS)
+            canvas = Image.new("RGB", img.size, (90, 90, 90))  # 透過部分は灰色で埋める
+            canvas.paste(img, (0, 0), img)
+        buf = io.BytesIO()
+        canvas.save(buf, format="JPEG", quality=88)
+        data = base64.standard_b64encode(buf.getvalue()).decode("ascii")
+        blocks.append({"type": "text", "text": f"見本: {kind}"})
+        blocks.append({"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": data}})
+    return blocks
 
 
 def image_block(path: Path, max_edge: int) -> dict:

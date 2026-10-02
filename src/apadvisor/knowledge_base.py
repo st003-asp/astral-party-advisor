@@ -40,6 +40,12 @@ def data_dir() -> Path:
     return Path(__file__).resolve().parents[2] / "data"
 
 
+def tile_icons() -> list[tuple[str, Path]]:
+    """マスの絵柄の見本 [(マスの種類, 画像のパス)]。scripts/fetch_tile_icons.py で取得していなければ空。"""
+    folder = data_dir() / "tile_icons"
+    return sorted((p.stem, p) for p in folder.glob("*.png")) if folder.is_dir() else []
+
+
 @lru_cache(maxsize=1)
 def characters() -> list[dict]:
     return json.loads(_read("characters.json"))["characters"]
@@ -67,6 +73,12 @@ def character_from_label(label: str | None) -> str | None:
         return keys[q]
     close = difflib.get_close_matches(q, list(keys), n=1, cutoff=0.75)
     return keys[close[0]] if close else None
+
+
+def tile_icons() -> list[tuple[str, Path]]:
+    """マスの絵柄の見本 [(マスの種類, 画像のパス)]。scripts/fetch_tile_icons.py で取得していなければ空。"""
+    folder = data_dir() / "tile_icons"
+    return sorted((p.stem, p) for p in folder.glob("*.png")) if folder.is_dir() else []
 
 
 @lru_cache(maxsize=1)
@@ -101,11 +113,23 @@ def find_pages(query: str, limit: int = 3) -> list[tuple[str, str, Path]]:
     return [e for k in close for e in keys[k]][:limit]
 
 
+def tile_icons() -> list[tuple[str, Path]]:
+    """マスの絵柄の見本 [(マスの種類, 画像のパス)]。scripts/fetch_tile_icons.py で取得していなければ空。"""
+    folder = data_dir() / "tile_icons"
+    return sorted((p.stem, p) for p in folder.glob("*.png")) if folder.is_dir() else []
+
+
 @lru_cache(maxsize=1)
 def name_map() -> dict[str, dict[str, str]]:
     """正規化した日本語名 → {"ja","en","zh"}(knowledge/name_map.json)。"""
     data = json.loads(_read("name_map.json"))
     return {_norm(row["ja"]): row for cat, rows in data.items() if not cat.startswith("_") for row in rows}
+
+
+def tile_icons() -> list[tuple[str, Path]]:
+    """マスの絵柄の見本 [(マスの種類, 画像のパス)]。scripts/fetch_tile_icons.py で取得していなければ空。"""
+    folder = data_dir() / "tile_icons"
+    return sorted((p.stem, p) for p in folder.glob("*.png")) if folder.is_dir() else []
 
 
 @lru_cache(maxsize=1)
@@ -208,6 +232,12 @@ def character_table() -> str:
             lines.append("相性の良いチップ: " + "、".join(ch["chips"]))
         blocks.append("\n".join(lines))
     return "\n\n".join(blocks)
+
+
+def tile_icons() -> list[tuple[str, Path]]:
+    """マスの絵柄の見本 [(マスの種類, 画像のパス)]。scripts/fetch_tile_icons.py で取得していなければ空。"""
+    folder = data_dir() / "tile_icons"
+    return sorted((p.stem, p) for p in folder.glob("*.png")) if folder.is_dir() else []
 
 
 @lru_cache(maxsize=1)

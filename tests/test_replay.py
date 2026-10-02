@@ -310,3 +310,18 @@ def test_movement_frames_keep_route_start_and_banner():
     # None は戦闘画面。点線の区間(1〜2)の最初と、帯の区間(5〜7)の中ほどを残す
     images = [plain, route, route, None, plain, banner, banner, banner, plain]
     assert movement_frames(images) == [1, 6]
+
+
+def test_tile_legend_is_sent_when_icons_exist(tmp_path, monkeypatch):
+    from apadvisor.llm import tile_legend
+
+    monkeypatch.setenv("APADVISOR_DATA_DIR", str(tmp_path))
+    assert tile_legend(["災厄"]) == []  # アイコンを取得していなければ何も付けない
+    icons = tmp_path / "tile_icons"
+    icons.mkdir()
+    for kind in ("災厄", "転送陣"):
+        ok, data = cv2.imencode(".png", np.full((64, 64, 4), 200, np.uint8))
+        (icons / f"{kind}.png").write_bytes(data.tobytes())
+    blocks = tile_legend(["災厄", "ショップ"])  # このマップに出てくる種類だけ
+    assert [b["text"] for b in blocks if b["type"] == "text"][1:] == ["見本: 災厄"]
+    assert sum(b["type"] == "image" for b in blocks) == 1

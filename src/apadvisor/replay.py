@@ -244,6 +244,7 @@ def analyze_replay(
     map_name = map_name or match["map_name"]
     difficulty = difficulty or match["difficulty"]
     board_note = board.board_text(map_name)
+    tile_kinds = board.get_board(map_name).kinds() if board_note else None
     if map_name and not board_note:
         log(f"  マップ「{map_name}」の盤面データはありません(分岐の確率計算は行いません)。")
     log("手番の持ち主を読み取り中…")
@@ -306,6 +307,7 @@ def analyze_replay(
                 max_edges=image_sizes([is_map for _, is_map in selected]),
                 phase=phase,
                 context=_turn_context(context, segment, board_note, position.text()),
+                tile_kinds=tile_kinds,
                 effort=effort,
             )
         except Refused as exc:
