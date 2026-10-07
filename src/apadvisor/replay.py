@@ -243,6 +243,7 @@ def analyze_replay(
     # マップと難易度は、指定があればそれを、なければ録画の冒頭から読んだものを使う
     map_name = map_name or match["map_name"]
     difficulty = difficulty or match["difficulty"]
+    advisor.map_name = map_name  # 参照資料にこのマップの攻略データを入れる
     board_note = board.board_text(map_name)
     tile_kinds = board.get_board(map_name).kinds() if board_note else None
     if map_name and not board_note:

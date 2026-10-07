@@ -107,24 +107,39 @@ def test_name_map_is_consistent():
             assert len(zh) == len(set(zh)), category  # 中国語側は1対1
 
 
-def test_lookup_adds_translated_pages(tmp_path, monkeypatch):
-    for folder, title, body in (
-        ("wiki", "チップ/バッファーシールド", "日本語の説明"),
-        ("wiki_en", "Buffer Shield", "english text"),
-        ("wiki_zh_bili", "缓冲盾牌", "中文说明"),
-    ):
-        d = tmp_path / folder
-        d.mkdir()
-        (d / "page.md").write_text(body, encoding="utf-8")
-        (d / "index.json").write_text(json.dumps({title: "page.md"}, ensure_ascii=False), encoding="utf-8")
+def test_lookup_uses_bundled_catalog_first(tmp_path, monkeypatch):
+    # 同梱の一覧(catalog.json)にあれば、wikiデータがなくても引ける。英語名・中国語名でも引ける
+    monkeypatch.setenv("APADVISOR_DATA_DIR", str(tmp_path))
+    knowledge_base._wiki_keys.cache_clear()
+    for query in ("バッファーシールド", "Buffer Shield"):
+        text = knowledge_base.lookup(query)
+        assert "【チップ: バッファーシールド】" in text and "レアリティ: 青" in text
+    text = knowledge_base.lookup("ゼリーウィザード")
+    assert "狂気 攻3 防1 HP21" in text and "撃破コイン: 8" in text
+    assert "## 異変図書館" in knowledge_base.lookup("異変図書館(協力チャレンジ)")
+    assert "【カード: 防御(特大)】" in knowledge_base.lookup("ガード(特大)")  # 画面の呼び名でも引ける
+
+
+def test_lookup_falls_back_to_wiki_pages(tmp_path, monkeypatch):
+    # 一覧にないものは、取得済みのwikiページを探す
+    d = tmp_path / "wiki"
+    d.mkdir()
+    (d / "page.md").write_text("日本語の説明", encoding="utf-8")
+    (d / "index.json").write_text(json.dumps({"チップ/ふしぎな石": "page.md"}, ensure_ascii=False), encoding="utf-8")
     monkeypatch.setenv("APADVISOR_DATA_DIR", str(tmp_path))
     knowledge_base._wiki_keys.cache_clear()
     try:
-        text = knowledge_base.lookup("バッファーシールド")
+        text = knowledge_base.lookup("ふしぎな石")
     finally:
         knowledge_base._wiki_keys.cache_clear()
-    assert "日本語の説明" in text and "english text" in text and "中文说明" in text
-    assert text.index("日本語の説明") < text.index("english text")
+    assert "日本語の説明" in text
+
+
+def test_reference_text_includes_map_guide():
+    plain = knowledge_base.reference_text()
+    library = knowledge_base.reference_text("異変図書館")
+    assert "隠れた仕様" in plain and "このマップの攻略データ" not in plain
+    assert "## 異変図書館" in library and "## 夢想号" not in library
 
 
 def test_override_note_prefers_higher_values():

@@ -12,7 +12,7 @@
 ## はじめての方へ(Windows・プログラミングの知識なしで使う手順)
 
 Python や API を触ったことがなくても、ダブルクリックとドラッグ&ドロップだけで使えるようにしてあります。
-最初の準備に30分ほど(wikiデータの取得を待つ時間は別)、あとは録画を放り込むだけです。
+最初の準備に30分ほど、あとは録画を放り込むだけです。
 
 ### 必要なもの
 
@@ -42,9 +42,6 @@ Python や API を触ったことがなくても、ダブルクリックとド�
 
    > 「WindowsによってPCが保護されました」と出たら、「詳細情報」→「実行」を押してください。
 
-5. **`fetch_wiki.bat` をダブルクリックする**
-   カードやチップ、敵の説明を wiki から取ってきます。1時間以上かかるので、放置しておいてください。
-   (これを省いても動きますが、カードや敵の効果を調べられないぶん講評が雑になります)
 
 ### リプレイを録画する
 
@@ -125,7 +122,7 @@ Python や API を触ったことがなくても、ダブルクリックとド�
 | `locate_tile` | 止まったマスの種類(「セーフティポイント」など)から、現在地の候補を盤面データで絞る |
 | `chip_odds` | スターレベル別の青/紫/金の出現率、チップショップの価格 |
 | `event_tile_odds` | イベントマスで何が起きるか(有志の実測1472回) |
-| `lookup` | カード・チップ・敵・マップの説明を wiki データから引く |
+| `lookup` | カード・チップ・敵・マス・イベントの要約と数値、マップ別の攻略データを、同梱の知識ベースから引く |
 
 ## セットアップ(コマンドで操作する人向け)
 
@@ -145,7 +142,8 @@ pip install -e ".[dev,scrape]"
    `ANTHROPIC_API_KEY=発行したキー` と1行書きます(環境変数 `ANTHROPIC_API_KEY` に設定してもかまいません)。
    `.env` は Git に含めない設定になっています。
    確率計算(`apadvisor calc`)だけならキーは不要です。
-2. **wikiデータ(任意だが推奨)**: カードやチップ、敵、マップの説明を引けるようにします。
+2. **wikiデータ(メンテナ向け。利用者は不要)**: カード・チップ・敵・マップの情報は、整理して知識ベースに同梱してあります。
+   wikiの更新を取り込んで知識ベースを作り直すときだけ、wikiの本文を取得します。
 
    ```bash
    python scripts/scrape_wiki.py        # 日本語wiki。アクセス制限が厳しく1時間以上かかる(中断しても再開できる)
@@ -164,6 +162,13 @@ pip install -e ".[dev,scrape]"
 
    wiki同士で敵のステータスなどが食い違うことがあります(更新時期の差)。食い違うものは「高い方」を採用した
    補正表(`stat_overrides.json`、`build_name_map.py reconcile` で生成)を優先し、ゲーム画面と違えば画面が正です。
+
+   ```bash
+   python scripts/build_maps.py      # 盤面データ(maps.json)を作り直す
+   python scripts/build_catalog.py   # カード・チップ・敵などの一覧(catalog.json)を作り直す
+   ```
+
+   取得済みのwiki本文があれば、`lookup` は同梱の一覧で見つからない名前をwikiのページからも探します。
 
 ## 使い方
 
@@ -282,6 +287,10 @@ Claude API は従量課金で、講評する手番の数にほぼ比例します
 
 - `rules.md` … ルールの要約
 - `strategy.md` … 場面ごとの判断の指針
+- `advanced.md` … 隠れた仕様(敵の進む向き、チップ抽選の左枠など)と中級者向けの考え方。攻略noteの要約
+- `map_guide.md` … マップ別の攻略データ(敵、進捗イベント、ミッション、要点)。解析中のマップの節だけを参照資料に入れる
+- `catalog.json` … カード・チップ・敵・マス・イベントの一覧(効果の要約、コスト、レアリティ、属性、難易度別ステータス)。
+  効果の要約は `catalog_text.json` に自分の言葉で書き、数値はwikiから `scripts/build_catalog.py` で取り込む
 - `characters.json` … 35キャラの要約
 - `event_tile_stats.json` … イベントマスの実測データ
 - `name_map.json` … 日本語名 ↔ 英語名 ↔ 中国語名の対応表(`scripts/name_map_seed.py` から生成)
@@ -308,7 +317,7 @@ Claude API は従量課金で、講評する手番の数にほぼ比例します
 ## クレジット
 
 - マスのアイコン画像(`src/apadvisor/knowledge/tile_icons/`)は、[Astral Party Wiki(英語)](https://astralparty.miraheze.org/wiki/Maps)に掲載されているものを縮小して使っています。ゲームの素材であり、著作権はアストラルパーティーの開発元に帰属します。このリポジトリのライセンス(MIT)の対象外です。権利者から求めがあれば削除します。
-- 盤面データ、ルールや戦術の要約は、日本語wiki・英語wiki・中国語wikiと有志の攻略記事を参考に、自分の言葉でまとめたものです。
+- 盤面データ、ルールや戦術の要約、カード・チップ・敵の説明は、日本語wiki・英語wiki・中国語wikiと有志の攻略記事を参考に、自分の言葉でまとめたものです(wikiの本文はリポジトリに含めていません)。数値はwikiの記載に基づき、食い違うときは高い方を採っています。
 
 ## テスト
 
@@ -319,6 +328,7 @@ pytest
 ## 参考にした資料
 
 - [アスパ初心者向けガイド](https://note.com/tamaru_karin80/n/na5c51819d251) / [初心者向けアスパキャラ紹介](https://note.com/tamaru_karin80/n/n69ed7ceb2881)(ノノノ氏)
+- [【アスパ】中級者向けガイド](https://note.com/______owo______/n/n2401e647278b) / [【アスパ】隠された仕様まとめ](https://note.com/______owo______/n/n3b5d83a09921) / [【アスパ】方向学](https://note.com/______owo______/n/ned6b67d9c362)
 - [アストラル☆パーティ Wiki*](https://wikiwiki.jp/tenoujigaoh/)(日本語)
 - [Astral Party Wiki](https://astralparty.miraheze.org/wiki/Main_Page)(英語)
 - [星引擎Party WIKI](https://wiki.biligame.com/starengine/%E9%A6%96%E9%A1%B5) / [Astral Party Wiki (wiki.gg)](https://astralparty.wiki.gg/zh/wiki/Astral_Party_Wiki?variant=zh-tw)(中国語)

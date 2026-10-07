@@ -109,6 +109,7 @@ class Advisor:
     model: str = DEFAULT_MODEL
     scan_model: str | None = None  # 画面分類に使うモデル。None なら model と同じ
     usage: Usage = field(default_factory=Usage)
+    map_name: str | None = None  # 分かっていれば、参照資料にこのマップの攻略データを入れる
 
     # ---- 画面の分類 ----
     def classify(self, image: Path) -> SceneInfo:
@@ -150,7 +151,7 @@ class Advisor:
                 "text": f"# 補足情報\n{note}\n\nこの場面で録画者本人はどうするのが最善かを助言してください。",
             }
         )
-        text = self._run_with_tools(_system(ADVISE_INSTRUCTIONS), content, _ADVICE_SCHEMA, effort)
+        text = self._run_with_tools(_system(ADVISE_INSTRUCTIONS, self.map_name), content, _ADVICE_SCHEMA, effort)
         return Advice.model_validate_json(text)
 
     # ---- リプレイ再生の録画 ----
@@ -218,7 +219,7 @@ class Advisor:
             content.append(image_block(path, max_edge=max_edges[i - 1] if max_edges else FULL_EDGE))
         note = context.strip() or "(なし)"
         content.append({"type": "text", "text": f"# 補足情報\n{note}\n\n# 依頼\n{REVIEW_TASK[phase]}"})
-        text = self._run_with_tools(_system(REVIEW_INSTRUCTIONS), content, _REVIEW_SCHEMA, effort)
+        text = self._run_with_tools(_system(REVIEW_INSTRUCTIONS, self.map_name), content, _REVIEW_SCHEMA, effort)
         return TurnReview.model_validate_json(text)
 
     def _run_with_tools(self, system: list[dict], content: list[dict], schema: dict, effort: str) -> str:
@@ -284,13 +285,13 @@ def _model_options(model: str, effort: str, *, thinking: bool) -> dict:
     return options
 
 
-def _system(instructions: str) -> list[dict]:
+def _system(instructions: str, map_name: str | None = None) -> list[dict]:
     return [
         {"type": "text", "text": instructions},
         # 参照資料は毎回同じなのでキャッシュする(2回目以降の入力料金が約1/10になる)
         {
             "type": "text",
-            "text": "# 参照資料\n\n" + knowledge_base.reference_text(),
+            "text": "# 参照資料\n\n" + knowledge_base.reference_text(map_name),
             "cache_control": {"type": "ephemeral", "ttl": "1h"},
         },
     ]

@@ -9,7 +9,9 @@ if not exist ".venv\Scripts\python.exe" (
     exit /b 1
 )
 
-echo カード・チップ・敵・マップの説明を wiki から取得します。
+echo 【メンテナ向け】知識ベースを作り直すために wiki の本文を取得します。
+echo 解析するだけなら、これを実行する必要はありません(必要な情報は同梱済み)。
+echo.
 echo 取得したデータはこのPCの data フォルダに保存され、解析のときに参照されます。
 echo.
 echo  1. 英語wiki・中国語wiki(数分)

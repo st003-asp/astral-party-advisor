@@ -161,17 +161,99 @@ def _page_text(label: str, title: str, path: Path, limit: int) -> str:
     return f"【{label}: {title}】\n{body}"
 
 
-def lookup(query: str) -> str:
-    """名前からキャラ要約とwikiページ本文を返す。見つからなければその旨を返す。
+CATALOG_KINDS = {"card": "カード", "chip": "チップ", "monster": "モンスター", "tile": "マス", "event": "イベント"}
 
-    日本語名で引くと、対応表(name_map.json)にある英語・中国語wikiのページも一緒に返す。
+
+@lru_cache(maxsize=1)
+def catalog() -> dict[str, dict[str, dict]]:
+    """カード・チップ・モンスター・マス・イベントの一覧(knowledge/catalog.json)。"""
+    data = json.loads(_read("catalog.json"))
+    return {kind: entries for kind, entries in data.items() if not kind.startswith("_")}
+
+
+# ゲーム画面(Steam版)とwikiで呼び名が違うもの。画面の呼び名 → wikiの呼び名
+SCREEN_NAMES = {"ガード": "防御"}
+
+
+def find_catalog(query: str, limit: int = 3) -> list[tuple[str, str, dict]]:
+    """名前(日本語・英語・中国語。一部でもよい)で一覧を引く。[(種類, 名前, 項目)]"""
+    for screen, wiki in SCREEN_NAMES.items():
+        query = query.replace(screen, wiki)
+    q = _norm(query)
+    if not q:
+        return []
+    exact, partial = [], []
+    for kind, entries in catalog().items():
+        for name, entry in entries.items():
+            names = [_norm(name), _norm(name.split("(")[0])] + [_norm(entry.get(k, "")) for k in ("en", "zh")]
+            if q in names:
+                exact.append((kind, name, entry))
+            elif any(n and (q in n or n in q) for n in names):
+                partial.append((kind, name, entry))
+    partial.sort(key=lambda hit: abs(len(hit[1]) - len(query)))
+    return (exact + partial)[:limit]
+
+
+def catalog_text(kind: str, name: str, entry: dict) -> str:
+    lines = [f"【{CATALOG_KINDS[kind]}: {name}】" + (f"(英: {entry['en']})" if entry.get("en") else "")]
+    lines.append(entry["summary"])
+    facts = []
+    for key, label in (("type", "種類"), ("cost", "コスト"), ("availability", "入手"), ("rarity", "レアリティ"),
+                       ("stack", "属性"), ("class", "区分"), ("coin", "撃破コイン")):
+        if key in entry:
+            facts.append(f"{label}: {entry[key]}")
+    if facts:
+        lines.append("、".join(facts))
+    if entry.get("stats"):
+        lines.append(
+            "ステータス(進捗イベントで増える): "
+            + " / ".join(f"{d} 攻{v['攻撃']} 防{v['防御']} HP{v['HP']}" for d, v in entry["stats"].items())
+        )
+    if entry.get("note"):
+        lines.append(entry["note"])
+    return "\n".join(lines)
+
+
+@lru_cache(maxsize=1)
+def map_guides() -> dict[str, str]:
+    """マップ名 → マップ別の攻略データ(knowledge/map_guide.md の節)。"""
+    text = _read("map_guide.md")
+    guides = {}
+    for block in re.split(r"^## ", text, flags=re.M)[1:]:
+        title, _, body = block.partition("\n")
+        guides[title.strip()] = f"## {title.strip()}\n{body.strip()}"
+    return guides
+
+
+def map_guide(name: str | None) -> str:
+    """マップ名(「異変図書館(協力チャレンジ)」「魔法学院(スイーツ場)/前半」なども可)に合う攻略データ。なければ空文字。"""
+    if not name:
+        return ""
+    target = _norm(name.split("/")[0])
+    for title, body in map_guides().items():
+        keys = [_norm(k.split("(")[0]) for k in re.split(r"[・]", title)]
+        if any(k and (k in target or target in k) for k in keys):
+            return body
+    return ""
+
+
+def lookup(query: str) -> str:
+    """名前から、キャラ要約・カード/チップ/敵などの一覧・マップ別の攻略データを返す。
+
+    同梱のデータで見つからず、wikiデータ(data/)を取得してあれば、wikiのページ本文も探す。
     """
     parts: list[str] = []
     q = _norm(query)
     for ch in characters():
         if q and (q == _norm(ch["name"]) or q == _norm(ch.get("en", "")) or q in _norm(ch["name"])):
-            parts.append("【キャラ要約】\n" + json.dumps(ch, ensure_ascii=False, indent=1))
+            parts.append("【キャラ要約】\n" + json.dumps(ch, ensure_ascii=False))
             break
+    parts.extend(catalog_text(kind, name, entry) for kind, name, entry in find_catalog(query))
+    guide = map_guide(query)
+    if guide:
+        parts.append("【マップ別の攻略データ】\n" + guide)
+    if parts:
+        return "\n\n".join(parts)
     seen: set[Path] = set()
     hits = find_pages(query)
     ja_names = [title.split("/")[-1] for label, title, _ in hits if label == WIKI_SOURCES[0][0]] or [query]
@@ -219,14 +301,19 @@ def character_table() -> str:
     return "\n\n".join(blocks)
 
 
-@lru_cache(maxsize=1)
-def reference_text() -> str:
-    """毎回同じ内容になる参照資料(プロンプトキャッシュの対象)。"""
+@lru_cache(maxsize=16)
+def reference_text(map_name: str | None = None) -> str:
+    """毎回同じ内容になる参照資料(プロンプトキャッシュの対象)。マップが分かれば、そのマップの攻略データも入れる。"""
+    guide = map_guide(map_name)
     return "\n\n".join(
-        [
+        part
+        for part in [
             _read("rules.md"),
             _read("strategy.md"),
+            _read("advanced.md"),
+            "# このマップの攻略データ\n\n" + guide if guide else "",
             "# キャラクター要約\n\n" + character_table(),
             "# イベントマスの発生傾向(有志の実測。進捗=画面上部の進捗バーの値)\n\n" + events.event_reference(),
         ]
+        if part
     )
