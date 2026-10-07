@@ -312,16 +312,14 @@ def test_movement_frames_keep_route_start_and_banner():
     assert movement_frames(images) == [1, 6]
 
 
-def test_tile_legend_is_sent_when_icons_exist(tmp_path, monkeypatch):
+def test_tile_legend_is_sent_when_icons_exist(monkeypatch):
+    from apadvisor import knowledge_base
     from apadvisor.llm import tile_legend
 
-    monkeypatch.setenv("APADVISOR_DATA_DIR", str(tmp_path))
-    assert tile_legend(["災厄"]) == []  # アイコンを取得していなければ何も付けない
-    icons = tmp_path / "tile_icons"
-    icons.mkdir()
-    for kind in ("災厄", "転送陣"):
-        ok, data = cv2.imencode(".png", np.full((64, 64, 4), 200, np.uint8))
-        (icons / f"{kind}.png").write_bytes(data.tobytes())
-    blocks = tile_legend(["災厄", "ショップ"])  # このマップに出てくる種類だけ
-    assert [b["text"] for b in blocks if b["type"] == "text"][1:] == ["見本: 災厄"]
-    assert sum(b["type"] == "image" for b in blocks) == 1
+    icons = dict(knowledge_base.tile_icons())
+    assert len(icons) == 13 and "災厄" in icons  # 同梱のアイコン
+    blocks = tile_legend(["災厄", "ショップ", "スタートポイント(1番手)"])  # このマップに出てくる種類だけ
+    assert [b["text"] for b in blocks if b["type"] == "text"][1:] == ["見本: ショップ", "見本: 災厄"]
+    assert sum(b["type"] == "image" for b in blocks) == 2
+    monkeypatch.setattr(knowledge_base, "tile_icons", lambda: [])
+    assert tile_legend(["災厄"]) == []  # アイコンがなければ何も付けない

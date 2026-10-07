@@ -28,7 +28,7 @@ apadvisor = "apadvisor.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-apadvisor = ["knowledge/*"]
+apadvisor = ["knowledge/*", "knowledge/tile_icons/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

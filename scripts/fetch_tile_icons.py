@@ -1,22 +1,26 @@
-"""マスのアイコン画像を英語wiki(astralparty.miraheze.org)から取得する。
+"""マスのアイコン画像を英語wiki(astralparty.miraheze.org)から取得し、縮小して同梱用に保存する。
 
     python scripts/fetch_tile_icons.py
 
-保存先は data/tile_icons/<マスの種類>.png。講評のとき「マスの絵柄の見本」としてAIに渡し、
-移動の点線が通るマスを読み取って盤面と照らし合わせるのに使う。
-アイコンはゲームの素材なので、data/ 以下(.gitignore 済み)に置き、再配布しない。
+保存先は src/apadvisor/knowledge/tile_icons/<マスの種類>.png(長辺160px、パレット化)。
+講評のとき「マスの絵柄の見本」としてAIに渡し、移動の点線が通るマスを読み取って盤面と照らし合わせるのに使う。
+利用者が実行する必要はない(同梱済み)。アイコンが更新されたときに、メンテナが作り直すためのもの。
+アイコンの著作権はゲームの開発元にある(README の「クレジット」を参照)。
 """
 
 from __future__ import annotations
 
+import io
 import sys
 from pathlib import Path
 
 import requests
+from PIL import Image
 
 API = "https://astralparty.miraheze.org/w/api.php"
 HEADERS = {"User-Agent": "astral-party-advisor (tile icon fetch; personal use)"}
-OUT = Path(__file__).resolve().parent.parent / "data" / "tile_icons"
+OUT = Path(__file__).resolve().parent.parent / "src" / "apadvisor" / "knowledge" / "tile_icons"
+EDGE = 160  # 講評で送る大きさ
 
 # マスの種類(盤面データ maps.json での呼び名) → 英語wikiのファイル名
 ICONS = {
@@ -53,17 +57,17 @@ def main() -> int:
     failed = 0
     for kind, name in ICONS.items():
         target = OUT / f"{kind}.png"
-        if target.exists():
-            print(f"- {kind}: 取得済み")
-            continue
         if name not in urls:
             print(f"- {kind}: wikiに {name} が見つかりません")
             failed += 1
             continue
         response = session.get(urls[name], timeout=30)
         response.raise_for_status()
-        target.write_bytes(response.content)
-        print(f"- {kind}: {name}({len(response.content):,} バイト)")
+        with Image.open(io.BytesIO(response.content)) as img:
+            img = img.convert("RGBA")
+            img.thumbnail((EDGE, EDGE), Image.LANCZOS)
+            img.quantize(colors=128, method=Image.Quantize.FASTOCTREE).save(target, optimize=True)
+        print(f"- {kind}: {name} → {target.stat().st_size:,} バイト")
     print(f"→ {OUT}")
     return 1 if failed else 0
 
