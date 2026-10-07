@@ -1,5 +1,5 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>解析レポートの例(狂気・異変図書館・ナンシーロー・13ラウンド)</title><style>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>解析レポートの例</title><style>
 :root{--bg:#f6f7f9;--card:#fff;--text:#1d2330;--muted:#5f6b7c;--line:#dde2ea;
 --bad:#c62828;--doubt:#e07b00;--ok:#2f7d5b;--best:#1565c0;--na:#7a8494}
 @media (prefers-color-scheme:dark){:root{--bg:#14171d;--card:#1d222b;--text:#e6e9ee;--muted:#9aa5b5;--line:#2e3542}}
@@ -18,633 +18,709 @@ dl{display:grid;grid-template-columns:7em 1fr;gap:6px 12px;margin:0}dt{color:var
 .rec{font-weight:700}table{border-collapse:collapse;width:100%;margin-top:8px}
 td,th{border-top:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top;font-size:.92rem}
 .note{color:var(--muted);font-size:.9rem}
+.highlights{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:24px}
+.highlights h2{font-size:1.1rem;margin:0 0 8px}.highlights ol{margin:0;padding-left:1.4em}
+.highlights li{margin-bottom:12px}.highlights a{color:inherit;text-decoration:none;font-weight:600}
 </style></head>
-<body><main><h1>解析レポートの例(狂気・異変図書館・ナンシーロー・13ラウンド)</h1>
-<p class="sub">自分の判断場面 52 件。評価は選択した時点での妥当性で、出目の結果ではありません。</p>
-<div class="summary"><span class="pill bad">悪手 1</span><span class="pill doubt">疑問手 2</span><span class="pill ok">許容 20</span><span class="pill best">最善 26</span><span class="pill na">判定不能 3</span></div>
+<body><main><h1>解析レポートの例</h1>
+<p class="sub">自分の判断場面 58 件。評価は選択した時点での妥当性で、出目の結果ではありません。</p>
+<div class="summary"><span class="pill bad">悪手 1</span><span class="pill doubt">疑問手 2</span><span class="pill ok">許容 24</span><span class="pill best">最善 31</span></div>
+<section class="highlights"><h2>見直したい場面(3件)</h2><ol><li><a href="#t034-6"><span class="pill bad">悪手</span> <span class="time">12:39</span> 戦闘(攻撃)</a><div>実際: シャドウアタックで看守を殴り、25→6まで削った</div><div class="rec">推奨: 看守を殴らない</div></li><li><a href="#t003-2"><span class="pill doubt">疑問手</span> <span class="time">01:36</span> 戦闘(防御)</a><div>実際: ガード(特大)を使って防御し、1ダメージを受けた(HP8)</div><div class="rec">推奨: カードを使わず防御(防御カードを温存する)</div></li><li><a href="#t022-0"><span class="pill doubt">疑問手</span> <span class="time">07:02</span> 手番の行動</a><div>実際: 狂暴を自分に使用(攻撃4→7)。その後攻撃はせず、ショップへ移動した。</div><div class="rec">推奨: 狂暴は使わない。攻撃するなら、ゼリーウィザード(反撃なし)を殴れる場面にだけ使う。殴らないなら温存する。</div></li></ol></section>
 <article id="t003-0">
 <header><span class="time">01:01</span><span class="type">戦闘(攻撃)</span>
-<span class="pill best">最善</span><span class="note">確度: 中</span></header>
+<span class="pill ok">許容</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00089.jpg"><img loading="lazy" src="frames/f00089.jpg" alt="01:01の画面"></a><a href="frames/f00094.jpg"><img loading="lazy" src="frames/f00094.jpg" alt="01:03の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>手番開始時にファイアウォール(攻撃+2、防御+2)とバトルカード1枚(ガード(特大))を得た。攻撃5・防御3。手札は チョコレートケーキ、対モンスター用レーザー(6マス以内に3ダメージ)、攻撃(中)、攻撃(大)×2。スキル(ハッキング)で魔法のティーポット(HP7、攻撃4、防御1、反撃なし)を指定して戦闘し、攻撃(大)(+2)を使用。ダイス5で合計12となり、敵は消えた(撃破と推定)。</dd>
-<dt>推奨</dt><dd class="rec">スキルでティーポットを指定し、攻撃(大)を1枚使う(コスト2)。必要なら攻撃(中)も足す。</dd>
-<dt>実際の行動</dt><dd>スキルでティーポットを攻撃し、攻撃(大)を使って撃破</dd>
-<dt>理由</dt><dd>攻撃5・敵HP7・防御1の計算では、カードなしの撃破率は16.7%、攻撃(中)で42.6%、攻撃(大)で62.5%、中+大(コスト3)で82.9%。ティーポットは反撃しない。スキルでの戦闘はバトルカードを捨てられず、CTが回るので使い得。倒すと6コインが入り、Lv1(15コイン)に近づく。攻撃(大)のみで出目5を引いて撃破できた。確実性を上げる中+大もあり得るが、カードの節約を考えれば妥当な選択。</dd>
-<dt>読めなかった点</dt><dd class="note">スキル発動前にレーザーを使ったかは直接見えない(カード1/1の表示と手札からの推測)、ティーポットの残りHPが7だった理由、ティーポットの防御ダイスと撃破時のダメージ表示</dd>
+<dt>状況</dt><dd>ラウンド1、ナンシーロー(スターレベル0、HP9、攻撃力5、防御力3、コイン6)。手札はチョコレートケーキ、対モンスター用レーザー、攻撃(中)、攻撃(大)×2など。魔法のティーポット(画面上HP7)を、反撃されない距離から戦闘した。</dd>
+<dt>推奨</dt><dd class="rec">攻撃(大)を使って攻撃(撃破できれば成功)</dd>
+<dt>実際の行動</dt><dd>攻撃(大)(+2)を使って攻撃し、ティーポットを撃破した</dd>
+<dt>理由</dt><dd>攻撃力5で敵の防御1・HP7と仮定して計算した。カードなしの撃破率は16.7%、攻撃(中)で42.6%、攻撃(大)で62.5%、攻撃(中)+攻撃(大)で82.9%。ティーポットは撃破コイン6で、ミッション(3体撃破)の対象でもある。実際は攻撃(大)(+2)を使い、ダイス5で攻撃合計12になって撃破し、コインは12になった。初手のコイン獲得とミッション進行に直結するので、攻撃(大)の投入は妥当。コスト3で攻撃(中)も足す手もあったが、撃破率が約20%上がる代わりに2枚消費するため、1枚で止めたのは許容範囲。</dd>
+<dt>読めなかった点</dt><dd class="note">戦闘がスキルによるものか通常の戦闘か(スキルの数字が画面で読めない)、ティーポットの防御力(狂気の資料値は防1を使用)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>スキル+攻撃(大)</td><td>撃破率62.5%、期待ダメージ7.5。コスト2で効率が良い。</td></tr><tr><td>スキル+攻撃(中)+攻撃(大)</td><td>撃破率82.9%。確実だがカード2枚消費。</td></tr><tr><td>スキル+カードなし</td><td>撃破率16.7%。取りこぼしが多い。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>カードなしで攻撃</td><td>撃破率16.7%。低すぎる。</td></tr><tr><td>攻撃(大)を使って攻撃</td><td>撃破率62.5%、期待ダメージ7.5。コスト効率が良い。</td></tr><tr><td>攻撃(中)+攻撃(大)で攻撃</td><td>撃破率82.9%。確実だが手札を2枚使う。</td></tr></tbody></table>
 </article><article id="t003-1">
-<header><span class="time">01:18</span><span class="type">戦う/スルー</span>
-<span class="pill best">最善</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f00116.jpg"><img loading="lazy" src="frames/f00116.jpg" alt="01:18の画面"></a><a href="frames/f00117.jpg"><img loading="lazy" src="frames/f00117.jpg" alt="01:18の画面"></a></div>
+<header><span class="time">01:09</span><span class="type">戦闘(攻撃)</span>
+<span class="pill ok">許容</span><span class="note">確度: 中</span></header>
+<div class="shots"><a href="frames/f00103.jpg"><img loading="lazy" src="frames/f00103.jpg" alt="01:09の画面"></a><a href="frames/f00109.jpg"><img loading="lazy" src="frames/f00109.jpg" alt="01:14の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ダイス3で移動し、2体目の魔法のティーポット(HP7、反撃なし)と戦闘した。攻撃は約7(画面表示)。合計14対防御7でダメージ7となり、HP7のティーポットを撃破した。手札は攻撃(中)・攻撃(大)・ガード(特大)・ケーキ。戦闘後に攻撃(中)がなくなったので、使用したか左から捨てられたかのどちらか。</dd>
-<dt>推奨</dt><dd class="rec">殴って撃破する。</dd>
-<dt>実際の行動</dt><dd>戦闘して撃破</dd>
-<dt>理由</dt><dd>ティーポットは反撃せず、攻撃を受けるリスクがない。撃破で6コインとHP+2が得られる。ナンシーは自分から戦闘するとバトルカードを1枚捨てるが、撃破のリターンのほうが大きい。HP7の敵を攻撃7+ダイスで落とせる見込みも高い。実際に撃破できた。</dd>
-<dt>読めなかった点</dt><dd class="note">この戦闘で攻撃カードを使ったか(使用したのか、パッシブで左から捨てられたのか)、撃破によるコインの変化(表示が12のままに見える)</dd>
+<dt>状況</dt><dd>1体目の撃破後、攻撃力7、コイン12。別の魔法のティーポット(HP7)がいた。手札は対モンスター用レーザー、攻撃(中)、攻撃(大)、ガード(特大)など。</dd>
+<dt>推奨</dt><dd class="rec">対モンスター用レーザーで3ダメージを与えてから、攻撃(中)程度で攻撃</dd>
+<dt>実際の行動</dt><dd>対モンスター用レーザーで3ダメージを与え、その後の戦闘でティーポットを撃破した</dd>
+<dt>理由</dt><dd>レーザーでHP7を4まで削ったあと、攻撃力7で攻撃すると、カードなしで撃破率83.3%、攻撃(中)で96.3%、攻撃(大)で98.1%になる。レーザーは効果カードなので、バトルカードを温存しつつ撃破率を上げられる。実際もレーザー(3ダメージ)から攻撃に入り、ティーポットを倒した(手札から攻撃(中)がなくなったことから、攻撃(中)を使ったと推測)。2体目の撃破で、ミッションの進行とコインを得られた。レーザーを使うのは少し惜しいが、序盤の手早い処理としては妥当。</dd>
+<dt>読めなかった点</dt><dd class="note">2回目の戦闘がスキルによるものか通常戦闘か、攻撃(中)を使ったかどうか(手札の減り方から推測)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>戦闘して撃破</td><td>反撃なし。コインとHP回復が得られる。カード1枚を失う程度の損。</td></tr><tr><td>スルー</td><td>コインを逃し、次の敵フェイズに狙われるリスクが残る。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>レーザー→カードなしで攻撃</td><td>撃破率83.3%。カードを温存できる。</td></tr><tr><td>レーザー→攻撃(中)で攻撃</td><td>撃破率96.3%で安定。</td></tr><tr><td>レーザー→攻撃(大)で攻撃</td><td>撃破率98.1%だが過剰。</td></tr></tbody></table>
 </article><article id="t003-2">
 <header><span class="time">01:36</span><span class="type">戦闘(防御)</span>
-<span class="pill ok">許容</span><span class="note">確度: 中</span></header>
+<span class="pill doubt">疑問手</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00146.jpg"><img loading="lazy" src="frames/f00146.jpg" alt="01:36の画面"></a><a href="frames/f00147.jpg"><img loading="lazy" src="frames/f00147.jpg" alt="01:37の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>敵フェイズに、ナンシーのいるマスで別の魔法のティーポット(HP12、攻撃4)に攻撃された。ナンシーはHP9、防御3(ファイアウォール込み)。手札にはガード(特大)があった。ティーポットの出目は6で攻撃合計10。ナンシーは防御を選び、ガード(特大)(+2)を使った。防御合計は11(防御3+ダイス6+カード2)で1ダメージを受けた(HP9→8)。</dd>
-<dt>推奨</dt><dd class="rec">防御。カードを温存してもよいが、ガード(特大)を使っても問題ない。</dd>
-<dt>実際の行動</dt><dd>防御を選び、ガード(特大)を使用</dd>
-<dt>理由</dt><dd>defense_oddsの結果は、防御(カードなし)が期待ダメージ1.97・最大6・死亡0%、防御(ガード(特大))が期待ダメージ1.1・最大5・死亡0%、回避が期待ダメージ4.58・死亡27.8%。回避は不利なので防御で正しい。ガード(特大)の削減効果は期待0.9点と小さく、HP9なら温存する選択もある。ただし防御カードはナンシーのパッシブで左から捨てられるため、使って損は小さい。防御を選んだのは正解で、カードの使用は好みの範囲。</dd>
-<dt>読めなかった点</dt><dd class="note">ガード(特大)の実際のコスト(特大なので3と推定)、ナンシーの防御ダイスの目(6と読み取った)</dd>
+<dt>状況</dt><dd>敵ターン。3体目の魔法のティーポット(攻撃4)が、同じマスにいたプレイヤーCとプレイヤーDを順に攻撃した。プレイヤーDはHP9、防御力3。手札にガード(特大)があった。</dd>
+<dt>推奨</dt><dd class="rec">カードを使わず防御(防御カードを温存する)</dd>
+<dt>実際の行動</dt><dd>ガード(特大)を使って防御し、1ダメージを受けた(HP8)</dd>
+<dt>理由</dt><dd>敵の攻撃4に対し、防御力3でカードなしでも最大ダメージは6、HP9なので倒されない(死亡0%)。期待ダメージはカードなしで1.97、ガード(特大)を使って1.10で、差は約0.9HPしかない。防御カードは進捗が進むほど価値が上がり、最後の1枚は温存するのが指針なので、HP9からこの程度の被弾にコストの重いガード(特大)を切るのは過剰。実際は敵ダイス6、自分6で、カードなしでも同じ1ダメージだった。回避は成功率44.4%で、失敗すると平均4.58ダメージなので不適。</dd>
+<dt>読めなかった点</dt><dd class="note">防御を選ぶ時点の敵ダイス目、ティーポットの実際の攻撃値(画面の4:4から攻撃4と読んだ)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>防御(ガード(特大)使用)</td><td>期待ダメージ1.1、死亡0%。</td></tr><tr><td>防御(カードなし)</td><td>期待ダメージ1.97、死亡0%。カードを温存できる。</td></tr><tr><td>回避</td><td>成功率44.4%、期待ダメージ4.58、死亡27.8%。不適。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>防御(カードなし)</td><td>期待ダメージ1.97、死亡0%。防御カードを温存できる。</td></tr><tr><td>ガード(特大)を使って防御</td><td>期待ダメージ1.10。差は小さく、カードの無駄遣い。</td></tr><tr><td>回避</td><td>成功率44.4%、失敗時の被害が大きい(期待4.58)。</td></tr></tbody></table>
 </article><article id="t007-0">
-<header><span class="time">02:21</span><span class="type">チップ購入</span>
+<header><span class="time">02:22</span><span class="type">分岐</span>
 <span class="pill best">最善</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f00211.jpg"><img loading="lazy" src="frames/f00211.jpg" alt="02:21の画面"></a><a href="frames/f00213.jpg"><img loading="lazy" src="frames/f00213.jpg" alt="02:22の画面"></a></div>
+<div class="shots"><a href="frames/f00213.jpg"><img loading="lazy" src="frames/f00213.jpg" alt="02:22の画面"></a><a href="frames/f00214.jpg"><img loading="lazy" src="frames/f00214.jpg" alt="02:22の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>手番開始時にコイン15、星0。強化チップショップの表示が出たが、購入画面は映っていない。この後にレベルアップしているので、チップショップでは買っていない。</dd>
-<dt>推奨</dt><dd class="rec">チップショップでは買わず、コイン15をレベルアップ用に残す</dd>
-<dt>実際の行動</dt><dd>チップショップでは購入せず、そのままセーフティポイントへ進んでレベルアップした</dd>
-<dt>理由</dt><dd>スターレベル0〜1は金チップ率が3〜10%と低く、指針は「買わずにそのコインでレベルアップ」。1回目は10コインで、買うと残り5になってレベルアップできなくなる。実際に買わずレベルアップしたので指針どおり。</dd>
-<dt>読めなかった点</dt><dd class="note">チップショップのマスが通過か停止か、購入画面の有無</dd>
+<dt>状況</dt><dd>ナンシーロー(4番手)、スターレベル0、コイン15、HP9/9。H3のショップの上から出発。左に金儲け、右に疾走、下に災厄が見える。分岐は、疾走から始まる道(疾走→モンスター→カード報酬→災厄→金儲け)と、災厄から始まる道(災厄→リカバリー→セーフティポイント)の2つ。</dd>
+<dt>推奨</dt><dd class="rec">画面の左下へ伸びる災厄側の道(災厄→リカバリー→セーフティポイント)</dd>
+<dt>実際の行動</dt><dd>災厄側の道へ進み、3マス先のセーフティポイントで止まった。</dd>
+<dt>理由</dt><dd>コインが15あり、セーフティポイントでレベルアップできる。災厄側の道は3マス先がセーフティポイントで、3以上の目(80%)なら通過か停止でレベルアップの機会がある。逆側の道でセーフティポイントに止まれるのは5%程度で、金儲けまで進んでもコインは増えるがレベルアップはできない。指針の「コインが足りていて届くならセーフティポイントを最優先」に合う。</dd>
+<dt>読めなかった点</dt><dd class="note">正確な出発マスは補足の推定(C3)と食い違う。画面のマス並びからH3と判断した。、直前にいたマス(H2から来たと推定)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>買わずにセーフティポイントでレベルアップ</td><td>コイン15ちょうどでLv1に到達。攻撃が1から2に上がり、バトルコスト上限も+1になる。推奨。</td></tr><tr><td>チップショップで10コインのチップを買う</td><td>コインが5になりレベルアップが遠のく。星0では金チップの期待も薄く損。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>画面の左下へ伸びる災厄側の道(災厄→リカバリー→セーフティポイント)</td><td>セーフティポイントで止まれる確率80%。レベルアップ後はHP回復も期待できる。災厄で2ダメージを受ける可能性はあるが、目標を考えれば小さい。</td></tr><tr><td>画面の右上へ伸びる道(疾走→モンスター→カード報酬→災厄→金儲け)</td><td>セーフティポイントで止まれるのは5%程度。戦闘や金儲けはあるが、レベルアップは遠のく。</td></tr></tbody></table>
 </article><article id="t007-1">
-<header><span class="time">02:23</span><span class="type">分岐</span>
+<header><span class="time">02:23</span><span class="type">レベルアップ</span>
 <span class="pill best">最善</span><span class="note">確度: 高</span></header>
 <div class="shots"><a href="frames/f00215.jpg"><img loading="lazy" src="frames/f00215.jpg" alt="02:23の画面"></a><a href="frames/f00216.jpg"><img loading="lazy" src="frames/f00216.jpg" alt="02:23の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>コイン15でセーフティポイントまで移動し、止まってレベルアップできる位置。HPは9/9で、手札はケーキ2枚、攻撃(大)、狂暴、名刀:ガオー切り。ナンシーの手番としては4番手。</dd>
-<dt>推奨</dt><dd class="rec">セーフティポイントに止まってレベルアップする</dd>
-<dt>実際の行動</dt><dd>セーフティポイントに止まってレベルアップした(コイン15→0、星1つ点灯)</dd>
-<dt>理由</dt><dd>指針は「コインが足りていて届くなら、スタート/セーフティポイントを最優先」。コイン15でLv1に届くので、止まってレベルアップしたのは最善。ナンシーはLv1で攻撃1→2、HP9→11になり、アタッカーの優先事項である早いレベルアップにも合う。カードも使っていない。HP満タンなのでケーキは不要で、狂暴や攻撃カードは殴る相手が近くにいないため温存で妥当。</dd>
-<dt>読めなかった点</dt><dd class="note">分岐の選択肢が画面に出ていたか、ダイスの出目、スキルのCT(丸の数字は2に見える)</dd>
+<dt>状況</dt><dd>セーフティポイントに到達。コイン15でスターレベル0から1へ上げられる。移動の点線はセーフティポイントの先のゲートとイベントまで伸びていた。</dd>
+<dt>推奨</dt><dd class="rec">セーフティポイントで止まってレベルアップする</dd>
+<dt>実際の行動</dt><dd>セーフティポイントで止まり、レベルアップした(コインが15から0になった)。</dd>
+<dt>理由</dt><dd>アタッカーのナンシーローはスターレベルを早く上げるのが最優先。レベルアップでHP・攻撃力・バトルコスト上限が上がり、チップも1枚得られる。目の数のうえでは通過もできたが、止まらない理由はない。コインは15から0になった。</dd>
+<dt>読めなかった点</dt><dd class="note">レベルアップ後のチップ3択の内容と選択(画面に写っていない)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>セーフティポイントに止まってレベルアップ</td><td>優先度1位。Lv1に到達し、HPも回復する。</td></tr><tr><td>別方向へ進む、またはカードを使う</td><td>レベルアップを逃すか、カードを無駄にするだけで利点が薄い。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>止まってレベルアップ</td><td>攻撃が2に上がり、チップを獲得。1回の停止で上がるのは1レベルだけ。</td></tr><tr><td>通過して先へ進む</td><td>レベルアップの機会を逃すだけで、得るものがない。</td></tr></tbody></table>
 </article><article id="t011-0">
-<header><span class="time">03:30</span><span class="type">手番の行動</span>
-<span class="pill ok">許容</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f00320.jpg"><img loading="lazy" src="frames/f00320.jpg" alt="03:30の画面"></a><a href="frames/f00323.jpg"><img loading="lazy" src="frames/f00323.jpg" alt="03:31の画面"></a></div>
-<dl>
-<dt>状況</dt><dd>Round3の手番開始時。HP11/11、コイン5、攻2防1。手札は約8枚(チョコレートケーキ、攻撃(大)、狂暴、名刀:ガオー切り など)。カード使用は0/1で、スキルのCTは残り1に見える。</dd>
-<dt>推奨</dt><dd class="rec">カードは温存し、スキルはCT中なので使わずに移動ダイスを振る。</dd>
-<dt>実際の行動</dt><dd>カード・スキルは使わず移動ダイス3で進んだ。</dd>
-<dt>理由</dt><dd>HPは満タンなので回復カードは不要。攻撃カードは、倒せない看守を殴らないなら使い道がない。狂暴(攻撃+3・被ダメ+1)は殴りに行かないターンに使う理由がない。スキルのCT中は使えない可能性が高い。</dd>
-<dt>読めなかった点</dt><dd class="note">ナンシーの潜在解放の有無、スキルのCT正確値、看守とのマス距離</dd>
-</dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>カードもスキルも使わず移動</td><td>リスクなし。リソースも温存できる。</td></tr><tr><td>狂暴などのバフを使って看守を殴りに行く</td><td>看守のHPは15/23。スターレベル0のコスト上限は3で、ガオー切り(コスト4)は使えない。1ターンで倒せず、反撃や被ダメ増のリスクだけが残る。</td></tr></tbody></table>
-</article><article id="t011-1">
 <header><span class="time">03:30</span><span class="type">戦う/スルー</span>
-<span class="pill ok">許容</span><span class="note">確度: 中</span></header>
+<span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00320.jpg"><img loading="lazy" src="frames/f00320.jpg" alt="03:30の画面"></a><a href="frames/f00323.jpg"><img loading="lazy" src="frames/f00323.jpg" alt="03:31の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>看守(15/23、攻撃5)が移動ルート付近にいる。ナンシーは潜在解放前とみられ、自分から戦闘するとバトルカードが捨てられる。</dd>
-<dt>推奨</dt><dd class="rec">看守とは戦闘せずスルーする。</dd>
-<dt>実際の行動</dt><dd>戦闘せずそのまま進んだ(戦闘画面はナンシーのものではない)。</dd>
-<dt>理由</dt><dd>攻撃2+ダイス6面+コスト3以内のカード(攻撃(大)なら最大+6)では、15HPの看守を1ターンで倒す見込みは薄い。倒せないうえ、自分から戦闘するとバトルカードを失う。攻撃は温存するのが妥当。</dd>
-<dt>読めなかった点</dt><dd class="note">看守の反撃の有無、看守の防御値</dd>
+<dt>状況</dt><dd>ナンシーロー(攻撃2・防御1、HP11/11、コイン5、スター1)。進路上に看守(HP15/23、すでに累計8ダメージを受けている)がいる。手札は攻撃(大)2枚、名刀:ガオー切り、狂暴、チョコレートケーキ2枚など。この手番はスキルのボタンが見えず、使えない状態に見える。</dd>
+<dt>推奨</dt><dd class="rec">看守とは戦わずに通過する</dd>
+<dt>実際の行動</dt><dd>戦闘せず通過してショップへ進んだ</dd>
+<dt>理由</dt><dd>看守はHP15で防御2以上、狂気では攻撃5以上のエリートで、累計5ダメージを超えたので全員を殴る状態。こちらは攻撃2に攻撃(大)+ガオー切り(コスト合計6、バトルコスト上限4なので全部は使えない)を足しても、倒しきれる見込みは低い。しかも自分から戦闘するとナンシーはバトルカードを左から捨てる。ミッション(看守3体)は大きな報酬だが、今の火力で無理に削る場面ではない。通過は妥当。</dd>
+<dt>読めなかった点</dt><dd class="note">看守が止まっていた正確な位置(進路上と読んだ)、看守の現在の防御力(進捗イベントで上がっている可能性あり)、スキルのCT</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>看守をスルー</td><td>被害なし。バトルカードも保持できる。</td></tr><tr><td>看守を殴る</td><td>撃破できる見込みが低く、バトルカードを失い、反撃を受けるおそれもある。</td></tr></tbody></table>
-</article><article id="t011-2">
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>戦わずに通過</td><td>バトルカードを失わず、反撃も受けない。妥当。</td></tr><tr><td>攻撃カードを使って看守と戦う</td><td>撃破は難しく、バトルカードを捨てる。終盤の決め所でもないので割に合わない。</td></tr></tbody></table>
+</article><article id="t011-1">
 <header><span class="time">03:31</span><span class="type">ショップ</span>
-<span class="pill best">最善</span><span class="note">確度: 中</span></header>
+<span class="pill ok">許容</span><span class="note">確度: 低</span></header>
 <div class="shots"><a href="frames/f00323.jpg"><img loading="lazy" src="frames/f00323.jpg" alt="03:31の画面"></a><a href="frames/f00324.jpg"><img loading="lazy" src="frames/f00324.jpg" alt="03:32の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ショップを通過した(画像3)。コインは5のまま。スターレベル0でレベルアップまで15コイン必要。手札はすでに多い。</dd>
-<dt>推奨</dt><dd class="rec">買わずに貯金する。</dd>
-<dt>実際の行動</dt><dd>購入せず通過した(コインは5のまま)。</dd>
-<dt>理由</dt><dd>序盤はカード購入よりレベルアップ用の貯金を優先する。手札は既に8枚近く、カードの質も足りている。5コインを振り込む相手もいない(自分がアタッカー)。</dd>
-<dt>読めなかった点</dt><dd class="note">ショップの品揃え</dd>
+<dt>状況</dt><dd>ショップにちょうど止まり、カードを1枚もらった(手札6→7枚)。コインは5のままで、購入は確認できない。手札に防御カードは見当たらない。</dd>
+<dt>推奨</dt><dd class="rec">防御カードが並んでいれば3コインで1枚買う。なければコインを貯める</dd>
+<dt>実際の行動</dt><dd>購入せず(コインは5のまま)</dd>
+<dt>理由</dt><dd>スター1で次のレベルアップは20コインと遠い。ただ、狂気は敵の攻撃が高く、手札に防御カードが見えない。なので防御カードが売っていれば買う価値がある。購入画面が写っておらず、品ぞろえも分からないので、買わなかったことは断定的に評価できない。5コインは次の手番以降の購入や振込みにも回せる。</dd>
+<dt>読めなかった点</dt><dd class="note">ショップの品ぞろえ、購入画面、振込みの有無</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>買わずに貯金</td><td>レベルアップ(15コイン)に向けて貯金できる。手札も十分。</td></tr><tr><td>カードを購入</td><td>3コインは重く、手札も溢れ気味で得が小さい。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>購入せずコインを温存</td><td>ショップの中身が不明なので許容範囲。</td></tr><tr><td>防御カードがあれば購入</td><td>防御カードが手札に無いので、並んでいれば有力。</td></tr></tbody></table>
 </article><article id="t015-0">
 <header><span class="time">04:25</span><span class="type">手番の行動</span>
 <span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00406.jpg"><img loading="lazy" src="frames/f00406.jpg" alt="04:25の画面"></a><a href="frames/f00415.jpg"><img loading="lazy" src="frames/f00415.jpg" alt="04:31の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>手番開始時。HP11/11、攻撃5・防御1、コイン5。手札は狂暴×2、チョコレートケーキ×2、攻撃(大)×2、名刀:ガオー切り。右に大怪盗(HP16/16)。カード0/1、スキル使用可。</dd>
-<dt>推奨</dt><dd class="rec">狂暴を自分に使い、このあとの戦闘に攻撃+3を乗せる</dd>
-<dt>実際の行動</dt><dd>狂暴を自分に使用(使用者・対象とも自分のアイコン)</dd>
-<dt>理由</dt><dd>狂暴は攻撃+3で、被ダメ+1が2ターン続く。この手番に大怪盗とグリーティーポットの2戦を予定していて、攻撃+3が2戦に乗る。HP11と余裕があり、被ダメ+1の負担は小さい。実際、攻撃力は5から10に上がった(ファイアウォール分を含むと思われる)。この手番の後半の攻撃力が実際に10まで上がっており、使う価値はあった。被ダメ+1はあとでゴクチョーから受けたダメージに1だけ乗った。</dd>
-<dt>読めなかった点</dt><dd class="note">使用後の攻撃力・防御力の内訳(ファイアウォールとの分離)</dd>
+<dt>状況</dt><dd>ナンシーロー(スター1、HP11/11、コイン5、攻撃5・防御1)。手札はチョコレートケーキ×2、狂暴×2、攻撃(大)2枚前後、名刀：ガオー切り。この手番はこのあと攻撃する予定。</dd>
+<dt>推奨</dt><dd class="rec">狂暴を自分に使い、攻撃+3してから戦闘する</dd>
+<dt>実際の行動</dt><dd>狂暴を自分に使用(カード1/1)</dd>
+<dt>理由</dt><dd>カード使用は1回だけで、攻撃する手番なら攻撃+3の狂暴は使い得。被ダメ+1は、HP満タンで敵の攻撃が低い今なら許容できる。効果は2ターン続くので、続くグリーティーポット戦まで乗る。</dd>
+<dt>読めなかった点</dt><dd class="note">攻撃(大)の正確な枚数(手札の端が見切れている)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>狂暴を自分に使う</td><td>攻撃+3が2戦に乗る。被ダメ+1は軽微。最善</td></tr><tr><td>使わず攻撃(大)だけで戦う</td><td>撃破率が下がる。2戦目のポット撃破も厳しくなる</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>狂暴を自分に使う</td><td>攻撃+3が2ターン続く。この手番で大怪盗とポットの2戦するので効率が良い</td></tr><tr><td>カードを使わずに戦う</td><td>攻撃が3低く、撃破率が大きく下がる</td></tr></tbody></table>
 </article><article id="t015-1">
 <header><span class="time">04:35</span><span class="type">戦闘(攻撃)</span>
 <span class="pill ok">許容</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00419.jpg"><img loading="lazy" src="frames/f00419.jpg" alt="04:35の画面"></a><a href="frames/f00422.jpg"><img loading="lazy" src="frames/f00422.jpg" alt="04:37の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>大怪盗(HP16、防御約2、反撃持ち、攻撃5)。ナンシーは攻撃10(狂暴込み)、バトルコスト上限4。手札に攻撃(大)×2。スキルが使える。テルが同行して追撃を持つ。</dd>
-<dt>推奨</dt><dd class="rec">スキルで戦闘(反撃なし)し、攻撃(大)×2を使う</dd>
-<dt>実際の行動</dt><dd>スキルで大怪盗を攻撃し、攻撃(大)×2を使用。15ダメージで残りHP1、テルの追撃で撃破。コインが5→15</dd>
-<dt>理由</dt><dd>スキルでの戦闘は距離があれば反撃を受けず、バトルカードも失わない。攻撃(大)×2(コスト4=上限)での単独撃破率は計算上44%、期待ダメージ15。カードなしでは0%。実際は15ダメージで残りHP1となり、テルの追撃で撃破できた。大怪盗は反撃の攻撃力が5と高い。反撃なしのスキルで殴ったのは妥当。2枚使いは過剰気味だが、撃破で+10コインが得られ、大怪盗撃破のミッションも進む。</dd>
-<dt>読めなかった点</dt><dd class="note">大怪盗の正確な防御値、テルの追撃ダメージ</dd>
+<dt>状況</dt><dd>スキルで、遠くにいる大怪盗(HP16、防御2程度、反撃持ち)を指定して戦闘。攻撃は狂暴とテルの憑依込みで約10、バトルコスト上限4。使える攻撃カードは攻撃(大)×2(コスト2ずつ)と名刀：ガオー切り(コスト4)。</dd>
+<dt>推奨</dt><dd class="rec">名刀：ガオー切りで確実に倒しにいく。または攻撃(大)2枚でテルの追撃に期待する</dd>
+<dt>実際の行動</dt><dd>攻撃(大)2枚(+1、+3)でスキル戦闘。15ダメージを与えHP1が残り、テルの追撃で撃破したとみられる</dd>
+<dt>理由</dt><dd>attack_odds の結果は次のとおり。カードなしの撃破率は0%。攻撃(大)1枚で9.3%。名刀：ガオー切りは65%(期待ダメージ18.5)。攻撃(大)2枚は平均が7ほどで、ガオー切りより低い。ただし攻撃(大)2枚を使えばテルの狐火が溜まり、追撃で倒す余地が残る。この手番でガオー切りを温存でき、後のポット戦にも使える。実際は+1と+3の低い出目で15ダメージにとどまり、HP1が残った。そこをテルの追撃で倒せた。結果は良いが、撃破率だけなら次善。</dd>
+<dt>読めなかった点</dt><dd class="note">大怪盗との正確な距離、手札の攻撃カードの正確な内訳</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>スキル+攻撃(大)×2</td><td>単独撃破44%、残りHP1でも追撃で撃破。反撃なし。妥当</td></tr><tr><td>攻撃(大)1枚だけ</td><td>単独撃破9%。追撃頼みで不安定</td></tr><tr><td>スルー</td><td>大怪盗は4コインを奪う敵。放置すると損</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>名刀：ガオー切りを使う</td><td>撃破率65%、反撃を受ける確率35%。だが次のポット戦に使うカードがなくなる</td></tr><tr><td>攻撃(大)2枚を使う(実際)</td><td>平均ダメージはやや低く(低い出目で15ダメージ止まり)、テルの追撃込みで倒せた。ガオー切りを温存できた</td></tr><tr><td>カードなし</td><td>撃破率0%で、ミッション対象に決め手を欠く</td></tr></tbody></table>
 </article><article id="t015-2">
-<header><span class="time">04:42</span><span class="type">手番の行動</span>
-<span class="pill na">判定不能</span><span class="note">確度: 低</span></header>
-<div class="shots"><a href="frames/f00430.jpg"><img loading="lazy" src="frames/f00430.jpg" alt="04:42の画面"></a><a href="frames/f00434.jpg"><img loading="lazy" src="frames/f00434.jpg" alt="04:44の画面"></a></div>
-<dl>
-<dt>状況</dt><dd>大怪盗撃破後、コイン15でスタークラスはLv1。移動ダイスの結果、自分のセーフティポイントに到達。Lv2にはコイン20が必要。</dd>
-<dt>推奨</dt><dd class="rec">出目しだいなので特になし。セーフティポイント方面への移動は妥当</dd>
-<dt>実際の行動</dt><dd>セーフティポイントに到達</dd>
-<dt>理由</dt><dd>移動の出目は判断対象ではない。コイン15ではLv2に届かない(必要20)ので、レベルアップの機会はなかった。到達後の戦闘でコインが27になったが、すでに到達済みなので今ターンはレベルアップできない。次の機会を作る必要がある。</dd>
-<dt>読めなかった点</dt><dd class="note">移動ダイスの出目、分岐があったか</dd>
-</dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>セーフティポイントへ移動</td><td>レベルアップはできないが害はない</td></tr></tbody></table>
-</article><article id="t015-3">
-<header><span class="time">04:50</span><span class="type">戦闘(攻撃)</span>
+<header><span class="time">04:42</span><span class="type">分岐</span>
 <span class="pill ok">許容</span><span class="note">確度: 中</span></header>
+<div class="shots"><a href="frames/f00429.jpg"><img loading="lazy" src="frames/f00429.jpg" alt="04:42の画面"></a><a href="frames/f00430.jpg"><img loading="lazy" src="frames/f00430.jpg" alt="04:42の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>スキルでの戦闘のあと、疾走マスで再びダイスを振る手番。コイン15、HP11/11。分岐は2つ。画面左上へ伸びる道(リカバリー→セーフティポイント→突撃ゲート→金儲け。先にグリーティーポットがいる)と、右上へ伸びる道(災厄→強化チップショップ…)。点線が両方向に出ている。</dd>
+<dt>推奨</dt><dd class="rec">左上の道(リカバリー→セーフティポイント→突撃ゲート→金儲け)</dd>
+<dt>実際の行動</dt><dd>左上の道(ポットがいる側)へ進んだ</dd>
+<dt>理由</dt><dd>route_odds では、左上の道は4マスで金儲けに止まる。右上の道は4マスで他人のスタートポイントに止まり、メリットが薄い。左上の道はセーフティポイントを通り、先のグリーティーポットはミッション対象のエリート(撃破9コイン)。ガオー切りが手元にあり、狂暴も乗っている。コイン15ではセーフティポイントでレベルアップ(20必要)はできない。罪証が付いてゴクチョーに狙われる点は気になるが、ポット撃破を進めるなら妥当。</dd>
+<dt>読めなかった点</dt><dd class="note">出目の数字(点線の長さから4と判断)</dd>
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>左上の道(リカバリー→セーフティポイント→突撃ゲート→金儲け、ポット側)</td><td>ポット戦+金儲け。撃破すれば+9コインとミッション進行。外すとポットとゴクチョーに挟まれる危険あり</td></tr><tr><td>右上の道(災厄→強化チップショップ→…)</td><td>コイン15のチップショップは勧められず、得るものが少ない</td></tr></tbody></table>
+</article><article id="t015-3">
+<header><span class="time">04:50</span><span class="type">戦う/スルー</span>
+<span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00443.jpg"><img loading="lazy" src="frames/f00443.jpg" alt="04:50の画面"></a><a href="frames/f00448.jpg"><img loading="lazy" src="frames/f00448.jpg" alt="04:53の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>グリーティーポット(狂気、HP18、防御4、反撃持ち、約5の攻撃)と戦闘。ナンシーは攻撃10、防御3、HP11、狂暴で被ダメ+1。残りの攻撃カードは名刀:ガオー切り(コスト4)。手札はケーキ×2と狂暴など。</dd>
-<dt>推奨</dt><dd class="rec">ガオー切りを使って殴る(撃破を狙う)</dd>
-<dt>実際の行動</dt><dd>名刀:ガオー切り(+17)で攻撃し、29-10で撃破。コイン+9</dd>
-<dt>理由</dt><dd>カードなしだと撃破0%で、反撃を100%受ける(期待被害3.4)。ガオー切りなら撃破45%、期待ダメージ16.5。反撃を受ける確率は55%、期待被害1.86、死亡0%。撃破すれば+9コインとミッション進行(ポット2体撃破でチップ)。実際は+17を引いて29、ポット防御10を差し引いて19ダメージで撃破した。反撃のリスクは小さい。ボス前に大型カードを使う点は気になるが、ミッションとコインのために許容できる。撃破で罪証を得てゴクチョーの標的になる点は織り込み済みのはず。</dd>
-<dt>読めなかった点</dt><dd class="note">ポットの罪証の数、ポットと接触した経緯(自分から仕掛けたか)</dd>
+<dt>状況</dt><dd>金儲けの手前で止まった先にグリーティーポット(HP18、防御4程度、反撃持ち)。自分は攻撃約10、HP11、コストは4まで。手札の攻撃カードは名刀：ガオー切りのみ。</dd>
+<dt>推奨</dt><dd class="rec">名刀：ガオー切りを使って戦う</dd>
+<dt>実際の行動</dt><dd>ガオー切りで戦闘し撃破</dd>
+<dt>理由</dt><dd>attack_odds では、カードなしの撃破率0%。ガオー切りなら撃破率45%、期待ダメージ16.5、反撃を受ける確率55%で、反撃の期待被害は1.3と小さい。死亡率は0%。ポットは撃破9コインのミッション対象で、反撃で受ける被害も小さいので戦う価値は高い。結果はガオー切り+17で23ダメージの撃破になった。罪証が付いてゴクチョーに狙われやすくなる点だけは意識したい。</dd>
+<dt>読めなかった点</dt><dd class="note">ポットの攻撃力と防御の細かい値</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>名刀:ガオー切りで攻撃</td><td>撃破45%、反撃被害の期待1.86、死亡0%。許容</td></tr><tr><td>カードなしで攻撃</td><td>撃破0%で反撃を確実に受ける。損が大きい</td></tr><tr><td>殴らない</td><td>リスクはないが、コインとミッションが進まない</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ガオー切りで戦う</td><td>撃破率45%、被害は小さい。撃破で+9コインとミッション進行</td></tr><tr><td>戦わずスルー</td><td>ミッションが進まず、ポットが残ったまま次の敵ターンを迎える</td></tr></tbody></table>
 </article><article id="t015-4">
-<header><span class="time">05:13</span><span class="type">戦闘(防御)</span>
+<header><span class="time">05:09</span><span class="type">戦闘(防御)</span>
 <span class="pill best">最善</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f00478.jpg"><img loading="lazy" src="frames/f00478.jpg" alt="05:13の画面"></a><a href="frames/f00480.jpg"><img loading="lazy" src="frames/f00480.jpg" alt="05:14の画面"></a></div>
+<div class="shots"><a href="frames/f00473.jpg"><img loading="lazy" src="frames/f00473.jpg" alt="05:09の画面"></a><a href="frames/f00478.jpg"><img loading="lazy" src="frames/f00478.jpg" alt="05:13の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>敵ターン。ゴクチョー(攻撃5)が罪証持ちのナンシーを攻撃。ナンシーはHP11、防御3、狂暴で被ダメ+1。敵のダイスは2。手札はケーキ×2、狂暴、シャドウアタックで、防御カードなし。</dd>
-<dt>推奨</dt><dd class="rec">防御カードなしで防御</dd>
-<dt>実際の行動</dt><dd>防御を選んだとみられる(-3ダメージ、HP11→8)</dd>
-<dt>理由</dt><dd>防御の期待ダメージは2.5、最大4、死亡0%。回避は成功率66.7%だが、失敗すると最大8ダメージで、期待2.67と防御より悪い。HP11なので耐えられるが、分散の小さい防御が良い。実際は-3で済み、HP8になった(狂暴の被ダメ+1込みで、防御を選んだと推定)。</dd>
-<dt>読めなかった点</dt><dd class="note">防御か回避かを選ぶ画面、ナンシー自身のダイス目</dd>
+<dt>状況</dt><dd>敵ターン。ゴクチョー(攻撃は画面上5)に攻撃される。自分はHP11、防御3(テル憑依込み)、狂暴で被ダメ+1。手札に防御カードなし(ケーキ2、狂暴、シャドウアタックのみ)。ゴクチョーのダイスは2。</dd>
+<dt>推奨</dt><dd class="rec">防御(カードなし)</dd>
+<dt>実際の行動</dt><dd>防御を選び3ダメージ(HP11→8)</dd>
+<dt>理由</dt><dd>defense_odds(敵のダイス2)では、防御の期待ダメージは2.5、最大4、死亡率0%。回避は成功率66.7%だが失敗すると最大8で、期待ダメージは2.67。HP11で余裕があり、防御と回避の差は小さい。防御なら最悪でも4で、安定している。実際は3ダメージ(HP11→8)で、防御を選んだと推定できる。</dd>
+<dt>読めなかった点</dt><dd class="note">防御/回避の選択表示(画面に出ていない)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>防御(カードなし)</td><td>期待2.5、最大4、死亡0%。推奨</td></tr><tr><td>回避</td><td>成功率66.7%、期待2.67、失敗時最大8</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>防御(カードなし)</td><td>期待ダメージ2.5、最大4。死亡率0%で安定</td></tr><tr><td>回避</td><td>成功率66.7%で期待ダメージ2.67、失敗なら8ダメージ。差がほぼなく分散だけ大きい</td></tr></tbody></table>
 </article><article id="t019-0">
 <header><span class="time">05:59</span><span class="type">手番の行動</span>
 <span class="pill ok">許容</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f00548.jpg"><img loading="lazy" src="frames/f00548.jpg" alt="05:59の画面"></a><a href="frames/f00555.jpg"><img loading="lazy" src="frames/f00555.jpg" alt="06:02の画面"></a></div>
+<div class="shots"><a href="frames/f00548.jpg"><img loading="lazy" src="frames/f00548.jpg" alt="05:59の画面"></a><a href="frames/f00553.jpg"><img loading="lazy" src="frames/f00553.jpg" alt="06:01の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>HP8/11、27コイン、Lv1(攻撃表示8、防御1)。手札はチョコレートケーキ2枚、狂暴、シャドウアタック。ゴクチョー12/12が隣のマス、看守15/23も近い。罪証2個を持つので両方に狙われる。カードは0/1。</dd>
-<dt>推奨</dt><dd class="rec">チョコレートケーキを1枚使ってHPを回復し、ゴクチョーと看守は殴らずにスタートポイントへ向かってレベルアップする。</dd>
-<dt>実際の行動</dt><dd>チョコレートケーキを使用(HP8→10)し、戦闘せずに移動した。ダイス3でスタートポイントに止まった。</dd>
-<dt>理由</dt><dd>ゴクチョーに対しては、攻撃8にシャドウアタックを足しても撃破率は16.7%(期待ダメージ9)で、カードなしの撃破率は0%。倒せないうえ、倒しても罪証が3個目になって復活で強化されるだけ。ナンシーは自分から戦闘するとバトルカードを捨てる。看守はHP15/23あり倒せない。27コインならスタートポイントでLv2(20コイン)に上がれるので、倒さずに移動するのは指針通り。ケーキは、スタートポイントの回復が2あるのでHPが1余る。ただ、ダイスを振る前にしかカードは使えず、その時点で到達は確定していない。罪証持ちで狙われやすいことも踏まえると、使っても損は小さい。</dd>
-<dt>読めなかった点</dt><dd class="note">ナンシーのスキルのCT(数字は2に見えるが小さく不確か)、攻撃表示8の内訳(攻撃バフ2つ)と、Lv2後にそれが消えた理由、敵の現在の攻撃力と防御力(ゴクチョーは復活済みでHP12/12、防御2・攻撃4と仮定して計算)</dd>
+<dt>状況</dt><dd>ナンシーロー、HP8/11、コイン27、スター1。手札はチョコレートケーキ2枚、狂暴、シャドウアタック。近くにゴクチョーと看守がいるが、殴れる敵は見当たらない。</dd>
+<dt>推奨</dt><dd class="rec">チョコレートケーキ1枚を使ってHPを回復する。ただしスタートポイントに届く見込みがあれば温存しても同じくらい良い。</dd>
+<dt>実際の行動</dt><dd>チョコレートケーキを自分に使用(HP8→10)</dd>
+<dt>理由</dt><dd>HP8/11で、敵ターンにはゼリーウィザードの3ダメージなどを受けうる。ケーキ1枚で10まで回復しておくのは妥当。スタートポイントに止まれば+2されるので、回復の一部は無駄になる(実際は11で頭打ち)。ただしどこに止まるかは出目次第で分からない。狂暴は殴りに行く場面がなく、シャドウアタックは反撃持ちの敵がいないので使わなかった。これは妥当。</dd>
+<dt>読めなかった点</dt><dd class="note">移動前に使えるスキルの有無と残りCT、ケーキを使う前に移動先の見込みを考えていたか</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ケーキを使って殴らずスタートポイントへ</td><td>実際の行動。Lv2に到達。回復が1余るだけで損は小さい。</td></tr><tr><td>シャドウアタックでゴクチョーを殴る</td><td>撃破率16.7%。倒せなければ反撃なしで9前後のダメージ止まり。倒しても罪証が増える。バトルカードも捨てるので不採用。</td></tr><tr><td>ケーキを温存して移動</td><td>スタートポイントに着けば回復2が付くので、ケーキは温存できる。ただ、止まれるかは出目次第。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>チョコレートケーキを使う</td><td>HPが10になる。スタートポイントに止まれば11まで戻り、1〜2回復分が無駄になるが小さい損。</td></tr><tr><td>カードを使わない</td><td>ケーキを1枚温存できる。止まる先によってはHPが低いまま敵ターンを迎える。</td></tr></tbody></table>
 </article><article id="t019-1">
+<header><span class="time">05:59</span><span class="type">分岐</span>
+<span class="pill ok">許容</span><span class="note">確度: 低</span></header>
+<div class="shots"><a href="frames/f00548.jpg"><img loading="lazy" src="frames/f00548.jpg" alt="05:59の画面"></a><a href="frames/f00553.jpg"><img loading="lazy" src="frames/f00553.jpg" alt="06:01の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>金儲けのマスから、右上のイベント側の道と、災厄側の道に分かれる。手番順は4番手で、コイン27のためスタートポイントでレベルアップできる。自分のスタートポイントまでは8〜9歩。</dd>
+<dt>推奨</dt><dd class="rec">どちらも許容。レベルアップのしやすさだけなら、災厄→カード報酬→モンスターと続く道の方がわずかに高い。</dd>
+<dt>実際の行動</dt><dd>イベント側の道へ進み、出目3で疾走に止まって再ダイス、自分のスタートポイントへ</dd>
+<dt>理由</dt><dd>route_oddsでは、レベルアップできる(自分のスタートポイントかセーフティポイントを通過・停止する)確率はおよそ次のとおり。イベント側は出目9・10と、疾走(出目3)からの再ダイスを合わせて約25%。災厄側は出目8〜10が約30%、疾走(出目4)からの再ダイスを含めて約35%。ただし災厄側はモンスターのマス(出目3)や災厄マスで止まる可能性があり、画面の敵の位置も絡む。イベント側には疾走があり、出目3を引けば再ダイスで一気に届く。ゴクチョーと看守が近くにいる中、これらから離れる意味もある。差は小さく、実際の結果もレベルアップできた。許容。</dd>
+<dt>読めなかった点</dt><dd class="note">ゴクチョー・看守の正確な位置と、各道の途中にいる敵</dd>
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>右上の道(イベント→強化チップショップ→疾走→1番手のスタートポイント→…)</td><td>レベルアップできる確率は約25%。疾走で伸びる余地があり、近くのゴクチョー・看守から離れられる。</td></tr><tr><td>災厄→カード報酬→モンスター→疾走→ショップと続く道</td><td>レベルアップできる確率は約35%と少し高い。モンスターや災厄で止まる事故がある。</td></tr></tbody></table>
+</article><article id="t019-2">
+<header><span class="time">06:01</span><span class="type">チップ購入</span>
+<span class="pill best">最善</span><span class="note">確度: 中</span></header>
+<div class="shots"><a href="frames/f00553.jpg"><img loading="lazy" src="frames/f00553.jpg" alt="06:01の画面"></a><a href="frames/f00555.jpg"><img loading="lazy" src="frames/f00555.jpg" alt="06:02の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>通過で買える強化チップショップ(コイン27、スター1)を通った。購入せずに進んだとみられる。</dd>
+<dt>推奨</dt><dd class="rec">買わずに通過してレベルアップ用のコインを残す。</dd>
+<dt>実際の行動</dt><dd>購入せずに通過(コインは27から35へ増え、減っていない)</dd>
+<dt>理由</dt><dd>スター0〜1のチップは金の出現率が低く、左の枠は青固定。ここで10コイン使うと17になり、レベルアップに必要な20に届かなくなる。ガイドどおり、貯金してレベルアップを優先するのが正しい。実際にその後レベルアップできた。</dd>
+<dt>読めなかった点</dt><dd class="note">ショップ画面の実際の操作</dd>
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>買わずに通過</td><td>レベルアップ用のコインを維持できる。最善。</td></tr><tr><td>チップを購入(10コイン)</td><td>残り17でレベルアップに届かなくなる。損。</td></tr></tbody></table>
+</article><article id="t019-3">
 <header><span class="time">06:03</span><span class="type">レベルアップ</span>
 <span class="pill best">最善</span><span class="note">確度: 高</span></header>
 <div class="shots"><a href="frames/f00556.jpg"><img loading="lazy" src="frames/f00556.jpg" alt="06:03の画面"></a><a href="frames/f00572.jpg"><img loading="lazy" src="frames/f00572.jpg" alt="06:13の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>スタートポイントに止まり、HP+2で11/11。コインは35(+8)。Lv1からLv2に上がるコストは20。</dd>
-<dt>推奨</dt><dd class="rec">スタートポイントでLv2にレベルアップする。</dd>
-<dt>実際の行動</dt><dd>Lv2にレベルアップした(35→15コイン)。</dd>
-<dt>理由</dt><dd>コインは35あり、Lv2のコスト20を払っても15残る。アタッカーは早くレベルを上げるのが最優先。Lv2で攻撃が4になり、バトルコスト上限も+1される。罪証持ちで狙われているので、耐久の面でも上げる価値がある。</dd>
-<dt>読めなかった点</dt><dd class="note">レベルアップ時のチップ3択の内容と、選んだチップ(画面が切り替わって写っていない)</dd>
+<dt>状況</dt><dd>自分のスタートポイントに止まった。コイン35、スター1。レベル2に必要なのは20コイン。HPは10/11から11/11へ回復した。</dd>
+<dt>推奨</dt><dd class="rec">スタートポイントでレベルアップする。</dd>
+<dt>実際の行動</dt><dd>レベルアップ(コイン35→15、スター2つ)</dd>
+<dt>理由</dt><dd>コインが足りていて、アタッカーのレベルアップは最優先。止まって実行し、コインは35から15、スターは1から2になった。攻撃力とバトルコスト上限も上がる。</dd>
+<dt>読めなかった点</dt><dd class="note">選んだチップの内容(3択の画面が写っていない)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>Lv2にレベルアップ</td><td>実際の行動。最優先で正しい。コインが15残る。</td></tr><tr><td>レベルアップせず温存</td><td>メリットがない。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>レベルアップする</td><td>アタッカーの強化で最優先。実行済み。</td></tr><tr><td>しない</td><td>コインを持て余すだけで損。</td></tr></tbody></table>
 </article><article id="t022-0">
-<header><span class="time">07:04</span><span class="type">手番の行動</span>
+<header><span class="time">07:02</span><span class="type">手番の行動</span>
 <span class="pill doubt">疑問手</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f00652.jpg"><img loading="lazy" src="frames/f00652.jpg" alt="07:04の画面"></a><a href="frames/f00655.jpg"><img loading="lazy" src="frames/f00655.jpg" alt="07:06の画面"></a></div>
+<div class="shots"><a href="frames/f00649.jpg"><img loading="lazy" src="frames/f00649.jpg" alt="07:02の画面"></a><a href="frames/f00652.jpg"><img loading="lazy" src="frames/f00652.jpg" alt="07:04の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>R6の手番開始時、HP11/11、攻撃4、防御1、22コイン。手札はチョコレートケーキ、狂暴、シャドウアタック、ガード(中)、攻撃(特大)など。スキルのCTは1。近くにゼリーウィザード(HP21、攻撃4)がいたが、このターンは攻撃していない。</dd>
-<dt>推奨</dt><dd class="rec">殴らないなら狂暴は使わず温存する。次のターンにスキルや攻撃を仕掛けるときに使う。</dd>
-<dt>実際の行動</dt><dd>狂暴を自分に使い、攻撃を7にした(カード1/2)</dd>
-<dt>理由</dt><dd>手番中に攻撃していない。しかもゼリーウィザードの近くで手番を終えたので、狂暴の「被ダメ+1」だけが敵ターンに乗った。実際に2回被弾して計2点余分に受けている。攻撃+3が活きるのは次のターンの攻撃(スキル含む)になる。狂暴は2ターン続くので、R7でも攻撃7は残っていた。ただ、攻撃(特大)+シャドウアタックを使っても、HP21のゼリーウィザードを今ターンで倒せる確率は約6%(カード+狂暴で攻撃力7の想定)。倒せない相手のために被ダメ+1を背負う理由は薄い。</dd>
-<dt>読めなかった点</dt><dd class="note">使用カードが狂暴だと断定できる絵は読めなかった。手札から消えたことと攻撃力が4→7になったことからの推測。、移動の出目と通ったルート</dd>
+<dt>状況</dt><dd>狂気難易度、ラウンド6。ナンシーロー(スター2、HP11/11、攻撃4、防御1、コイン22)。手札はチョコレートケーキ、狂暴、シャドウアタック、ガード(中)、攻撃(特大)。ダイスを振る前に、狂暴を自分に使った。</dd>
+<dt>推奨</dt><dd class="rec">狂暴は使わない。攻撃するなら、ゼリーウィザード(反撃なし)を殴れる場面にだけ使う。殴らないなら温存する。</dd>
+<dt>実際の行動</dt><dd>狂暴を自分に使用(攻撃4→7)。その後攻撃はせず、ショップへ移動した。</dd>
+<dt>理由</dt><dd>狂暴は攻撃+3と引き換えに、2ターンの被ダメ+1が付く。画面を見る限り、この手番でナンシーは一度も攻撃していない。ゼリーウィザードのHPは21/21のままだった。バフの利益がないまま被ダメ+1だけが残った。実際、敵フェイズのウィザードの攻撃2回で、通常より合計2ダメージ多く受けた(HP11→7→5)。ゼリーウィザードは反撃しないので、殴るなら無リスクで削れる敵ではある。ただ、攻撃7に特大などを足しても1手番では倒しきれない。撃破しない前提なら、狂暴を切る理由が薄い。</dd>
+<dt>読めなかった点</dt><dd class="note">移動前のナンシーの正確な位置(推定は自分のスタートポイント)、隣にいたゼリーウィザードが進路上にいたか、ナンシーが潜在解放済みか</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>狂暴を自分に使う(実際の行動)</td><td>このターンは殴らず、攻撃+3が使われない。被ダメ+1で敵ターンの被弾が2点増えた。次ターンに持ち越せた点は小さな利点。</td></tr><tr><td>狂暴を温存する</td><td>被ダメ+1を負わずに済む。次のターンに使えばスキルや攻撃に合わせられる。</td></tr><tr><td>手札のダメージ系カードで削る</td><td>ゼリーウィザード21は1枚では倒せない。レールキャノンの6ダメージを足しても、特大+シャドウで撃破率は約50%止まり。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>狂暴を使わず、そのまま移動する</td><td>被ダメ+1を負わずに済む。今回は2回の被弾で合計2ダメージ軽くなっていた。</td></tr><tr><td>狂暴を使い、ウィザードを殴る</td><td>反撃なしで削れるが、1手番では撃破しにくい。バトルカードも捨てる(ナンシーのパッシブ)。</td></tr><tr><td>実際: 狂暴を自分に使い、攻撃せず移動</td><td>バフを活かさず、デメリットだけを受けた。</td></tr></tbody></table>
 </article><article id="t022-1">
 <header><span class="time">07:06</span><span class="type">ショップ</span>
 <span class="pill ok">許容</span><span class="note">確度: 低</span></header>
 <div class="shots"><a href="frames/f00655.jpg"><img loading="lazy" src="frames/f00655.jpg" alt="07:06の画面"></a><a href="frames/f00656.jpg"><img loading="lazy" src="frames/f00656.jpg" alt="07:07の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>R6の手番中にコインが22→13に減った。手札にはレールキャノンと対モンスター用レーザー×2が増えている。Lv2で、Lv3まであと3コイン。</dd>
-<dt>推奨</dt><dd class="rec">Lv3(25コイン)を狙うなら、カード購入は控えめにする。ただし、ゼリーウィザード対策になる遠隔カードを買ったなら、悪くない投資。</dd>
-<dt>実際の行動</dt><dd>ショップでカードを購入したとみられる(コイン22→13、手札が増加)</dd>
-<dt>理由</dt><dd>指針では、序盤はレベルアップ用の貯金が優先。ナンシーのLv3は攻撃+2と移動+1で伸びが大きい。ただ、手番開始時点でも22コインでLv3まで3足りず、9コインの出費で当面は遠くなった。一方、異変図書館ではゼリーウィザードの処理が勝負どころ(wikiの攻略)で、レールキャノン(5マス以内に6ダメージ)や対モンスター用レーザー(3ダメージ)は反撃を受けずに削れる。買ったカードの狙いは妥当。撃破コイン8が入ればLv3に近づく。</dd>
-<dt>読めなかった点</dt><dd class="note">購入の瞬間の画面、ショップの品揃え、実際の購入枚数と内訳。3枚で9コインという推測</dd>
+<dt>状況</dt><dd>3マス先のショップにちょうど止まった。コイン22。ここで9コインを使い、手札が4枚から8枚に増えた。新しい手札には、軌道レールキャノン、対モンスター用レーザー2枚、攻撃(特大)と読める。</dd>
+<dt>推奨</dt><dd class="rec">買う場合は反撃なしで削れるダメージカードや防御カードに絞る。スター3(必要コイン25)を急ぐなら、買う枚数を減らして貯金を優先する。</dd>
+<dt>実際の行動</dt><dd>ショップに止まり、カードを購入した(コイン22→13)。</dd>
+<dt>理由</dt><dd>手札4枚のうち防御は1枚、ダメージカードは0枚だった。ゼリーウィザード2体(HP21、反撃なし)を削るダメージカードを補充できた。次のターン以降、撃破コイン8を狙える。一方で、スター3に必要な25コインまで残り3だったのが12に離れた。アタッカーのスター3は優先度がカード購入より低いので、致命的な損ではない。カードの内容とコインの使い方は許容範囲。</dd>
+<dt>読めなかった点</dt><dd class="note">買ったカードの正確な内訳(止まった特典の1枚を含む)、チップショップの購入やスターレベルの変化の有無</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>カードを3枚買う(実際の行動と推定)</td><td>遠隔ダメージ手段が増え、ゼリーウィザード対策になる。Lv3は遠のく。</td></tr><tr><td>買わずに22コインを維持</td><td>Lv3まであと3コイン。ただし今の手札では遠隔の削りが足りない。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>3枚(9コイン)買う</td><td>ダメージカードで進捗イベントのウィザードを削れる。スター3は遠のく。</td></tr><tr><td>1枚だけ買う</td><td>コイン19を残す。ただしスター3まであと6必要で、劇的には変わらない。</td></tr><tr><td>何も買わない</td><td>コイン22を維持するが、手札が薄く、ウィザード処理が遅れる。</td></tr></tbody></table>
 </article><article id="t022-2">
-<header><span class="time">07:10</span><span class="type">手番の行動</span>
-<span class="pill doubt">疑問手</span><span class="note">確度: 低</span></header>
-<div class="shots"><a href="frames/f00662.jpg"><img loading="lazy" src="frames/f00662.jpg" alt="07:10の画面"></a><a href="frames/f00666.jpg"><img loading="lazy" src="frames/f00666.jpg" alt="07:12の画面"></a></div>
-<dl>
-<dt>状況</dt><dd>移動後、ナンシーのすぐ隣にゼリーウィザード(HP21/21、攻撃4)がいる。進捗は8。ゼリーウィザードは自分から戦闘を仕掛けてくる。パッシブのファイアウォールは次ターン開始時に敵が2マス以内にいると発動しない。</dd>
-<dt>推奨</dt><dd class="rec">ゼリーウィザード(攻撃4、自分から攻撃してくる)から離れた位置で止まる。狂暴を使っているなら特にそうする。</dd>
-<dt>実際の行動</dt><dd>ゼリーウィザード2体の近くで手番を終えた</dd>
-<dt>理由</dt><dd>ゼリーウィザードは5マスより外のHP最大のキャラに3ダメージを与える。近いと通常の戦闘でも殴ってくる。実際、2体に連続で殴られてHPが11→5になった。狂暴で被ダメ+1も乗っている。ナンシーの指針は敵から2マスより離れて終えること。出目に左右されるので強くは言えないが、近くで止まった結果と見える。</dd>
-<dt>読めなかった点</dt><dd class="note">分岐の選択、移動の出目、ターン開始位置と通過マス</dd>
-</dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ゼリーウィザードの近くで手番を終える(実際)</td><td>2体から連続で攻撃され、HP5/11まで減った。</td></tr><tr><td>敵から離れる、または射程外で止まる</td><td>被弾を減らせる可能性が高い。移動はダイス次第で選べた範囲は不明。</td></tr></tbody></table>
-</article><article id="t022-3">
 <header><span class="time">07:16</span><span class="type">戦闘(防御)</span>
 <span class="pill ok">許容</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00668.jpg"><img loading="lazy" src="frames/f00668.jpg" alt="07:16の画面"></a><a href="frames/f00674.jpg"><img loading="lazy" src="frames/f00674.jpg" alt="07:19の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ゼリーウィザード(攻撃4、HP21)に攻撃された。自分はHP11、防御1、被ダメ+1(狂暴)。敵のダイスは5で見えていた。手札に防御(中)あり。</dd>
-<dt>推奨</dt><dd class="rec">防御(中)を使って防御する。許容範囲だが、防御(中)を2体目の攻撃に温存する手もある。</dd>
-<dt>実際の行動</dt><dd>防御(中)を使って防御。ダメージ4でHP11→7</dd>
-<dt>理由</dt><dd>敵のダイス5(攻撃合計9)を見て防御を選んだ。防御(中)ありの期待ダメージは3.72、なしは5.50で、死亡率はどちらも0%。回避は成功率16.7%しかなく期待ダメージ8.33で不適切。実際は防御(中)を使って11→7の被ダメ4になり、計算どおり。もう1体が続くなら、防御(中)を2体目に取っておく手もある。2体目に防御カードなしだとHP7で死亡率16.7%(期待ダメージ4.28)。防御(中)ありなら死亡率0%。ただ、この時点で2体目が来るかは見えにくい。</dd>
-<dt>読めなかった点</dt><dd class="note">ほかに使える防御カードがあったか</dd>
+<dt>状況</dt><dd>敵フェイズ。ゼリーウィザード(攻撃4、反撃なし)に殴られた。ナンシーはHP11、防御1、狂暴による被ダメ+1が付いている。敵のダイスは5。手札のガード(中)は1枚で、これが最後の防御カード。</dd>
+<dt>推奨</dt><dd class="rec">防御(ガード(中)を使うか、使わずに受けるかは好み)。回避は選ばない。</dd>
+<dt>実際の行動</dt><dd>防御を選択し、ガード(中)を使用した(ダメージ4、HP11→7)。</dd>
+<dt>理由</dt><dd>敵ダイス5なら合計攻撃は9。防御(ガード(中))は期待ダメージ3.72で、倒される確率は0%。防御(カードなし)は期待ダメージ5.5で、倒される確率は0%。回避は期待8.33で、成功は16.7%しかない。回避は損。HP11と余裕があり、同じターンに2体目のウィザードも来る。最後のガード(中)を温存する手もある。節約が理想だが、期待値で約1.8ダメージ軽くなっており、誤りとまでは言えない。</dd>
+<dt>読めなかった点</dt><dd class="note">ナンシーのダイス目(2)は画面から読み取れた、ガード(中)の実際の上昇値(画面には+3)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>防御(中)を使って防御(実際)</td><td>死亡0%、期待ダメージ3.72。1体目で大きく削れる。</td></tr><tr><td>カードなしで防御</td><td>死亡0%、期待ダメージ5.50。防御(中)を2体目に回せる。</td></tr><tr><td>回避</td><td>回避成功は16.7%だけ。失敗すると防御0で全ダメージを受け、期待ダメージ8.33。</td></tr></tbody></table>
-</article><article id="t022-4">
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>防御+ガード(中)</td><td>期待ダメージ3.72。倒される確率0%。</td></tr><tr><td>防御(カードなし)</td><td>期待ダメージ5.5。倒される確率0%。最後の防御カードを温存できる。</td></tr><tr><td>回避</td><td>期待ダメージ8.33。成功16.7%。避けるべき。</td></tr></tbody></table>
+</article><article id="t022-3">
 <header><span class="time">07:26</span><span class="type">戦闘(防御)</span>
-<span class="pill na">判定不能</span><span class="note">確度: 低</span></header>
+<span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00683.jpg"><img loading="lazy" src="frames/f00683.jpg" alt="07:26の画面"></a><a href="frames/f00685.jpg"><img loading="lazy" src="frames/f00685.jpg" alt="07:27の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>2体目のゼリーウィザードからの攻撃。自分はHP7、防御1、被ダメ+1。防御(中)は1体目で使用済み。</dd>
-<dt>推奨</dt><dd class="rec">カードがなければ防御。回避は避ける。</dd>
-<dt>実際の行動</dt><dd>防御したとみられる。合計7対6でダメージ2、HP5</dd>
-<dt>理由</dt><dd>この戦闘は攻撃合計7、防御合計6でダメージ2(HP7→5)。防御カードなしの防御なら死亡率16.7%、期待ダメージ4.28。回避だと死亡率52.8%になる。結果は耐えているので防御は妥当。防御・回避・カード使用の選択画面が写っていないため断定は避ける。</dd>
-<dt>読めなかった点</dt><dd class="note">防御か回避かの選択画面、敵のダイス目、防御カードを使ったかどうか</dd>
+<dt>状況</dt><dd>同じ敵フェイズ内の2回目の戦闘。ゼリーウィザード(攻撃4)に再び殴られた。ナンシーはHP7、防御1、被ダメ+1。防御カードはなく、敵の合計攻撃は7(ダイス3と推定)。</dd>
+<dt>推奨</dt><dd class="rec">防御(カードなし)</dd>
+<dt>実際の行動</dt><dd>防御を選択し、ダメージ2を受けた(HP7→5)。</dd>
+<dt>理由</dt><dd>防御(カードなし)の期待ダメージは3.67で、倒される確率は0%。回避は期待4.0で、成功50%、倒される確率も50%(失敗時の最大ダメージ8がHP7を超える)。回避は倒されるリスクが大きい。防御が最善。実際に受けたダメージは2で、HP7→5。</dd>
+<dt>読めなかった点</dt><dd class="note">敵のダイス目は合計7から3と推定、ナンシーのダイス目は6と読んで、防御ダイス5と推定</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>防御(カードなし)</td><td>死亡率16.7%、期待ダメージ4.28。回避より安全。</td></tr><tr><td>回避</td><td>成功率44.4%だが、失敗すると死亡率52.8%。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>防御(カードなし)</td><td>期待ダメージ3.67、倒される確率0%。</td></tr><tr><td>回避</td><td>期待ダメージ4.0、成功50%、倒される確率50%。</td></tr></tbody></table>
 </article><article id="t026-0">
 <header><span class="time">08:51</span><span class="type">対象選択</span>
 <span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00814.jpg"><img loading="lazy" src="frames/f00814.jpg" alt="08:51の画面"></a><a href="frames/f00815.jpg"><img loading="lazy" src="frames/f00815.jpg" alt="08:52の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>手番開始。ゼリーウィザードが同じマスにいて、ナンシーのパッシブ(2マス以内に敵なし)は不発。遠方の看守は残りHP8(防御3、狂気)。ナンシーは攻9/防1、手札7枚。</dd>
-<dt>推奨</dt><dd class="rec">スキルで遠方の看守(HP8)を指定して戦闘する</dd>
-<dt>実際の行動</dt><dd>スキルで看守を攻撃。13対8で-5(HP8→3)になり、テルの追撃-8で撃破。コインが13→25になった。</dd>
-<dt>理由</dt><dd>スキルの戦闘は6マス以上離れた相手なら反撃されず、バトルカードも捨てない。潜在解放で、ファイアウォール(攻守+2)とバトルカード1枚も得られる。看守は残りHP8で、カードなしの撃破率が約72%(攻11・防2換算)、さらにテルの追撃が乗る。撃破すれば12コインと手がかり(撃破看守)が手に入る。次の戦闘でも攻11/防3のバフが効く。</dd>
-<dt>読めなかった点</dt><dd class="note">スキルのCT表示、看守までの正確な距離、テルの憑依や追撃の事前状態(画像5の追撃演出から推定)</dd>
+<dt>状況</dt><dd>ターン開始時。ナンシーローは星2、HP11/11、コイン13、攻撃9、防御1。手札に攻撃(特大)複数、シャドウアタック、軌道レールキャノン、対モンスター用レーザー、チョコレートケーキがある。ゼリーウィザードが近く、看守は画面右上の遠くにいる。</dd>
+<dt>推奨</dt><dd class="rec">遠くの看守にスキルを使って戦闘する</dd>
+<dt>実際の行動</dt><dd>看守にスキルで戦闘し、ダメージ5とテルの追撃で撃破した(コイン13→25)</dd>
+<dt>理由</dt><dd>スキルは3マス以上離れれば反撃されず、バトルカードも失わない。看守はテルの追撃も合わせて倒しきれる状況だった。撃破コイン12でコインが13から25になり、このターンにレベルアップできる量になった。潜在解放済みなら6マス以上離れた敵へのスキルでファイアウォールとバトルカードも得られる。看守は罪証持ちを追う敵なので罪証が増えるのは気になる。それでもレベルアップできるコインが手に入る価値のほうが大きい。</dd>
+<dt>読めなかった点</dt><dd class="note">看守の戦闘前のHP(画面上は8と読めた)、スキルのCT残り</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>スキルで看守(HP8)を撃破しに行く</td><td>カードなしで撃破率約72%+追撃。12コイン、ファイアウォール、バトルカード+1。反撃なし。</td></tr><tr><td>スキルを使わず通常移動する</td><td>ファイアウォールとカードを得られず、スキルも回らない。損。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>遠くの看守にスキル</td><td>反撃なしでコイン+12、レベルアップ圏に入る。</td></tr><tr><td>スキルを温存して移動で戦う</td><td>コインが13のままではレベルアップできず、反撃も受ける。</td></tr></tbody></table>
 </article><article id="t026-1">
-<header><span class="time">08:56</span><span class="type">手番の行動</span>
+<header><span class="time">09:01</span><span class="type">手番の行動</span>
 <span class="pill ok">許容</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f00822.jpg"><img loading="lazy" src="frames/f00822.jpg" alt="08:56の画面"></a><a href="frames/f00824.jpg"><img loading="lazy" src="frames/f00824.jpg" alt="08:58の画面"></a></div>
+<div class="shots"><a href="frames/f00830.jpg"><img loading="lazy" src="frames/f00830.jpg" alt="09:01の画面"></a><a href="frames/f00832.jpg"><img loading="lazy" src="frames/f00832.jpg" alt="09:02の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ゼリーウィザード(HP21、防御約2、反撃なし、毎ターン3ダメージの魔法追尾弾)が同じマスにいる。手札に軌道レールキャノン(6ダメージ)とレーザー×2(3ダメージ)がある。手札は8枚ほどで、直接攻撃で手札が6枚以上だとバトルカードを捨てる。</dd>
-<dt>推奨</dt><dd class="rec">効果カードで削るのは可。ただしゼリーウィザードを優先処理するなら、残りHP12を特大+シャドウで仕留める手もあった。</dd>
-<dt>実際の行動</dt><dd>レールキャノンで6ダメージ(21→15)、次にレーザーで3ダメージ(15→12)。ゼリーウィザードはそのまま残した。</dd>
-<dt>理由</dt><dd>カード2枚で9ダメージを入れ、21→12にした。手札も5枚ほどに減るので、直接攻撃でバトルカードを捨てなくて済む。ゼリーウィザードは反撃がなく、毎ターン3ダメージを撃ってくるため優先して倒したい敵。ただしその後は特大が3枚しかなく、ポット2体と大怪盗の撃破に回している。残りHP12は特大1枚で撃破率約77%、特大+シャドウで約94%だった。ゼリーウィザードを残したのは損の余地はあるが、コインとミッション(撃破グリーティーポット)を優先した判断として理解できる。</dd>
-<dt>読めなかった点</dt><dd class="note">ゼリーウィザードの正確な防御値(約2と推定)</dd>
+<dt>状況</dt><dd>スキルのあと、ゼリーウィザード(HP21/21、毎ターン遠いキャラに3ダメージ)が1マス先にいる。効果カードは軌道レールキャノン(6ダメージ)と対モンスター用レーザー(3ダメージ)を使え、カード使用枠は2枚。</dd>
+<dt>推奨</dt><dd class="rec">軌道レールキャノンと対モンスター用レーザーをゼリーウィザードに使う</dd>
+<dt>実際の行動</dt><dd>軌道レールキャノン(6)と対モンスター用レーザー(3)をゼリーウィザードに使用し、HPが21から12になった</dd>
+<dt>理由</dt><dd>狂気ではゼリーウィザードの処理が勝敗を分ける、というマップ攻略の指針どおり。効果カードのダメージは防御に関係なく通る。21から12まで9削れたので、後続の味方が倒しやすくなった。カード枠の2枚をどちらもゼリーウィザードに使うのは、この手番では妥当。対モンスター用レーザーはもう1枚手元に残った。倒しきれないのでやや先行投資だが、悪い使い方ではない。</dd>
+<dt>読めなかった点</dt><dd class="note">ゼリーウィザードの防御力(カードダメージは防御無視)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>レールキャノンとレーザーでゼリーウィザードを削る(実際)</td><td>9ダメージで21→12。手札圧縮にもなる。倒しきれなかった。</td></tr><tr><td>さらに特大でゼリーウィザードを殴り切る</td><td>撃破率約77%(特大のみ)。ただし後の特大が足りなくなる。</td></tr><tr><td>カードを温存する</td><td>手札6枚以上のまま殴るとバトルカードを捨てる。削りも入らない。</td></tr></tbody></table>
-</article><article id="t026-2">
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>レールキャノン+レーザーをゼリーウィザードへ</td><td>HP21→12。後続が倒しやすくなる。</td></tr><tr><td>カードを温存する</td><td>ゼリーウィザードのHPが21のままで、処理が遅れる。</td></tr><tr><td>道中の敵にカードを使う</td><td>グリーティーポットのHPは削れるが、優先度はゼリーウィザードのほうが高い。</td></tr></tbody></table>
+</article><article id="t026-3">
 <header><span class="time">09:10</span><span class="type">戦闘(攻撃)</span>
 <span class="pill ok">許容</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00843.jpg"><img loading="lazy" src="frames/f00843.jpg" alt="09:10の画面"></a><a href="frames/f00846.jpg"><img loading="lazy" src="frames/f00846.jpg" alt="09:11の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>グリーティーポット(HP17/18、攻5・防3、反撃あり)と遭遇。ナンシーは攻11/防3、HP11、コスト上限5。手札に攻撃(特大)×3とシャドウアタックがある。</dd>
-<dt>推奨</dt><dd class="rec">攻撃(特大)1枚で殴る(または特大+シャドウで反撃を消す)</dd>
-<dt>実際の行動</dt><dd>特大(+5)を使って殴り、18ダメージで撃破した。</dd>
-<dt>理由</dt><dd>特大のみは撃破率22.8%で、反撃を受けても期待被害約2しかなくHP11には余裕。特大+シャドウは撃破率50%・反撃なしだが、コスト5でシャドウも失う。反撃で倒される恐れはないので、特大1枚は妥当。実際は+5とダイス6の合計22で18ダメージ入り、撃破できた。</dd>
-
+<dt>状況</dt><dd>グリーティーポット(HP17、攻5、防3、反撃あり)と遭遇。ナンシーローは攻撃11、防御3、HP11。コスト上限5。手札に攻撃(特大)複数とシャドウアタックがある。</dd>
+<dt>推奨</dt><dd class="rec">攻撃(特大)にシャドウアタックも足して殴る(撃破率50%・反撃なし)。攻撃(特大)単体でも許容</dd>
+<dt>実際の行動</dt><dd>攻撃(特大)1枚で攻撃し、撃破した(コイン+9)</dd>
+<dt>理由</dt><dd>attack_oddsの結果。カードなしは撃破0%。攻撃(特大)単体は撃破22.8%、期待ダメージ13.5で、反撃の期待被害は約1.95。攻撃(特大)+シャドウアタックは撃破50%、反撃なしだが、コスト5を使い切る。倒せなくても反撃の被害は小さく、攻撃(特大)を1枚で済ませて後続の戦闘に残せる。結果は攻撃(特大)の出目が良く(+5、ダイス6、合計22)、18ダメージで撃破できた。</dd>
+<dt>読めなかった点</dt><dd class="note">グリーティーポットの正確な攻防はFIGHT画面の読み取り(攻5/防3)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>攻撃(特大)のみ</td><td>撃破率22.8%、期待被害1.95。死亡0%。</td></tr><tr><td>攻撃(特大)+シャドウアタック</td><td>撃破率50%、反撃なし。カードを2枚消費する。</td></tr><tr><td>カードなし</td><td>撃破率0%。反撃を受ける。</td></tr></tbody></table>
-</article><article id="t026-3">
-<header><span class="time">09:21</span><span class="type">戦闘(攻撃)</span>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>攻撃(特大)のみ</td><td>撃破22.8%、期待ダメージ13.5。反撃被害は小さく、カードの節約になる。</td></tr><tr><td>攻撃(特大)+シャドウアタック</td><td>撃破50%、反撃なし。手札の消費が大きい。</td></tr><tr><td>カードなし</td><td>撃破0%。</td></tr></tbody></table>
+</article><article id="t026-2">
+<header><span class="time">09:12</span><span class="type">分岐</span>
 <span class="pill ok">許容</span><span class="note">確度: 中</span></header>
+<div class="shots"><a href="frames/f00848.jpg"><img loading="lazy" src="frames/f00848.jpg" alt="09:12の画面"></a><a href="frames/f00850.jpg"><img loading="lazy" src="frames/f00850.jpg" alt="09:13の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>ショップから、疾走・モンスター・カード報酬・災厄と続く道(ゼリーウィザードがいる側)と、災厄→リカバリー→セーフティポイントと続く道のどちらかを選ぶ。コインは25でレベルアップ圏。直前に通ったマスへは戻れない。</dd>
+<dt>推奨</dt><dd class="rec">ゼリーウィザードのいる側の道、または災厄→リカバリー→セーフティポイントの道(どちらも許容)</dd>
+<dt>実際の行動</dt><dd>ゼリーウィザードのいる側の道を進み、出目7でセーフティポイントに止まった</dd>
+<dt>理由</dt><dd>route_oddsでは、災厄→リカバリー→セーフティポイントの道は出目3以上でセーフティポイントに届き、80%でレベルアップ圏に入る。ゼリーウィザード側の道は出目7以上でないと届かない。止まれる確率は約21.7%と低く、通過まで含めても約4割だった。この点だけ見ると災厄側が安全。ただしゼリーウィザード側は道中にグリーティーポットや大怪盗がいて、撃破コインとミッション進行(グリーティーポット2体、大怪盗2体)が稼げる。出目7が出たため、結果的にセーフティポイントにも届いた。確実性では劣るが、リターンが大きいので許容範囲。</dd>
+<dt>読めなかった点</dt><dd class="note">分岐を選んだ瞬間の画像(点線の向きは写っていない)、道中の敵の正確な位置</dd>
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ゼリーウィザード側(疾走→モンスター→カード報酬→災厄→金儲け→突撃ゲート→セーフティポイント)</td><td>レベルアップ圏への到達は約4割。戦闘でコインとミッションを稼げる。</td></tr><tr><td>災厄→リカバリー→セーフティポイント</td><td>出目3以上の80%でセーフティポイントに届く。敵とは戦いにくい。</td></tr></tbody></table>
+</article><article id="t026-4">
+<header><span class="time">09:21</span><span class="type">戦闘(攻撃)</span>
+<span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00862.jpg"><img loading="lazy" src="frames/f00862.jpg" alt="09:21の画面"></a><a href="frames/f00866.jpg"><img loading="lazy" src="frames/f00866.jpg" alt="09:23の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>2体目のグリーティーポット(HP9/18、攻5、防4、反撃あり)。ナンシーは攻11、HP11。手札は攻撃(特大)×2、シャドウアタックなど。</dd>
-<dt>推奨</dt><dd class="rec">攻撃(特大)、または節約するならシャドウアタック</dd>
-<dt>実際の行動</dt><dd>特大(+3)で攻撃し、19対5で14ダメージ。撃破した。</dd>
-<dt>理由</dt><dd>特大のみで撃破率84.4%、反撃を受ける確率は15.6%で期待被害0.39。シャドウのみは撃破率72.2%・反撃なしで、特大を温存できる。特大のみは確実性が高く、実際に+3とダイス5で撃破した。シャドウ+特大(97%)は過剰。</dd>
-
+<dt>状況</dt><dd>2体目のグリーティーポット(HP9/18、防4、反撃あり)と遭遇。ナンシーローは攻撃11、HP11。手札に攻撃(特大)2枚とシャドウアタックが残っている。</dd>
+<dt>推奨</dt><dd class="rec">攻撃(特大)1枚で攻撃する</dd>
+<dt>実際の行動</dt><dd>攻撃(特大)1枚で攻撃し、撃破した(コイン+9)</dd>
+<dt>理由</dt><dd>attack_oddsの結果。カードなしは撃破27.8%。シャドウアタック単体は72.2%で反撃なし。攻撃(特大)単体は84.4%で、反撃を受ける確率は15.6%、期待被害は0.5と低い。攻撃(特大)+シャドウアタックは97.2%。次に大怪盗が控えているので、攻撃(特大)1枚で十分高い撃破率が取れる。結果は+3、ダイス5で19、14ダメージの撃破だった。</dd>
+<dt>読めなかった点</dt><dd class="note">このポットの攻撃力(攻5〜6と仮定)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>攻撃(特大)</td><td>撃破率84.4%、期待被害0.39。</td></tr><tr><td>シャドウアタック</td><td>撃破率72.2%、反撃なし。特大が温存できる。</td></tr><tr><td>カードなし</td><td>撃破率27.8%。</td></tr></tbody></table>
-</article><article id="t026-4">
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>攻撃(特大)</td><td>撃破84.4%、期待被害0.5。</td></tr><tr><td>シャドウアタック</td><td>撃破72.2%、反撃なし。攻撃(特大)を温存できる。</td></tr><tr><td>攻撃(特大)+シャドウアタック</td><td>撃破97.2%。過剰気味。</td></tr></tbody></table>
+</article><article id="t026-5">
 <header><span class="time">09:34</span><span class="type">戦闘(攻撃)</span>
 <span class="pill ok">許容</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00881.jpg"><img loading="lazy" src="frames/f00881.jpg" alt="09:34の画面"></a><a href="frames/f00882.jpg"><img loading="lazy" src="frames/f00882.jpg" alt="09:34の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>大怪盗(HP16、攻6・防2、反撃あり)を攻撃。ナンシーは攻12、HP11。手札は攻撃(特大)1枚とシャドウ。テルの追撃が見込める。</dd>
-<dt>推奨</dt><dd class="rec">攻撃(特大)1枚で殴り、追撃で仕留める</dd>
-<dt>実際の行動</dt><dd>特大で攻撃し、23対8で15ダメージ(HP16→1)。テルの追撃で撃破した。コインが43→57になった。</dd>
-<dt>理由</dt><dd>特大のみで撃破率50%、反撃を受ける確率は50%だが期待被害は約1.6でHP11には余裕。特大+シャドウは撃破率77%・反撃なしだが、手札を使い切る。追撃を計算に入れれば特大1枚で十分。実際は15ダメージでHP1になり、テルの追撃で撃破できた。</dd>
-<dt>読めなかった点</dt><dd class="note">大怪盗の攻撃値(wiki値に+1で推定)</dd>
+<dt>状況</dt><dd>大怪盗(HP16/16、防2程度、反撃あり、攻5)と遭遇。ナンシーローは攻撃11、HP11、防御3。手札に攻撃(特大)とシャドウアタックが残っている。直後にテルの追撃が入る。</dd>
+<dt>推奨</dt><dd class="rec">攻撃(特大)で殴り、残りはテルの追撃に任せる</dd>
+<dt>実際の行動</dt><dd>攻撃(特大)で攻撃し、HP1まで削ってテルの追撃で撃破した</dd>
+<dt>理由</dt><dd>attack_oddsの結果。攻撃(特大)単体は撃破40.3%、期待ダメージ14.5、反撃を受けても期待被害は約1.5。攻撃(特大)+シャドウアタックは撃破68.9%で反撃なし。コスト5を使い切り、手札もほぼ空になる。テルの追撃(憑依先の攻撃後に入る)が見込めるので、攻撃(特大)1枚で十分。結果はダイス6+カードで合計23、15ダメージ。HPが1残ったが、テルの追撃で倒せた(コイン+14)。</dd>
+<dt>読めなかった点</dt><dd class="note">テルの追撃の具体的なダメージ値(8と読める)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>攻撃(特大)のみ</td><td>撃破率50%、期待被害1.61。追撃込みならほぼ撃破。</td></tr><tr><td>攻撃(特大)+シャドウアタック</td><td>撃破率77%、反撃なし。カードを使い切る。</td></tr><tr><td>カードなし</td><td>撃破率0%、反撃を確実に受ける。</td></tr></tbody></table>
-</article><article id="t026-5">
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>攻撃(特大)のみ</td><td>撃破40%だが、追撃込みでほぼ確実に倒せる。</td></tr><tr><td>攻撃(特大)+シャドウアタック</td><td>撃破69%、反撃なし。手札を使い切る。</td></tr><tr><td>スルーして先へ進む</td><td>ミッション対象の大怪盗と、撃破コインを逃す。</td></tr></tbody></table>
+</article><article id="t026-6">
 <header><span class="time">09:39</span><span class="type">レベルアップ</span>
 <span class="pill best">最善</span><span class="note">確度: 高</span></header>
 <div class="shots"><a href="frames/f00891.jpg"><img loading="lazy" src="frames/f00891.jpg" alt="09:39の画面"></a><a href="frames/f00896.jpg"><img loading="lazy" src="frames/f00896.jpg" alt="09:41の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>コイン57、スターレベル2。セーフティポイントを通過する経路に入った。HP11/11。</dd>
-<dt>推奨</dt><dd class="rec">セーフティポイントでLv3にレベルアップする</dd>
-<dt>実際の行動</dt><dd>セーフティポイントでレベルアップ(Lv3)。コインは57から32になった。</dd>
-<dt>理由</dt><dd>コイン57はLv3の費用25を大きく超えている。アタッカーの育成が最優先なので、止まれるなら必ず上げる。実際にLv3(攻+2、移動+1、チップ+1)になりコインは32になった。罪証を持つので看守が近い点だけは気になるが、レベルアップの価値のほうが大きい。</dd>
-<dt>読めなかった点</dt><dd class="note">移動ダイスの出目</dd>
+<dt>状況</dt><dd>セーフティポイントに止まった時点でコイン57、星2。レベルアップに25コインが必要で、同じマスに味方のプレイヤーCもいる。</dd>
+<dt>推奨</dt><dd class="rec">セーフティポイントでレベルアップする</dd>
+<dt>実際の行動</dt><dd>セーフティポイントでレベルアップし、星3になった(コイン57→32)</dd>
+<dt>理由</dt><dd>アタッカーの星アップは最優先。コインは57あり、25を払って32が残るので余裕がある。攻撃が上がる(画面で11→13)。HPも回復し、バトルコスト上限も6に上がる。迷う理由のない最善手。</dd>
+<dt>読めなかった点</dt><dd class="note">レベルアップ時に選んだチップの内容(選択画面は写っていない)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>セーフティポイントでLv3にする</td><td>攻撃・防御と耐久が上がり、チップも得られる。最善。</td></tr><tr><td>通過して別のマスへ行く</td><td>コインが余ったままになる。損。</td></tr></tbody></table>
-</article><article id="t026-6">
-<header><span class="time">09:51</span><span class="type">チップ選択</span>
-<span class="pill na">判定不能</span><span class="note">確度: 低</span></header>
-<div class="shots"><a href="frames/f00910.jpg"><img loading="lazy" src="frames/f00910.jpg" alt="09:51の画面"></a><a href="frames/f00911.jpg"><img loading="lazy" src="frames/f00911.jpg" alt="09:51の画面"></a></div>
-<dl>
-<dt>状況</dt><dd>グリーティーポット撃破ミッションの報酬と、レベルアップのチップ選択が走っている(「プレイヤーB、プレイヤーD 強化チップを選んでいます…」)。ナンシーが何を選んだかは画面に出ていない。</dd>
-<dt>推奨</dt><dd class="rec">判定不能。火力チップ、ヘルメット、ヒール系、探天衛星を優先</dd>
-<dt>実際の行動</dt><dd>(読み取れず)</dd>
-<dt>理由</dt><dd>選択肢も結果も画像から読めない。画像31で攻14/防7と表示されているので何かの強化が入ったように見えるが、チップの種類は特定できない。</dd>
-<dt>読めなかった点</dt><dd class="note">提示された3択、選んだチップ</dd>
-</dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>レベルアップする</td><td>攻撃+2、コスト上限+1、チップ1枚。コインは32残る。</td></tr><tr><td>レベルアップしない</td><td>損しかない。</td></tr></tbody></table>
 </article><article id="t030-0">
 <header><span class="time">10:47</span><span class="type">手番の行動</span>
-<span class="pill best">最善</span><span class="note">確度: 中</span></header>
+<span class="pill ok">許容</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00983.jpg"><img loading="lazy" src="frames/f00983.jpg" alt="10:47の画面"></a><a href="frames/f00987.jpg"><img loading="lazy" src="frames/f00987.jpg" alt="10:51の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ナンシーはHP9/11でカード枠は0/3(真犯人でカード使用数+1)。手札はチョコレートケーキ、シャドウアタック、対モンスター用レーザー、方向選択。ゴクチョーは171/232で真相発覚後、罪証の多いナンシーが狙われやすい。</dd>
-<dt>推奨</dt><dd class="rec">チョコレートケーキを自分に使ってHPを全快(11/11)にする</dd>
-<dt>実際の行動</dt><dd>チョコレートケーキを自分に使用してHP11/11にした</dd>
-<dt>理由</dt><dd>HPが2欠けていて回復が無駄にならない。真犯人は被ダメ+2で、ゴクチョーが罪証持ちを狙うため、満タンにする価値が高い。カード枠も余っている。シャドウアタックとレーザーは温存でき、損はない。</dd>
-<dt>読めなかった点</dt><dd class="note">ナンシーとゴクチョーの正確な距離、ゴクチョーの現在の攻撃力と防御力</dd>
+<dt>状況</dt><dd>手番開始時はHP9/11で、看守が隣のゲートにいる。自分は罪証6で、攻撃14・防御5。手札はチョコレートケーキ、シャドウアタック、対モンスター用レーザー、方向選択。コインは32。</dd>
+<dt>推奨</dt><dd class="rec">チョコレートケーキで全快してから移動する(許容範囲の使い方)。</dd>
+<dt>実際の行動</dt><dd>チョコレートケーキを自分に使ってHP11/11にした</dd>
+<dt>理由</dt><dd>回復量は2で、HPの欠けも2なので無駄がない。真相発覚が近く、罪証6の自分は真犯人候補(被ダメ+2、看守・ゴクチョーに狙われる)なので、満タンにする価値はある。ケーキを温存する手もあるが、損は小さい。</dd>
+<dt>読めなかった点</dt><dd class="note">ナンシーローのスキルが使えるかどうか(CT)は画面から読めない</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>チョコレートケーキで2回復</td><td>HP11/11になる。無駄なく、被ダメ+2の状態での生存率が上がる。</td></tr><tr><td>ケーキを温存</td><td>HP9のまま動くことになり、ゴクチョーに狙われるリスクが上がる。温存の利点は小さい。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>チョコレートケーキで全快</td><td>回復量2をそのまま使い切れる。真犯人候補としてHP満タンは安心。</td></tr><tr><td>ケーキを温存</td><td>後で防御的に使える。ただし今は満タンのほうが安全。</td></tr></tbody></table>
 </article><article id="t030-1">
-<header><span class="time">10:51</span><span class="type">分岐</span>
-<span class="pill ok">許容</span><span class="note">確度: 低</span></header>
+<header><span class="time">10:51</span><span class="type">その他</span>
+<span class="pill ok">許容</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00987.jpg"><img loading="lazy" src="frames/f00987.jpg" alt="10:51の画面"></a><a href="frames/f00988.jpg"><img loading="lazy" src="frames/f00988.jpg" alt="10:51の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>2枚目のカードとして方向選択を使い、逆走してショップ方面へ向かった。コインは32あるが、LV3で最大なのでレベルアップには使えない。ショップ付近にはゼリーウィザード2体とゴクチョーがいた。</dd>
-<dt>推奨</dt><dd class="rec">コインを使い切れるショップへ向かうなら、方向選択での逆走は妥当</dd>
-<dt>実際の行動</dt><dd>方向選択を使ってショップへ移動した</dd>
-<dt>理由</dt><dd>LV3でコインの使い道がなく、ショップでの振込みとカード購入が最も価値の高い使い道。カード枠も余っていたので、方向選択を使うコストは小さい。一方でゴクチョーの近くへ寄るため、罪証6で被ダメ+2の状態では危険がある。結果的に攻撃されなかったが、位置取りの危険は残る。</dd>
-<dt>読めなかった点</dt><dd class="note">本来進む予定だった道と、逆走した場合の距離の差、方向選択を使わない場合にショップへ届くか</dd>
+<dt>状況</dt><dd>方向選択を使い、来た道を戻る向きにした。もう一方(進行方向)にも7マス先にショップがあり、距離は同じ。戻る側にはゼリーウィザード2体(うち1体はHP12/21)がいる。戻る側のほうが看守のいるゲートの先なので、看守からは離れていく。</dd>
+<dt>推奨</dt><dd class="rec">どちらの向きでも大差ない。ゼリーウィザードの近くで次手番に殴れる位置を取るなら、戻る向きで許容。</dd>
+<dt>実際の行動</dt><dd>方向選択を使って、看守のいるゲートの先へ向かった</dd>
+<dt>理由</dt><dd>route_oddsでは、どちらの向きでもショップを通る確率は50%、強化チップショップを通る確率は80%で、ほぼ対称。方向選択はカード1枚の消費だけで損は小さい。ゼリーウィザード側に寄れるため、攻撃力14を活かして次手番で処理しやすい。</dd>
+
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>方向選択で逆走してショップへ</td><td>振込みとカード3枚購入ができた。ゴクチョーに近づくリスクはある。</td></tr><tr><td>方向選択を使わず通常の進行方向へ</td><td>ショップに届かず、コインが余ったままになる。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>方向選択で戻る向き</td><td>ゼリーウィザードに近づく。カード1枚の消費のみ。</td></tr><tr><td>方向選択を使わず進行方向</td><td>同じ距離のショップがあり、方向選択は温存できる。ただし敵の配置は変わる。</td></tr></tbody></table>
+</article><article id="t030-2">
+<header><span class="time">10:51</span><span class="type">戦う/スルー</span>
+<span class="pill best">最善</span><span class="note">確度: 中</span></header>
+<div class="shots"><a href="frames/f00988.jpg"><img loading="lazy" src="frames/f00988.jpg" alt="10:51の画面"></a><a href="frames/f00989.jpg"><img loading="lazy" src="frames/f00989.jpg" alt="10:52の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>移動の最初に、看守(HP23/23、狂気で攻5+罪証)がいるゲートを通る。累計5ダメージで全員を殴り始める敵で、自分は罪証6。</dd>
+<dt>推奨</dt><dd class="rec">看守はスルーする。</dd>
+<dt>実際の行動</dt><dd>戦闘せず通過</dd>
+<dt>理由</dt><dd>看守は倒すビジョンがないうちに殴らない、が攻略データの指針。HP23・防御2に対して今は倒しきれず、罪証持ちの自分が狙われる刺激になる。スルーは妥当。</dd>
+
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>スルー</td><td>リスクなし。</td></tr><tr><td>戦闘</td><td>倒しきれず、反撃や追撃を招く。</td></tr></tbody></table>
 </article><article id="t030-3">
-<header><span class="time">10:52</span><span class="type">戦う/スルー</span>
+<header><span class="time">10:51</span><span class="type">分岐</span>
+<span class="pill ok">許容</span><span class="note">確度: 中</span></header>
+<div class="shots"><a href="frames/f00988.jpg"><img loading="lazy" src="frames/f00988.jpg" alt="10:51の画面"></a><a href="frames/f00989.jpg"><img loading="lazy" src="frames/f00989.jpg" alt="10:52の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>金儲けのマスで分かれる。画面上へ伸びる道(イベント→強化チップショップ)と、画面左下へ伸びる道(災厄→カード報酬→モンスター→疾走→ショップ)がある。出目は7マス(移動カウンター39→46)。コインは32で☆3。</dd>
+<dt>推奨</dt><dd class="rec">災厄側の道でショップにちょうど止まる(許容)。強化チップショップ側も有力な代案。</dd>
+<dt>実際の行動</dt><dd>災厄側の道へ進み、ショップに止まった</dd>
+<dt>理由</dt><dd>route_odds(7マス固定)では、災厄側はショップにちょうど100%で止まり、カード1枚をもらえて、買い物と振込みもできる。イベント側は強化チップショップを通れる(☆3なら金25%)が、止まるのはモンスターのマス。コインは余っていてもレベルアップに使えないので、チップ購入も魅力的。ただしショップでプレイヤーCのレベルアップを助けられるため、実戦的には好選択。</dd>
+<dt>読めなかった点</dt><dd class="note">強化チップショップでの過去の購入回数は不明、手持ちチップの内容は読めない</dd>
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>災厄側(画面左下の道)でショップ</td><td>ショップに100%止まれる。カード+1、購入、振込みができる。ゼリーウィザードの近くに出る。</td></tr><tr><td>イベント側(画面上の道)で強化チップショップを通る</td><td>チップを買える(☆3)。終点はモンスターのマス。ショップの恩恵はない。</td></tr></tbody></table>
+</article><article id="t030-5">
+<header><span class="time">10:52</span><span class="type">その他</span>
 <span class="pill ok">許容</span><span class="note">確度: 低</span></header>
 <div class="shots"><a href="frames/f00989.jpg"><img loading="lazy" src="frames/f00989.jpg" alt="10:52の画面"></a><a href="frames/f00990.jpg"><img loading="lazy" src="frames/f00990.jpg" alt="10:53の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>移動中にゼリーウィザードや看守の近くを通った。ナンシーはLV3で、自分から戦闘すると手札のバトルカードを捨てる。ゴクチョーは171/232と高HP。</dd>
-<dt>推奨</dt><dd class="rec">戦闘せずにスルー</dd>
-<dt>実際の行動</dt><dd>戦闘せずに移動した。ナンシーは敵ターンで攻撃されず、HP11/11のまま。</dd>
-<dt>理由</dt><dd>ナンシーは潜在解放の有無が分からず、戦闘するとバトルカードを失う可能性がある。ゼリーウィザードは21HPと高めで、雑魚を倒しきれる確証もない。ゴクチョーを無理に殴る場面でもない。スルーして、ショップでの購入と振込みを優先したのは妥当。</dd>
-<dt>読めなかった点</dt><dd class="note">最終的な停止位置と敵との距離(2マス以内かどうか)</dd>
+<dt>状況</dt><dd>この手番で戦闘はなし。ゼリーウィザード1体はHP12/21で、自分の攻撃は14。カードを使うなら手札のシャドウアタックが使えた。</dd>
+<dt>推奨</dt><dd class="rec">スキルが使える状態なら、手番の最初にスキルでHP12のゼリーウィザードを狙う案があった(使えない状態なら見送りで正解)。</dd>
+<dt>実際の行動</dt><dd>スキルを使わず、戦闘もしなかった</dd>
+<dt>理由</dt><dd>攻撃14・敵防御3・HP12と仮定した場合、attack_oddsではカードなしの撃破率41.7%、シャドウアタックありで83.3%、反撃はない。ゼリーウィザードは高難易度の優先処理対象で、撃破コインは8。ただしスキルの可否が不明で、シャドウアタックはナンシーのバトルカード消費にもなる。ゼリーウィザードの隣で止まったため、次手番で狙う形にはなっている。</dd>
+<dt>読めなかった点</dt><dd class="note">ナンシーローのスキルの残りCTは画面から読めない</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>戦闘せずスルー</td><td>バトルカードを失わず、被害もない。</td></tr><tr><td>ゼリーウィザードと戦う</td><td>撃破の見込みもコインも不確かで、カード損失のリスクがある。</td></tr></tbody></table>
-</article><article id="t030-2">
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>スキルでゼリーウィザード(HP12)を殴る</td><td>シャドウアタックありで撃破率約83%。ただしスキルの可否が不明。</td></tr><tr><td>殴らずに移動(実際)</td><td>ショップ・振込みを優先でき、次手番でゼリーウィザードに接近できる。</td></tr></tbody></table>
+</article><article id="t030-4">
 <header><span class="time">10:53</span><span class="type">ショップ</span>
 <span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f00990.jpg"><img loading="lazy" src="frames/f00990.jpg" alt="10:53の画面"></a><a href="frames/f00991.jpg"><img loading="lazy" src="frames/f00991.jpg" alt="10:53の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ショップ通過時のコインは32。プレイヤーC(スミカゲ、LV1)は18コインで、あと5コインでLV2の20に届く。プレイヤーBは5コイン、プレイヤーAは22コインでLV0。</dd>
-<dt>推奨</dt><dd class="rec">プレイヤーCに5コインを振り込み、残りのコインでカードを買う</dd>
-<dt>実際の行動</dt><dd>プレイヤーCに5コインを振り込み(18→23)、カードを3枚購入して自分は18コインになった</dd>
-<dt>理由</dt><dd>振込み後のプレイヤーCは23コインになり、次のターンにLV2へ上げられる。自分はLV3でコインを使い道がなく、振込みの条件(アタッカーに渡してレベルアップさせる)を満たす。余ったコインでカードを買う判断も妥当。ロードブロック、早すぎるおんな、軌道レールキャノンなどが手札に増えた。ただしバトルカード/ダイス後のカードは今ターンは使えない。</dd>
-<dt>読めなかった点</dt><dd class="note">購入したカード3枚の正確な名前(手札が増えたことから推測)、ショップの陳列内容</dd>
+<dt>状況</dt><dd>ショップに止まった。コインは32、☆3でレベルアップ先はない。プレイヤーCは18コインで、ほかの味方はHPやコインが低め。</dd>
+<dt>推奨</dt><dd class="rec">プレイヤーCへ5コイン振り込み、残りでカードを買う。</dd>
+<dt>実際の行動</dt><dd>プレイヤーCに5コイン振り込み(18→23)、カードを3枚購入(32→18)</dd>
+<dt>理由</dt><dd>コイン32は自分では使い道が少ない。5コインの振込みでプレイヤーCが18→23になり、レベルアップに届く。止まったのでカード1枚が無料で、その上3枚買って計9コイン。振込み後のコインは27→18で、まだ余裕がある。ロードブロックや早すぎるおんなは味方支援にも使え、レールキャノンは火力として有用。</dd>
+<dt>読めなかった点</dt><dd class="note">買ったカードの正確な名前は一部しか読めない(手札にロードブロック、早すぎるおんな、軌道レールキャノン、攻撃カードが増えた)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>プレイヤーCに5コイン振込み+カード3枚購入(32→18)</td><td>プレイヤーCが18→23でLV2に届く。自分のコインが余らず、カードも補充できる。</td></tr><tr><td>振込みなしでカードのみ購入</td><td>プレイヤーCのレベルアップが遅れる。</td></tr></tbody></table>
-</article><article id="t034-1">
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>プレイヤーCに振込み+カード3枚購入</td><td>コインの使い道が多い局面で効率が良い。</td></tr><tr><td>購入のみ</td><td>プレイヤーCのレベルアップ機会を逃す。</td></tr></tbody></table>
+</article><article id="t034-0">
 <header><span class="time">11:52</span><span class="type">手番の行動</span>
 <span class="pill ok">許容</span><span class="note">確度: 低</span></header>
 <div class="shots"><a href="frames/f01075.jpg"><img loading="lazy" src="frames/f01075.jpg" alt="11:52の画面"></a><a href="frames/f01079.jpg"><img loading="lazy" src="frames/f01079.jpg" alt="11:55の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>手札のロードブロックを使い、カード使用が3/3になった。使用後はチップショップ付近にバリケードが見える。</dd>
-<dt>推奨</dt><dd class="rec">設置先が分からないため断定できない。止まりたいマス(チップショップ手前など)に置いたなら妥当。</dd>
-<dt>実際の行動</dt><dd>ロードブロックを使用した</dd>
-<dt>理由</dt><dd>ロードブロックは、ちょうど止まりたいマスに置く支援カードとされる。チップショップは通過でも使えるので、チップ目的だけなら必須ではない。ただし、位置取りやこの手番の移動を制御する意図があるなら無駄ではない。設置先が不明で評価の根拠が弱い。</dd>
-<dt>読めなかった点</dt><dd class="note">ロードブロックの設置マス、最初の1枚の効果</dd>
+<dt>状況</dt><dd>ターン開始。手札は6枚前後(シャドウアタック、対モンスター用レーザー、ロードブロック、攻撃(大)×2など)。HP11/11、攻撃14、防御5、コイン31、スター3。カード使用は0/3から3/3まで使った。ショップ手前のマスで、看守が2マス先にいる。</dd>
+<dt>推奨</dt><dd class="rec">コインが余るスター3なので、ロードブロックを強化チップショップに置いて確実に止まる使い方は良い。防御カードとシャドウアタックは温存する。</dd>
+<dt>実際の行動</dt><dd>カードを3枚使った(うちロードブロックを使用したと推定)</dd>
+<dt>理由</dt><dd>スター3でコインが潤沢なので、10マス先の強化チップショップにロードブロックを置けば確実に止まって買い物できる。実際にロードブロックを使ったあとの画面にバリケードが写り、後で強化チップショップに止まっている。最初のカードは正体が読めないため評価はやや低めの確度にとどめる。</dd>
+<dt>読めなかった点</dt><dd class="note">最初に使った1〜2枚のカードの正体(画面では判別できない)、ロードブロックの設置先(推定:10マス先の強化チップショップ)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ロードブロックを使用(実際)</td><td>位置調整として許容。意図は不明。</td></tr><tr><td>温存</td><td>手札の入れ替えは進むが、位置取りの手段を失う。</td></tr></tbody></table>
-</article><article id="t034-0">
-<header><span class="time">11:55</span><span class="type">対象選択</span>
-<span class="pill best">最善</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f01080.jpg"><img loading="lazy" src="frames/f01080.jpg" alt="11:55の画面"></a><a href="frames/f01082.jpg"><img loading="lazy" src="frames/f01082.jpg" alt="11:56の画面"></a></div>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ロードブロックを強化チップショップへ置く(推定)</td><td>コイン55に対して確実に購入できる。スター3で金チップが出る(左枠は金固定、各枠で青25/紫50/金25%)ので良い使い方</td></tr><tr><td>カードを温存</td><td>ショップ到達が出目頼みになる</td></tr></tbody></table>
+</article><article id="t034-1">
+<header><span class="time">11:56</span><span class="type">対象選択</span>
+<span class="pill best">最善</span><span class="note">確度: 高</span></header>
+<div class="shots"><a href="frames/f01082.jpg"><img loading="lazy" src="frames/f01082.jpg" alt="11:56の画面"></a><a href="frames/f01094.jpg"><img loading="lazy" src="frames/f01094.jpg" alt="12:04の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ナンシーLv3、HP11、攻14、防5。スキルのCTは使用可能で、ターン開始時は近くに敵がいなかった。スキルを使うと画面右下のスキル表示がCT2になり、青いバフ演出が出た。その後の画面で攻16・防7になっている。</dd>
-<dt>推奨</dt><dd class="rec">遠いゼリーウィザードへスキルを使って戦闘する(実際の行動と同じ)</dd>
-<dt>実際の行動</dt><dd>遠いゼリーウィザードへスキルを使い、ファイアウォールを得て撃破した</dd>
-<dt>理由</dt><dd>PvEの潜在解放では、6マスより遠い敵にスキルを使うとバトルカード1枚とファイアウォール(攻守+2)を得る。スキル戦闘は反撃されず、手札のバトルカードも捨てない。ゼリーウィザードは反撃なしの厄介な遠距離攻撃役で、マップ攻略では早めに処理したい敵とされる。対象選びとして妥当。</dd>
-<dt>読めなかった点</dt><dd class="note">スキルの対象との距離(6マス超かどうか)、カード3枚のうち最初の1枚の正体(画像1)</dd>
+<dt>状況</dt><dd>ナンシーのスキル。HP11/11、攻撃14。6マス以上離れた位置にHP17前後のゼリーウィザードがいる。スキルが使える状態(CT0)。</dd>
+<dt>推奨</dt><dd class="rec">6マス以上離れたゼリーウィザードにスキルを使って撃破する</dd>
+<dt>実際の行動</dt><dd>スキルでゼリーウィザードを攻撃して撃破</dd>
+<dt>理由</dt><dd>ゼリーウィザードは狂気では最優先の処理対象。潜在解放済みなので6マス以上離れた敵へのスキルでバトルカードとファイアウォール(攻守+2)も得られる。実際に攻撃14→16、防御5→7に上がり、撃破してコイン+8(31→39)。スキル戦闘ではバトルカードを失わず、反撃も受けない。</dd>
+
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>遠いゼリーウィザードにスキル(実際)</td><td>攻守+2とカード1枚を得て撃破。コイン+8。反撃もなし。</td></tr><tr><td>スキルを温存</td><td>CTが回らず、ファイアウォールとカードを得られない。損。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>遠くのゼリーウィザードにスキル</td><td>撃破+8コイン、攻守+2、バトルカード獲得。ほぼ損なし</td></tr><tr><td>スキルを温存</td><td>CTを無駄にして、ウィザードの毎ターン3ダメージを放置することになる</td></tr></tbody></table>
 </article><article id="t034-2">
+<header><span class="time">12:08</span><span class="type">分岐</span>
+<span class="pill best">最善</span><span class="note">確度: 高</span></header>
+<div class="shots"><a href="frames/f01099.jpg"><img loading="lazy" src="frames/f01099.jpg" alt="12:08の画面"></a><a href="frames/f01100.jpg"><img loading="lazy" src="frames/f01100.jpg" alt="12:09の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>ショップのマスで分岐。来た道は右の道で、選択肢は左上の道(金儲け→イベント→自分のスタートポイント→…)と、左下の道(災厄→リカバリー→セーフティポイント…)。コイン39、HP11/11。ロードブロックは10マス先の強化チップショップにある。</dd>
+<dt>推奨</dt><dd class="rec">左上の道(金儲け→イベント→自分のスタートポイントと続く道)</dd>
+<dt>実際の行動</dt><dd>左上の道へ進んだ</dd>
+<dt>理由</dt><dd>左上の道は10マス先に強化チップショップがあり(ロードブロックで確実に止まれる)、道中にゼリーウィザードが2体いる。route_oddsでは強化チップショップを通る確率が、出目10のとき100%。実際に2体を連続で撃破してコイン+16。スター3で自分のスタートポイントのレベルアップは不要なので、セーフティポイント側(90%で通過か停止)の旨味は小さい。HPも満タンで、回復の優先度が低い。</dd>
+
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>左上の道(金儲け→イベント→自分のスタートポイント→…)</td><td>ウィザード2体撃破+強化チップショップ。最善</td></tr><tr><td>左下の道(災厄→リカバリー→セーフティポイント)</td><td>ショップは通れるが、HP満タンで回復の価値が低い。ウィザード処理も進まない</td></tr></tbody></table>
+</article><article id="t034-3">
 <header><span class="time">12:17</span><span class="type">戦闘(攻撃)</span>
 <span class="pill ok">許容</span><span class="note">確度: 低</span></header>
 <div class="shots"><a href="frames/f01111.jpg"><img loading="lazy" src="frames/f01111.jpg" alt="12:17の画面"></a><a href="frames/f01112.jpg"><img loading="lazy" src="frames/f01112.jpg" alt="12:18の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>攻16(ファイアウォール込み)。道中のゼリーウィザード2体(HP15/防3、HP12/防3、反撃なし)と戦った。手札に攻撃(中)と攻撃(大)があった。その後の手札から、2体目で攻撃(中)、3体目で攻撃(大)を使ったと推定される。</dd>
-<dt>推奨</dt><dd class="rec">HP15の個体には攻撃(中)か攻撃(大)を足し、HP12の個体はカードなしでも高確率で倒せるので温存する</dd>
-<dt>実際の行動</dt><dd>ゼリーウィザード2体を撃破した(使用カードは手札の減少から推定)</dd>
-<dt>理由</dt><dd>HP15・防3に対し、カードなしの撃破率は27.8%、攻撃(中)で57.4%、攻撃(大)で74.1%、(大)+(中)で90.0%。ゼリーウィザードは反撃がなく、倒すとコイン8を得られる。倒す価値が高い相手なので、カードを足して撃破率を上げる判断は妥当。HP12の個体はカードなしでも計算上約72%で倒せ、攻撃(大)を使ったとすれば少し過剰。ただし結果は撃破で、コイン+8×2。</dd>
-<dt>読めなかった点</dt><dd class="note">各戦闘で実際に使ったカード(手札の減少から推定)</dd>
+<dt>状況</dt><dd>2体目のゼリーウィザード(HP15、防御3、反撃なし)。ナンシー攻撃16、バトルコスト上限6。手札:攻撃(中)、攻撃(大)、シャドウアタック。</dd>
+<dt>推奨</dt><dd class="rec">攻撃(中)+攻撃(大)(撃破率90.0%)か、攻撃(中)+シャドウアタック(90.7%)</dd>
+<dt>実際の行動</dt><dd>攻撃を使って撃破(攻撃21対防御5で16ダメージ)</dd>
+<dt>理由</dt><dd>attack_odds: カードなし27.8%、攻撃(中)57.4%、攻撃(大)74.1%、攻撃(中)+攻撃(大)90.0%。使用後に攻撃(中)がなくなっているので、中1枚で殴ったと推定する。57%は少し低いが、ウィザードが残ると3ダメージの被害が続く。この戦闘では次の戦闘用にコスト2の攻撃(大)を温存する理由があり、結果的に16ダメージで撃破した。</dd>
+<dt>読めなかった点</dt><dd class="note">使ったカードの正確な種類(攻撃(中)と推定)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>2体目に(中)、3体目に(大)を使用(推定・実際)</td><td>2体とも撃破。3体目は少し過剰かもしれないが、取りこぼし防止として許容。</td></tr><tr><td>カードなしで殴る</td><td>2体目は撃破率28%と低く、倒し損ねる危険が大きい。</td></tr></tbody></table>
-</article><article id="t034-3">
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>攻撃(中)のみ(推定)</td><td>撃破率57.4%。コスト効率は良いが失敗の余地がある</td></tr><tr><td>攻撃(大)</td><td>撃破率74.1%。ただし次の戦闘用の大を失う</td></tr><tr><td>攻撃(中)+攻撃(大)</td><td>撃破率90.0%。ただし次の3体目に使える手が減る</td></tr></tbody></table>
+</article><article id="t034-4">
+<header><span class="time">12:29</span><span class="type">戦闘(攻撃)</span>
+<span class="pill best">最善</span><span class="note">確度: 中</span></header>
+<div class="shots"><a href="frames/f01131.jpg"><img loading="lazy" src="frames/f01131.jpg" alt="12:29の画面"></a><a href="frames/f01132.jpg"><img loading="lazy" src="frames/f01132.jpg" alt="12:30の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>3体目のゼリーウィザード(HP12、防御3、反撃なし)。ナンシー攻撃16、手札:攻撃(大)、シャドウアタック。</dd>
+<dt>推奨</dt><dd class="rec">攻撃(大)を使って殴る(撃破率95.4%)</dd>
+<dt>実際の行動</dt><dd>攻撃(大)を使い、攻撃28で撃破</dd>
+<dt>理由</dt><dd>attack_odds: カードなし72.2%、攻撃(大)95.4%、シャドウアタック97.2%、両方100%。反撃がない敵なので、シャドウアタックの反撃無効は不要。攻撃(大)を使ったのはコスト2で撃破率が一番上がる使い方で妥当。実際は攻撃28で22ダメージ与え撃破(コイン+8)。</dd>
+
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>攻撃(大)</td><td>撃破率95.4%。シャドウアタックを温存できる</td></tr><tr><td>カードなし</td><td>撃破率72.2%。失敗するとウィザードが残る</td></tr><tr><td>シャドウアタック</td><td>97.2%だが反撃無効は不要で、シャドウアタックを温存した方が良い</td></tr></tbody></table>
+</article><article id="t034-5">
 <header><span class="time">12:33</span><span class="type">チップ購入</span>
 <span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f01139.jpg"><img loading="lazy" src="frames/f01139.jpg" alt="12:33の画面"></a><a href="frames/f01149.jpg"><img loading="lazy" src="frames/f01149.jpg" alt="12:39の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ナンシーはLv3で、コインは47。強化チップショップに止まった(通過した可能性もある)。購入後は攻16→18、HP+3(14/14)になった。</dd>
-<dt>推奨</dt><dd class="rec">チップを買う(実際と同じ)</dd>
-<dt>実際の行動</dt><dd>強化チップを購入し、攻撃力とHPが上がった</dd>
-<dt>理由</dt><dd>Lv3(最大)ではレベルアップにコインを使えない。チップショップ価格は10コインで、左枠は金が出やすい。狂気・Lv3の1枠あたりの確率は青25/紫50/金25%。コインが余っているので買うのが最善。結果として攻撃+2、HP+3が得られた。</dd>
-<dt>読めなかった点</dt><dd class="note">購入したチップ名、コインが47→45になった理由</dd>
+<dt>状況</dt><dd>ロードブロックで強化チップショップに停止。コイン55(撃破+8を含む)、スター3、狂気。購入前のチップ購入回数は0(1回目は10コイン)。</dd>
+<dt>推奨</dt><dd class="rec">10コインで1回購入する</dd>
+<dt>実際の行動</dt><dd>強化チップショップでチップを購入した</dd>
+<dt>理由</dt><dd>chip_odds: スター3・狂気では、各枠が青25/紫50/金25%で、左枠は金固定。コインはスター3で使い道が少なく、55→45で十分に残る。1回目の10コインは安い。購入後、攻撃16→18、最大HP+3(HP14/14)と戦力が上がった。</dd>
+<dt>読めなかった点</dt><dd class="note">購入したチップの名前(攻撃+2、最大HP+3の効果が見えた)、3択の内容</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>チップを購入(実際)</td><td>Lv3でコインが余っており、強化の価値が高い。</td></tr><tr><td>購入しない</td><td>コインが死に金になる。</td></tr></tbody></table>
-</article><article id="t034-4">
-<header><span class="time">12:43</span><span class="type">戦闘(攻撃)</span>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>チップを購入</td><td>10コインで攻撃+2、HP+3。良い買い物</td></tr><tr><td>購入しない</td><td>コインが余るだけで、戦力にならない</td></tr></tbody></table>
+</article><article id="t034-6">
+<header><span class="time">12:39</span><span class="type">戦闘(攻撃)</span>
 <span class="pill bad">悪手</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f01154.jpg"><img loading="lazy" src="frames/f01154.jpg" alt="12:43の画面"></a><a href="frames/f01159.jpg"><img loading="lazy" src="frames/f01159.jpg" alt="12:46の画面"></a></div>
+<div class="shots"><a href="frames/f01149.jpg"><img loading="lazy" src="frames/f01149.jpg" alt="12:39の画面"></a><a href="frames/f01154.jpg"><img loading="lazy" src="frames/f01154.jpg" alt="12:43の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ナンシーは攻18、HP14、防7で、手札にシャドウアタックと対モンスター用レーザーがあった。カード使用は3/3で、レーザーは使えない。相手は看守(HP25/防4、反撃あり、攻撃力は狂気で5前後)。看守は罪証を持つ者にしか攻撃しないが、累計5ダメージを受けると全員を攻撃するようになる。ミッション進捗や味方の位置は不明。</dd>
-<dt>推奨</dt><dd class="rec">看守とは戦わずにスルーする。手番は敵から2マス離れて終え、次ターンのファイアウォールを狙う。</dd>
-<dt>実際の行動</dt><dd>看守にシャドウアタックで攻撃し、19ダメージを与えて残りHP6にした</dd>
-<dt>理由</dt><dd>シャドウアタックを使っても、撃破率は0%(最大ダメージ22&lt;HP25)。期待ダメージは17で、実際は19ダメージを与えた。看守は累計5ダメージで対象制限がなくなり、全員を攻撃してくる。実際、残りHP6の看守が敵フェイズでプレイヤーA(HP9)に9ダメージを与えて倒した。看守のもう1体もプレイヤーC(HP7)を攻撃した。wikiも、倒すビジョンがないまま看守を殴るなと指摘している。シャドウアタックの消費も痛い。さらにナンシーが敵の近くに残り、次ターンのファイアウォール(2マス以内に敵がいないとき)も得にくくなった。倒せないなら殴らないのが基本。ナンシーの潜在解放前は特に雑に殴るなという指針でもある。</dd>
-<dt>読めなかった点</dt><dd class="note">看守の位置関係(戦闘を選べたか、止まって強制だったか)</dd>
+<dt>状況</dt><dd>強化チップショップのあと、同じマスの近くに看守(HP25/25、防御4、攻撃8)がいる。ナンシー攻撃18、防御7、HP14/14。カードは3/3使用済み。手札:シャドウアタック、対モンスター用レーザー。味方のプレイヤーA(テル)はHP9で近くのセーフティポイントにいる。</dd>
+<dt>推奨</dt><dd class="rec">看守を殴らない</dd>
+<dt>実際の行動</dt><dd>シャドウアタックで看守を殴り、25→6まで削った</dd>
+<dt>理由</dt><dd>attack_odds: シャドウアタックを使っても撃破率0%(最大22ダメージで25に届かない、期待ダメージ17)。看守は累計5ダメージで全員を殴るようになるので、倒せる見込みがない攻撃は避けるのが鉄則。実際に19ダメージを与えて看守が6/25で残り、敵ターンにテル(HP9)が殴られて倒され、プレイヤーCも被弾した。シャドウアタックもここで失った。</dd>
+<dt>読めなかった点</dt><dd class="note">看守と戦闘になった経緯(スルーできたか不明)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>シャドウアタックで殴る(実際)</td><td>撃破0%。19ダメージを与えたが、看守が全員を攻撃するようになり、味方が倒された。</td></tr><tr><td>戦闘をスルー</td><td>看守は罪証がなければ攻撃してこないため安全。カードも温存できる。</td></tr><tr><td>カードなしで殴る</td><td>撃破0%で反撃も受ける。シャドウアタックより悪い。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>看守を殴らない</td><td>看守は罪証持ち以外を殴らない状態のまま。味方の被害を避けられる</td></tr><tr><td>シャドウアタックで殴る</td><td>撃破率0%。5ダメージ超で看守が全員を殴るようになる</td></tr></tbody></table>
 </article><article id="t037-0">
-<header><span class="time">13:52</span><span class="type">その他</span>
-<span class="pill best">最善</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f01262.jpg"><img loading="lazy" src="frames/f01262.jpg" alt="13:52の画面"></a><a href="frames/f01267.jpg"><img loading="lazy" src="frames/f01267.jpg" alt="13:56の画面"></a></div>
+<header><span class="time">13:51</span><span class="type">手番の行動</span>
+<span class="pill ok">許容</span><span class="note">確度: 低</span></header>
+<div class="shots"><a href="frames/f01260.jpg"><img loading="lazy" src="frames/f01260.jpg" alt="13:51の画面"></a><a href="frames/f01262.jpg"><img loading="lazy" src="frames/f01262.jpg" alt="13:52の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>手番開始時。HP14/14、攻撃32、防御5。スキルは再使用待ち(CT1)で使えない。手札は対モンスター用レーザーとガード(特大)。ゴクチョーのHPは約151。真犯人状態に見える(被ダメ+2が乗っていた)。</dd>
-<dt>推奨</dt><dd class="rec">対モンスター用レーザーをゴクチョーに使う</dd>
-<dt>実際の行動</dt><dd>レーザーをゴクチョーに使った(ボスのHPが148になった)</dd>
-<dt>理由</dt><dd>レーザーは効果カードで、バトルのコストも消費しない。ゴクチョーのHPは約151から148に減った(画像3のHP表示から読み取った)。残りHPが少ないボスにはわずかでも有効。看守は撃破できず、23HPに3ダメージではほぼ無意味なので、ボスに撃つのが妥当。手札にはほかの効果カードがなく、温存する理由も薄い。</dd>
-<dt>読めなかった点</dt><dd class="note">レーザーの正確な射程と対象マスの距離、ミッションの達成状況、手がかりの収集数</dd>
+<dt>状況</dt><dd>ナンシーロー(スターレベル3、HP14/14、コイン45、攻撃32、防御5、罪証7で被ダメ+2とみられる)。手札は対モンスター用レーザーとガード(特大)。近くに看守が2体いて、ゴクチョーは148/232。進捗13で、手がかりは4/5。</dd>
+<dt>推奨</dt><dd class="rec">レーザーは看守に撃たず、温存するか、倒しきれる敵に使う。ガード(特大)は温存する。</dd>
+<dt>実際の行動</dt><dd>対モンスター用レーザーを看守に使用した</dd>
+<dt>理由</dt><dd>看守は23HPで、レーザー(3ダメージ)では倒せない。看守は累計5ダメージで全員を殴る敵でもある。使用後も看守のHPはほとんど減っておらず、効果が薄い。ただし真相発覚後で看守は罪証持ちのナンシーを追うため、実害は小さい。手札も防御カードは残している。</dd>
+<dt>読めなかった点</dt><dd class="note">レーザーの正確な着弾先と実際のダメージ(看守の表示HPがほぼ変わらない)、手番開始時の正確な現在地(推定は不確か)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>レーザーをゴクチョーに使う</td><td>ボスを3削れる。ボス戦でのダメージ総量が増える。</td></tr><tr><td>レーザーを看守に使う</td><td>看守はHP23で倒せない。意味が薄い。</td></tr><tr><td>使わない</td><td>温存する利点が見当たらない。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>レーザーを看守に使う</td><td>3ダメージでは倒せず、効果が薄い。ただし実害も小さい。</td></tr><tr><td>レーザーを温存する</td><td>トドメが近い敵が出たときの手札になる。</td></tr></tbody></table>
 </article><article id="t037-1">
+<header><span class="time">13:55</span><span class="type">分岐</span>
+<span class="pill best">最善</span><span class="note">確度: 中</span></header>
+<div class="shots"><a href="frames/f01265.jpg"><img loading="lazy" src="frames/f01265.jpg" alt="13:55の画面"></a><a href="frames/f01267.jpg"><img loading="lazy" src="frames/f01267.jpg" alt="13:56の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>移動開始時に、疾走マスの先で2方向に分かれる点線が出ていた。画面の右上へ伸びる道は、災厄→強化チップショップ→イベント→スタートポイントと続く。画面の左上へ伸びる道は、リカバリー→セーフティポイント→突撃ゲートと続く。HPは14/14、コインは45。</dd>
+<dt>推奨</dt><dd class="rec">右上の道(強化チップショップ側)</dd>
+<dt>実際の行動</dt><dd>右上の道(強化チップショップ側)へ進んだ</dd>
+<dt>理由</dt><dd>route_oddsでは、右上の道は強化チップショップを通る確率が80%だった。左上の道は、セーフティポイントで止まれる確率が80%、強化チップショップを通る確率が20%だった。HPが満タンなので回復の価値は低い。スターレベル3でレベルアップ先もないコイン45は、チップ購入に使うのが妥当。先でゴクチョーや看守に近づくリスクはあるが、判断の時点では読めない。</dd>
+<dt>読めなかった点</dt><dd class="note">出発マスと進んだ向きは点線の並びからの推定で、確信は低い</dd>
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>右上の道(災厄→強化チップショップ→イベント→スタートポイント)</td><td>強化チップショップを80%の確率で通る。コイン45の使い道になる。</td></tr><tr><td>左上の道(リカバリー→セーフティポイント→突撃ゲート)</td><td>セーフティポイントで80%止まれる。ただしHP満タンでは得が小さい。</td></tr></tbody></table>
+</article><article id="t037-2">
 <header><span class="time">13:56</span><span class="type">チップ購入</span>
 <span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f01267.jpg"><img loading="lazy" src="frames/f01267.jpg" alt="13:56の画面"></a><a href="frames/f01268.jpg"><img loading="lazy" src="frames/f01268.jpg" alt="13:56の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>Lv3(上限)でコイン45。強化チップショップを通過し、コインが45から30になった(15コインの購入)。</dd>
-<dt>推奨</dt><dd class="rec">コインに余裕があるのでチップを買う(15コイン)</dd>
-<dt>実際の行動</dt><dd>15コインでチップを購入した</dd>
-<dt>理由</dt><dd>Lv3はこれ以上レベルアップできず、コインの使い道が少ない。chip_oddsでは狂気・Lv3の1枠あたり青25%・紫50%・金25%。左枠は金確定で、3択のうち少なくとも1枚が金になる確率は100%。次回価格は15コインで、30コインが残るので痛くない。終盤のボス戦に向けて火力か耐久を足せる。選んだチップの中身は画面にないので、そこは評価していない。</dd>
-<dt>読めなかった点</dt><dd class="note">提示された3択のチップ、どのチップを選んだか</dd>
+<dt>状況</dt><dd>スターレベル3で、コインは45。強化チップショップを通過した。</dd>
+<dt>推奨</dt><dd class="rec">チップを購入する(15コイン)</dd>
+<dt>実際の行動</dt><dd>15コインでチップを購入した(コイン45→30)</dd>
+<dt>理由</dt><dd>chip_oddsでは、スターレベル3の狂気で1枠あたり青25%/紫50%/金25%、左の枠は金が確定する。価格は15コインで、コインはレベルアップにもう使えず、余りが出る。購入後も30コイン残る。</dd>
+<dt>読めなかった点</dt><dd class="note">提示されたチップ3択の中身と選んだチップ</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>チップを買う(15コイン)</td><td>Lv3でコインが余っているため、買い得。金チップが必ず1枚は出る。</td></tr><tr><td>買わずにコインを温存</td><td>使い道が乏しく、温存する意味が薄い。</td></tr></tbody></table>
-</article><article id="t037-2">
-<header><span class="time">14:05</span><span class="type">戦う/スルー</span>
-<span class="pill ok">許容</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f01281.jpg"><img loading="lazy" src="frames/f01281.jpg" alt="14:05の画面"></a><a href="frames/f01283.jpg"><img loading="lazy" src="frames/f01283.jpg" alt="14:06の画面"></a></div>
-<dl>
-<dt>状況</dt><dd>ゴクチョーのHPは148/232。真相発覚後で、ゴクチョーを倒せば勝利になる状態に見える。進捗バーは13で、上限の16/×までの猶予が少ない。ナンシーのスキルは使えず、手札はガード(特大)のみ。ボスの防御は8(攻撃合計36に対しダメージ28から逆算)、攻撃は14前後。</dd>
-<dt>推奨</dt><dd class="rec">カードなしでゴクチョーを殴る(ガード(特大)は反撃用に温存)</dd>
-<dt>実際の行動</dt><dd>ゴクチョーを攻撃した(攻撃合計36でボスのHPが148→120)</dd>
-<dt>理由</dt><dd>ボスは残りHPが約120〜150で、1ターン約30ダメージ×数ターンで倒せる射程に入っている。進捗に余裕がないので、削るタイミングを逃せない。ナンシーの潜在解放で手札5枚以下ならバトルカードを捨てないため、攻撃してもガードを失わない。攻撃カードは手札になく、素の攻撃で28ダメージが出た。ただしボスは反撃してくる。反撃を受けたあとのHPが、位置関係しだいで危険になる点がリスク。</dd>
-<dt>読めなかった点</dt><dd class="note">ミッション・手がかりの正確な状況、ボスのバフ・デバフ、看守との正確な距離</dd>
-</dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ゴクチョーを攻撃する</td><td>28ダメージ。ボスのHP148→120。進捗を考えると必要な行動。反撃でHP7まで落ちるのがリスク。</td></tr><tr><td>攻撃せず待機・回復</td><td>進捗が足りなくなる。ボス撃破の見込みが遠のく。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>チップを購入する</td><td>コインの使い道が他になく、金チップの確率も高い。</td></tr><tr><td>購入しない</td><td>コインが余るだけで得がない。</td></tr></tbody></table>
 </article><article id="t037-3">
-<header><span class="time">14:11</span><span class="type">戦闘(防御)</span>
-<span class="pill best">最善</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f01288.jpg"><img loading="lazy" src="frames/f01288.jpg" alt="14:11の画面"></a><a href="frames/f01289.jpg"><img loading="lazy" src="frames/f01289.jpg" alt="14:12の画面"></a></div>
+<header><span class="time">14:05</span><span class="type">戦闘(攻撃)</span>
+<span class="pill ok">許容</span><span class="note">確度: 低</span></header>
+<div class="shots"><a href="frames/f01280.jpg"><img loading="lazy" src="frames/f01280.jpg" alt="14:05の画面"></a><a href="frames/f01281.jpg"><img loading="lazy" src="frames/f01281.jpg" alt="14:05の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ゴクチョーの反撃。敵ダイス2、攻撃14前後。ナンシーはHP14、防御5。ガード(特大)が手札にあり、バトルコスト上限は6。反撃は回避を選べない場面として扱った。被ダメ+2の影響で、画面のダメージは計算より大きく見えた。</dd>
-<dt>推奨</dt><dd class="rec">ガード(特大)を使って防御</dd>
-<dt>実際の行動</dt><dd>ガード(特大)を使って防御した(出目+3でHP14→7)</dd>
-<dt>理由</dt><dd>defense_oddsでは、カードなしの期待ダメージ7.5に対し、ガード(特大)ありなら2.93。死亡確率はどちらも0%(被ダメ+2を考慮しても最大約12でHP14に収まる)。HPを残すことが、直後の看守の攻撃への備えとして重要。使ったカードのコストは3で、コスト上限6以内に収まっている。実際はガードが+3とやや低い出目で、HP14→7になった。</dd>
-<dt>読めなかった点</dt><dd class="note">被ダメ+2が付いている正確な理由、反撃で回避を選べたかどうか</dd>
+<dt>状況</dt><dd>ゴクチョーと同じマスに止まって戦闘した。ゴクチョーは148/232で防御6前後。HPは14、攻撃32、防御5、被ダメ+2とみられる。攻撃カードはなく、ガード(特大)のみ。</dd>
+<dt>推奨</dt><dd class="rec">倒しきれない戦いなので、自分から戦うならガード(特大)を残す。または戦闘を避ける。</dd>
+<dt>実際の行動</dt><dd>カードなしで攻撃し、28ダメージを与えた(ゴクチョー148→120)</dd>
+<dt>理由</dt><dd>attack_oddsでは、カードなしの撃破率は0%で、期待ダメージは26。反撃は100%で、期待被害は11、死亡率は16.7%だった。実際は36対8で28ダメージを与え、HPは148→120になった。真相発覚後のゴクチョーは同じマスにいれば攻撃してくるため、与ダメージを取る意味はある。ただし反撃で大きく削られるため、後続の看守に耐えられなくなる。</dd>
+<dt>読めなかった点</dt><dd class="note">戦闘を避けられたかどうか、ゴクチョーの正確な防御値(合計8から推定)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ガード(特大)を使って防御</td><td>期待ダメージ2.93。死亡0%。</td></tr><tr><td>カードなしで防御</td><td>期待ダメージ7.5。ガードを温存できるが、HPを削られすぎる。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>カードなしで攻撃する</td><td>28ダメージ。反撃で大きなHP損失が出る。</td></tr><tr><td>戦闘を避ける</td><td>可能なら、HPとガード(特大)を看守戦に温存できる。</td></tr></tbody></table>
 </article><article id="t037-4">
+<header><span class="time">14:12</span><span class="type">戦闘(防御)</span>
+<span class="pill best">最善</span><span class="note">確度: 中</span></header>
+<div class="shots"><a href="frames/f01289.jpg"><img loading="lazy" src="frames/f01289.jpg" alt="14:12の画面"></a><a href="frames/f01299.jpg"><img loading="lazy" src="frames/f01299.jpg" alt="14:17の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>ゴクチョーの反撃。敵の攻撃は14に出目2で、合計16。ナンシーはHP14、防御5、被ダメ+2で、手札にガード(特大)がある。</dd>
+<dt>推奨</dt><dd class="rec">ガード(特大)を使って防御</dd>
+<dt>実際の行動</dt><dd>ガード(特大)を使って防御し、7ダメージを受けた</dd>
+<dt>理由</dt><dd>defense_oddsでは、ガード(特大)で防御すると死亡0%、期待ダメージ4.93だった。カードなしの防御は期待ダメージ9.5(最大12)。回避は成功66.7%だが、失敗すると死亡33.3%になる。防御カード使用で死亡0%なので安全。実際は防御の出目が3でカード+3、被害は7、HPは14→7になった。</dd>
+<dt>読めなかった点</dt><dd class="note">ゴクチョーの攻撃力は画面の数値からの推定</dd>
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ガード(特大)を使って防御</td><td>死亡0%、期待ダメージ4.93。</td></tr><tr><td>カードなしで防御</td><td>死亡0%だが期待ダメージ9.5。</td></tr><tr><td>回避</td><td>成功66.7%だが、失敗すると死亡する(33.3%)。</td></tr></tbody></table>
+</article><article id="t037-5">
 <header><span class="time">14:17</span><span class="type">戦闘(防御)</span>
 <span class="pill best">最善</span><span class="note">確度: 高</span></header>
 <div class="shots"><a href="frames/f01299.jpg"><img loading="lazy" src="frames/f01299.jpg" alt="14:17の画面"></a><a href="frames/f01304.jpg"><img loading="lazy" src="frames/f01304.jpg" alt="14:20の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>敵フェーズで看守に攻撃された。看守の攻撃14、ダイス5。ナンシーはHP7、防御5。手札は早すぎるおんなだけで、防御カードはない。</dd>
-<dt>推奨</dt><dd class="rec">回避を選ぶ</dd>
-<dt>実際の行動</dt><dd>回避を選んだが失敗し、21ダメージで昏迷した</dd>
-<dt>理由</dt><dd>defense_oddsでは、防御は死亡100%(期待ダメージ10.5、最大13)。回避は成功率16.7%で、成功すれば無傷。防御カードがなく、防御でどうしても倒されるので、1/6に賭ける回避が唯一の生還ルート。結果は失敗(防御0で21ダメージ)だったが、選択自体は正しい。</dd>
-<dt>読めなかった点</dt><dd class="note">看守の正確な攻撃力の内訳、被ダメ+2の詳細</dd>
+<dt>状況</dt><dd>看守の攻撃。敵の攻撃は14に出目5で、合計19。ナンシーはHP7、防御5、被ダメ+2で、防御カードはない。</dd>
+<dt>推奨</dt><dd class="rec">回避</dd>
+<dt>実際の行動</dt><dd>回避を選び、失敗して21ダメージを受け昏迷した</dd>
+<dt>理由</dt><dd>defense_oddsでは、防御は死亡100%(期待ダメージ12.5、最大15)だった。回避は成功16.7%(出目6のみ)で、死亡83.3%だった。どちらも高確率で倒されるが、生き残る可能性があるのは回避だけ。実際は回避に失敗し、21ダメージで倒れた。選択は妥当で、結果は出目の問題。</dd>
+
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>回避</td><td>生存16.7%(敵ダイス5なので6のみ成功)。</td></tr><tr><td>防御(カードなし)</td><td>死亡100%。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>回避</td><td>生存16.7%。唯一の生存手段。</td></tr><tr><td>防御(カードなし)</td><td>どの出目でも倒される。</td></tr></tbody></table>
 </article><article id="t045-0">
 <header><span class="time">17:10</span><span class="type">対象選択</span>
-<span class="pill best">最善</span><span class="note">確度: 高</span></header>
+<span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f01549.jpg"><img loading="lazy" src="frames/f01549.jpg" alt="17:10の画面"></a><a href="frames/f01553.jpg"><img loading="lazy" src="frames/f01553.jpg" alt="17:13の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>手番開始時。攻撃18、防御7、HP14/14、手札は早すぎるおんな・対モンスター用レーザー・チャージ。ボスのゴクチョー(HP99表示、防御6)にスキルのハッキングを使い、チャージ(+5)を乗せて攻撃23+ダイスで殴った。</dd>
-<dt>推奨</dt><dd class="rec">ゴクチョーにスキルを使い、チャージを使って戦闘する(反撃を受けず、会心の一撃も手に入る)。</dd>
-<dt>実際の行動</dt><dd>ゴクチョーにスキルを使い、チャージ(+5)を乗せて戦闘した。ゴクチョーは99→70。</dd>
-<dt>理由</dt><dd>スキルの戦闘ではバトルカードを失わず、2マスより離れていれば反撃もない。チャージのコスト5(上限6)はこの戦闘だけで使い切れる。しかもチャージは会心の一撃を手札に残すので、次の通常戦闘の火力になる。この戦闘で約29ダメージが入り、ゴクチョーは70/232まで下がった。潜在解放済みで手札が5枚以下でもナンシーの運用として理想的。</dd>
-<dt>読めなかった点</dt><dd class="note">スキル使用前のゴクチョーとの正確な距離、ゴクチョーの正確な現在HP(表示は99、戦闘後は70/232)</dd>
+<dt>状況</dt><dd>ナンシーロー☆3、HP14/14、攻撃18、防御7、コイン46。手札は早すぎるおんな、対モンスター用レーザー、チャージ。ゴクチョーのHPは99(最大232)で、手がかりは4/5。真相発覚後の状態と推測した。</dd>
+<dt>推奨</dt><dd class="rec">スキルでゴクチョーを指定し、チャージ(+5)を使って遠距離攻撃する</dd>
+<dt>実際の行動</dt><dd>スキルでゴクチョーを攻撃し、チャージ+5を使って20ダメージ</dd>
+<dt>理由</dt><dd>ナンシーのスキルは3マス以上離れていれば反撃されず、バトルカードも失わない。ボスを安全に削れる一番良い使い方になる。チャージは+5でコスト5と重いが、会心の一撃が手に入る。結果は攻撃27対防御7で20ダメージ。カードを無駄にしない運用になっている。</dd>
+<dt>読めなかった点</dt><dd class="note">スキルの残りCT、ゴクチョーとの正確な距離、潜在解放の有無</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ゴクチョーにスキル+チャージ</td><td>約29ダメージ。反撃なし。会心の一撃を獲得。</td></tr><tr><td>スキルをチャージなしで使う</td><td>火力が下がり、会心の一撃も得られない。</td></tr><tr><td>スキルを温存する</td><td>CTを回せず損。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>スキルでゴクチョーを攻撃(チャージ使用)</td><td>反撃なしで約20ダメージ。会心の一撃も得られる</td></tr><tr><td>スキルを温存</td><td>CTが回らず、ボス削りの機会を失う</td></tr></tbody></table>
 </article><article id="t045-1">
 <header><span class="time">17:14</span><span class="type">手番の行動</span>
 <span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f01555.jpg"><img loading="lazy" src="frames/f01555.jpg" alt="17:14の画面"></a><a href="frames/f01560.jpg"><img loading="lazy" src="frames/f01560.jpg" alt="17:19の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>スキル戦闘後。手札は早すぎるおんな・レーザー・攻撃(大)・会心の一撃。自分を対象に早すぎるおんな(次の移動がダイス2個)を使った。カード使用は1/3。</dd>
-<dt>推奨</dt><dd class="rec">早すぎるおんなを自分に使う。</dd>
-<dt>実際の行動</dt><dd>自分に早すぎるおんなを使って2ダイスで移動した。</dd>
-<dt>理由</dt><dd>ナンシーは4番手で、味方に使っても効果は次ラウンドまで持ち越される。自分に使えば2ダイスの移動で、ショップの通過、ゴクチョーとの接触、強化チップショップまで届く。実際にショップ2か所を通過し、ゴクチョーに接触し、チップショップまで進めた。ボスを削り切る必要がある局面で、移動力を火力と買い物に変えられた。</dd>
-<dt>読めなかった点</dt><dd class="note">ダイスの具体的な出目</dd>
+<dt>状況</dt><dd>コイン46で☆3のため、コインの使い道が少ない。手札は早すぎるおんな、レーザー、攻撃(大)、会心の一撃。ゴクチョーは70まで削れている。</dd>
+<dt>推奨</dt><dd class="rec">早すぎるおんなを自分に使い、ショップを通りつつゴクチョーの先まで動く</dd>
+<dt>実際の行動</dt><dd>早すぎるおんなを自分に使用</dd>
+<dt>理由</dt><dd>route_oddsでは2d10の移動でどちらの道でもショップを通る確率は約97%。余剰コインの振込みと買い物の機会が増える。ゴクチョーにも届く距離まで動ける。早すぎるおんなは使った後ショップで買い直せている。</dd>
+
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>自分に早すぎるおんな</td><td>2ダイスで長距離を動け、ゴクチョー戦・ショップ・チップショップに届く。</td></tr><tr><td>使わず通常移動</td><td>平均6〜7マスで、ショップやチップショップに届かない可能性が高い。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>早すぎるおんなを自分に使う</td><td>ショップ97%通過。買い物とゴクチョー攻撃の両方に届く</td></tr><tr><td>通常の1d10で移動</td><td>ショップを複数回通る確率が低い</td></tr></tbody></table>
 </article><article id="t045-2">
-<header><span class="time">17:20</span><span class="type">ショップ</span>
+<header><span class="time">17:19</span><span class="type">分岐</span>
 <span class="pill best">最善</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f01563.jpg"><img loading="lazy" src="frames/f01563.jpg" alt="17:20の画面"></a><a href="frames/f01564.jpg"><img loading="lazy" src="frames/f01564.jpg" alt="17:21の画面"></a></div>
+<div class="shots"><a href="frames/f01560.jpg"><img loading="lazy" src="frames/f01560.jpg" alt="17:19の画面"></a><a href="frames/f01562.jpg"><img loading="lazy" src="frames/f01562.jpg" alt="17:20の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>移動中にショップを2か所通過した。コインは46→32→21。プレイヤーA(テル)のコインは10→15、プレイヤーB(ユメ)のコインは0→5。手札は5〜8枚に増えた(ガード(特大)・リモコンダイス・早すぎるおんな・攻撃(特大)・ブリックなど)。</dd>
-<dt>推奨</dt><dd class="rec">振込みを2回して、カードを数枚買う。強化チップショップ用に20コインは残す。</dd>
-<dt>実際の行動</dt><dd>振込み2回とカード購入をして、21コインを残した。</dd>
-<dt>理由</dt><dd>Lv3でコインの使い道は強化チップショップ(次回20)くらいしかない。そのため、余った分を味方への振込み(各5)とカードに回すのが正しい。コインの動きから、振込み2回とカード5枚前後(各3コイン)と読める。使った合計は25で、チップ用の21コインがちょうど残っている。テルもユメもレベル3まで届かないが、遊ばせるより価値がある。カードは手札上限8枚の範囲に収まった。</dd>
-<dt>読めなかった点</dt><dd class="note">購入したカードの正確な一覧、各ショップで買った枚数</dd>
+<dt>状況</dt><dd>ショップの先で分かれる道。片方は金儲け→災厄→カード報酬→モンスターと続く。もう片方はイベント→突撃ゲート→セーフティポイント→リカバリー→災厄→ショップと続く。コインは46ある。</dd>
+<dt>推奨</dt><dd class="rec">イベント→突撃ゲート→セーフティポイント→リカバリー→災厄→ショップと続く道</dd>
+<dt>実際の行動</dt><dd>イベント側の道に進み、ショップを2回通った</dd>
+<dt>理由</dt><dd>route_oddsでは、この道は途中でショップをもう一度通る確率が97%で、セーフティポイントも85%で通れる。余ったコインをカード購入と振込みに回せる。もう一方の道は強化チップショップを通る確率が29%と高く、ショップの再通過は期待しづらい。コイン46で☆3の状況では二重ショップのほうが価値が高い。</dd>
+<dt>読めなかった点</dt><dd class="note">各道が画面のどちらの向きか</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>振込み2回+カード購入、20コインは残す</td><td>資源を味方に回し、チップショップ分も確保できている。</td></tr><tr><td>何も買わず通過する</td><td>46コインが遊び、味方の強化も進まない。</td></tr><tr><td>チップ代まで使い切る</td><td>強化チップショップに寄れなくなる。</td></tr></tbody></table>
-</article><article id="t045-7">
-<header><span class="time">17:21</span><span class="type">その他</span>
-<span class="pill ok">許容</span><span class="note">確度: 低</span></header>
-<div class="shots"><a href="frames/f01564.jpg"><img loading="lazy" src="frames/f01564.jpg" alt="17:21の画面"></a><a href="frames/f01567.jpg"><img loading="lazy" src="frames/f01567.jpg" alt="17:22の画面"></a></div>
-<dl>
-<dt>状況</dt><dd>ゴクチョーとの近接戦闘の前後で、ナンシーの手札には対モンスター用レーザー(6マス以内に3ダメージ)とブリック(3マス以内に5ダメージ)が残っていた。カード使用は1/3で、2枚分の枠が余っていた。進捗バーは上限(X)の1つ手前にある。</dd>
-<dt>推奨</dt><dd class="rec">ゴクチョーが射程内のうちに、ブリックとレーザーで追加の8ダメージを入れる。</dd>
-<dt>実際の行動</dt><dd>ブリックとレーザーは使わず温存した。</dd>
-<dt>理由</dt><dd>この2枚で追加8ダメージが入り、ゴクチョーの残りHPは21から13まで下がる。スキルと通常戦闘とカードの合計でも99には届かないので、このターンで倒し切れはしない。ただし、進捗が上限に迫る局面では、削れる分を次のラウンドに残さない価値がある。次のラウンドも自分で使えるので温存にも理があり、損は小さい。</dd>
-<dt>読めなかった点</dt><dd class="note">レーザーとブリックを使えた時点の距離、最終的なゴクチョーの現在HPが次ラウンドにどう影響するか</dd>
-</dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ブリック+レーザーを使う</td><td>追加8ダメージ。ボス残り13で味方が倒しやすくなる。</td></tr><tr><td>温存する(実際)</td><td>次ラウンドに自分で使って仕留める手もあり、損は小さい。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>イベント→突撃ゲート→セーフティポイント→リカバリー→災厄→ショップの道</td><td>ショップ通過97%、セーフティポイント85%</td></tr><tr><td>金儲け→災厄→カード報酬→モンスターの道</td><td>ショップは1回だけ。チップショップ到達29%</td></tr></tbody></table>
 </article><article id="t045-3">
+<header><span class="time">17:20</span><span class="type">ショップ</span>
+<span class="pill ok">許容</span><span class="note">確度: 中</span></header>
+<div class="shots"><a href="frames/f01562.jpg"><img loading="lazy" src="frames/f01562.jpg" alt="17:20の画面"></a><a href="frames/f01563.jpg"><img loading="lazy" src="frames/f01563.jpg" alt="17:20の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>ショップを2回通過した。コインは46から32、さらに21まで減った。購入と振込みは、テルに5、ユメに5、カード計5枚だった。ユメは0コイン。テルは10コインで☆2。</dd>
+<dt>推奨</dt><dd class="rec">余剰コインで防御カードと攻撃カードを買い、味方へ5コインずつ振り込む</dd>
+<dt>実際の行動</dt><dd>カード5枚を購入し、テルとユメへ5コインずつ振込み</dd>
+<dt>理由</dt><dd>☆3でコインの使い道が少ないので、購入と振込みで使い切るのは妥当。ガード(特大)や攻撃(特大)は後で実際に役立った。ただしテルは15コインでも☆3に届かず、振込みの即効性は低い。ユメの0→5は少し助けになる程度。手札を8枚まで増やしたため、その後の戦闘でバトルカードを捨てるリスクが出た。</dd>
+<dt>読めなかった点</dt><dd class="note">買ったカードの正確な内訳(ブリック、ガード(特大)、リモコンダイス、早すぎるおんな、攻撃(特大)と推定)、テルとユメの次のレベルアップまでのコイン</dd>
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>カード購入と振込みをする(実際)</td><td>コインを活かせる。振込みの即効性は低いが損は小さい</td></tr><tr><td>チップショップ用にコインを温存</td><td>20コインを残せば足りる。実際にも買えている</td></tr></tbody></table>
+</article><article id="t045-4">
 <header><span class="time">17:29</span><span class="type">戦闘(攻撃)</span>
 <span class="pill best">最善</span><span class="note">確度: 高</span></header>
 <div class="shots"><a href="frames/f01574.jpg"><img loading="lazy" src="frames/f01574.jpg" alt="17:29の画面"></a><a href="frames/f01577.jpg"><img loading="lazy" src="frames/f01577.jpg" alt="17:30の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>移動中にゴクチョー(HP70/232、防御6、反撃持ち)と接触した。攻撃18、HP14。コスト上限6。手札に会心の一撃(チャージで入手)、攻撃(特大)、攻撃(大)がある。会心の一撃(+6、最終値×1.5)と攻撃(特大)(+9)を使い、攻撃合計37→56でダメージ約49を与えた。ゴクチョーは21/232、反撃で自分は-4。</dd>
-<dt>推奨</dt><dd class="rec">会心の一撃+攻撃(特大)(コスト6)で攻撃する。</dd>
-<dt>実際の行動</dt><dd>会心の一撃+攻撃(特大)で攻撃した。ゴクチョーは70→21、自分は反撃で14→10。</dd>
-<dt>理由</dt><dd>attack_oddsでは、カードなしで期待ダメージ12、会心のみ31.5、会心+特大39.75(最大53)。HP70は誰を使っても倒せない(撃破率0%)。それでも進捗バーが上限(X)の目前で、ボスを早く削ることが最優先。ゴクチョーの反撃は期待-6(今回-4)と軽く、死亡率0%。ナンシーは手札6枚以上で攻撃するとバトルカードを1枚捨てるので、攻撃カードを使い切るのも合理的。残りHP21まで削り、次の味方が仕留めやすくなった。</dd>
-<dt>読めなかった点</dt><dd class="note">ゴクチョーの攻撃力(反撃)の正確な値</dd>
+<dt>状況</dt><dd>ゴクチョーはHP70で、防御は6。ナンシーは攻撃18、HP14、防御7。手札は攻撃(大)、会心の一撃、攻撃(特大)など。バトルコスト上限は6。ゴクチョーは反撃持ちで、倒しきれない。</dd>
+<dt>推奨</dt><dd class="rec">会心の一撃と攻撃(特大)を使って攻撃する</dd>
+<dt>実際の行動</dt><dd>会心の一撃と攻撃(特大)でゴクチョーを攻撃(70→21)</dd>
+<dt>理由</dt><dd>attack_oddsでは、この組み合わせは撃破率0%でも期待ダメージ39.75(最大53)で最大。反撃は避けられず被害の期待値は約8で、他の組み合わせと同じ。実際は49ダメージでゴクチョーは21まで減り、仲間が次の手番で倒せる射程になった。反撃は4ダメージで済んだ。ボスを削ることが勝利条件で、カードの使いどころとして妥当。</dd>
+<dt>読めなかった点</dt><dd class="note">敵の正確な攻撃力(13と推定)、潜在解放の有無</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>会心+攻撃(特大)</td><td>期待39.75。コストを使い切り、残りHPを最も減らせる。反撃は期待-6。</td></tr><tr><td>会心のみ</td><td>期待31.5。残りHPが約8多くなる。</td></tr><tr><td>カードなし</td><td>期待12。ボスをほとんど削れない。</td></tr></tbody></table>
-</article><article id="t045-4">
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>会心の一撃+攻撃(特大)</td><td>期待39.75、最大53。70を21まで削った</td></tr><tr><td>会心の一撃+攻撃(大)</td><td>期待36.75、最大47。差は小さい</td></tr><tr><td>カードなし</td><td>期待12。反撃は同じで割に合わない</td></tr><tr><td>スルー</td><td>ボスを削る機会を逃す</td></tr></tbody></table>
+</article><article id="t045-5">
+<header><span class="time">17:40</span><span class="type">分岐</span>
+<span class="pill best">最善</span><span class="note">確度: 中</span></header>
+<div class="shots"><a href="frames/f01589.jpg"><img loading="lazy" src="frames/f01589.jpg" alt="17:40の画面"></a><a href="frames/f01592.jpg"><img loading="lazy" src="frames/f01592.jpg" alt="17:42の画面"></a></div>
+<dl>
+<dt>状況</dt><dd>ゴクチョーとの戦闘後、金儲けのマスで道が分かれる。1つはイベントを経て強化チップショップへ向かう道。もう1つは突撃ゲートからセーフティポイントへ向かう道。コインは21、☆3。</dd>
+<dt>推奨</dt><dd class="rec">イベント→強化チップショップ側の道</dd>
+<dt>実際の行動</dt><dd>強化チップショップ側へ進んだ</dd>
+<dt>理由</dt><dd>☆3のためレベルアップの用事はなく、HPも10/14で、セーフティポイントの回復は2しか見込めない。コインは21あり、20のチップ購入に届く。chip_oddsでは☆3・狂気のチップは青25/紫50/金25で、左枠は金確定。ここで買う価値は高い。</dd>
+<dt>読めなかった点</dt><dd class="note">各道が画面のどちらの向きか</dd>
+</dl>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>イベント→強化チップショップの道</td><td>20コインで金確定枠のチップを買える</td></tr><tr><td>突撃ゲート→セーフティポイントの道</td><td>HP2回復のみで、コインの使い道が残る</td></tr></tbody></table>
+</article><article id="t045-6">
 <header><span class="time">17:42</span><span class="type">チップ購入</span>
 <span class="pill best">最善</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f01592.jpg"><img loading="lazy" src="frames/f01592.jpg" alt="17:42の画面"></a><a href="frames/f01593.jpg"><img loading="lazy" src="frames/f01593.jpg" alt="17:42の画面"></a></div>
+<div class="shots"><a href="frames/f01593.jpg"><img loading="lazy" src="frames/f01593.jpg" alt="17:42の画面"></a><a href="frames/f01599.jpg"><img loading="lazy" src="frames/f01599.jpg" alt="17:47の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>強化チップショップを通過した。Lv3で、コインは21→1(価格20=3回目の購入)。購入後、攻撃力が18→23に上がっている。</dd>
-<dt>推奨</dt><dd class="rec">20コインで購入する(Lv3なので買う価値が高い)。</dd>
-<dt>実際の行動</dt><dd>チップを購入し、コインは1になった。攻撃力は23に上がった。</dd>
-<dt>理由</dt><dd>chip_oddsではLv3・狂気で青25%/紫50%/金25%。購入時は左枠が金になるため、金チップが必ず1枚は出る(3択のうち1枚以上が金100%)。Lv3はコインの使い道が少なく、次の目標もない。攻撃力が+5されており、終盤の火力として意味が大きい。選んだチップの内容までは読めないので、確度は中。</dd>
-<dt>読めなかった点</dt><dd class="note">提示された3択のチップ名、選んだチップの名前と効果</dd>
+<dt>状況</dt><dd>強化チップショップを通過した。コインは21、☆3、狂気。次のチップショップ価格は20。</dd>
+<dt>推奨</dt><dd class="rec">20コインでチップを購入する</dd>
+<dt>実際の行動</dt><dd>強化チップを購入(コイン21→1、攻撃18→23)</dd>
+<dt>理由</dt><dd>chip_oddsでは、☆3・狂気の3択は左枠が金確定で、他は青25/紫50/金25。20コインを払って21→1になるが、そのコインは☆3では他に使い道が薄い。購入後は攻撃が18→23になり、この後のティーポット戦とボス戦の火力が上がった。</dd>
+<dt>読めなかった点</dt><dd class="note">選んだチップの名前(攻撃+5の効果と推定)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>20コインでチップを購入</td><td>金が必ず出る。火力が上がる。</td></tr><tr><td>購入しない</td><td>コインが余る。</td></tr></tbody></table>
-</article><article id="t045-5">
-<header><span class="time">17:50</span><span class="type">戦う/スルー</span>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>チップを購入(20コイン)</td><td>攻撃+5。金確定枠あり。コインの使い道として最良</td></tr><tr><td>見送ってカード購入に回す</td><td>カード数枚では火力の伸びが小さい</td></tr></tbody></table>
+</article><article id="t045-7">
+<header><span class="time">17:50</span><span class="type">戦闘(攻撃)</span>
 <span class="pill best">最善</span><span class="note">確度: 高</span></header>
-<div class="shots"><a href="frames/f01605.jpg"><img loading="lazy" src="frames/f01605.jpg" alt="17:50の画面"></a><a href="frames/f01606.jpg"><img loading="lazy" src="frames/f01606.jpg" alt="17:51の画面"></a></div>
+<div class="shots"><a href="frames/f01604.jpg"><img loading="lazy" src="frames/f01604.jpg" alt="17:50の画面"></a><a href="frames/f01605.jpg"><img loading="lazy" src="frames/f01605.jpg" alt="17:50の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>チップショップの先で魔法のティーポット(HP7/12、防御1、反撃なし)と接触した。自分はHP10/14、攻撃23。手札は5枚。ティーポットは防御を選び、自分の攻撃26に対してHP7が倒された。</dd>
-<dt>推奨</dt><dd class="rec">戦う(カードは不要)。</dd>
-<dt>実際の行動</dt><dd>ティーポットを攻撃して倒した(HP+2、コイン+6)。</dd>
-<dt>理由</dt><dd>ティーポットは反撃なしで、撃破者にHP+2が入り、コインも約+6が得られる(実際に自分のコインは1→7、HPは10→12)。攻撃26に対してティーポットのHPは7なので確殺。手札は5枚以下で、潜在解放によりバトルカードも捨てない。デメリットがなく、体力とコインが戻る。</dd>
-<dt>読めなかった点</dt><dd class="note">ティーポットの最終ダメージ表示(画面が一部切れている)</dd>
+<dt>状況</dt><dd>魔法のティーポットはHP7で、防御を選んだ。ナンシーは攻撃23、HP10。手札は5枚。</dd>
+<dt>推奨</dt><dd class="rec">カードなしで攻撃して倒す</dd>
+<dt>実際の行動</dt><dd>カードなしで攻撃し、ティーポットを撃破</dd>
+<dt>理由</dt><dd>攻撃23に対してティーポットのHPは7。ほぼ確実に倒せるのでカードは不要。手札が5枚なので、潜在解放済みならバトルカードも失わない。結果は攻撃26で撃破、6コインを得た。</dd>
+<dt>読めなかった点</dt><dd class="note">ティーポットの防御力</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ティーポットを攻撃</td><td>確殺。HP+2、コイン+6。</td></tr><tr><td>スルー</td><td>回復とコインを逃し、ティーポットが次に味方を攻撃しうる。</td></tr></tbody></table>
-</article><article id="t045-6">
-<header><span class="time">18:04</span><span class="type">戦闘(防御)</span>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>カードなしで攻撃</td><td>ほぼ確実に撃破。カード温存</td></tr><tr><td>スルー</td><td>6コインを逃す</td></tr></tbody></table>
+</article><article id="t045-8">
+<header><span class="time">18:01</span><span class="type">戦闘(防御)</span>
 <span class="pill ok">許容</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f01624.jpg"><img loading="lazy" src="frames/f01624.jpg" alt="18:04の画面"></a><a href="frames/f01627.jpg"><img loading="lazy" src="frames/f01627.jpg" alt="18:05の画面"></a></div>
+<div class="shots"><a href="frames/f01622.jpg"><img loading="lazy" src="frames/f01622.jpg" alt="18:01の画面"></a><a href="frames/f01624.jpg"><img loading="lazy" src="frames/f01624.jpg" alt="18:04の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ゴクチョーのターン。ゴクチョー(HP21、攻撃13前後。画面表示は13)がナンシー(HP12/14、防御9前後)を攻撃してきた。ゴクチョーのダイスは4。ナンシーは防御を選び、防御カードを2枚使った。結果は-3でHP12→9。</dd>
-<dt>推奨</dt><dd class="rec">防御を選ぶ。防御カードは使っても使わなくても良いが、使うなら防御(大)2枚が効率的。</dd>
-<dt>実際の行動</dt><dd>防御を選び、防御カード2枚を使って3ダメージを受けた(HP12→9)。</dd>
-<dt>理由</dt><dd>defense_odds(攻撃13、防御9、HP12、ダイス4):防御カードなしは期待ダメージ4.5(最大7)、防御(大)1枚で1.97、2枚で1.16(最大5)。防御は死亡率0%。回避は成功33%で、失敗すると死亡率66.7%なので論外。防御は正しい。HP12なのでカードなしでも倒されないが、ナンシーは攻撃で手札を捨てるので防御カードは温存の価値が低く、2枚使って被ダメを抑えたのは妥当。進捗が逼迫している終盤のため、HPを守る意味も大きい。</dd>
-<dt>読めなかった点</dt><dd class="note">使った防御カードの正式名称と出目、画面の防御値表示(9-19)の意味、ゴクチョーの正確な攻撃力</dd>
+<dt>状況</dt><dd>敵フェイズでゴクチョー(HP21)がナンシーを攻撃。敵ダイス4。ナンシーはHP12、防御9(ファイアウォール込みと推定)、被ダメ+2(真犯人と推定)。手札に防御(大)が2枚、バトルコスト上限6。</dd>
+<dt>推奨</dt><dd class="rec">防御(大)1枚を使って防御(2枚目は温存)</dd>
+<dt>実際の行動</dt><dd>防御(大)2枚を使って防御(HP12→9)</dd>
+<dt>理由</dt><dd>defense_oddsでは、防御(大)2枚の期待ダメージ3.16、1枚で3.97、0枚で6.5(最大9)。回避は倒される確率66.7%で論外。カードなしでも最大9で倒れない(HP12)が、2枚目の削減は約0.8だけ。コインは1で買い足しもできないので、1枚は温存したかった。1枚と2枚の差は小さく、2枚使っても損は小さい。</dd>
+<dt>読めなかった点</dt><dd class="note">ナンシーの防御ダイスの目、防御(大)の出目、被ダメ+2の根拠(推定)</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>防御+防御カード2枚</td><td>期待1.16、最大5。死亡0%。</td></tr><tr><td>防御+防御カードなし</td><td>期待4.5、最大7。死亡0%。カードを温存できる。</td></tr><tr><td>回避</td><td>成功33%、失敗で死亡率66.7%(期待11.3)。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>防御(大)2枚を使って防御</td><td>期待3.16、最大7。実際は3ダメージ</td></tr><tr><td>防御(大)1枚を使って防御</td><td>期待3.97、最大8。1枚温存できる</td></tr><tr><td>カードなしで防御</td><td>期待6.5、最大9。HPが約5まで落ちる</td></tr><tr><td>回避</td><td>成功33.3%、失敗は倒されるリスク66.7%</td></tr></tbody></table>
 </article><article id="t049-0">
 <header><span class="time">19:01</span><span class="type">手番の行動</span>
 <span class="pill best">最善</span><span class="note">確度: 中</span></header>
 <div class="shots"><a href="frames/f01708.jpg"><img loading="lazy" src="frames/f01708.jpg" alt="19:01の画面"></a><a href="frames/f01709.jpg"><img loading="lazy" src="frames/f01709.jpg" alt="19:02の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ボスのゴクチョーはHP9/232で、ナンシーの攻撃力は44。手札は早すぎるおんな、リモコンダイス、攻撃(大)、攻撃(特大)、対モンスター用カードなど。ボスまでは距離があり、1個のダイスで届くかは画面から分からない。</dd>
-<dt>推奨</dt><dd class="rec">ボスに確実に届くよう、早すぎるおんな(またはリモコンダイス)を自分に使ってから移動する。</dd>
-<dt>実際の行動</dt><dd>早すぎるおんなを自分に使って移動した</dd>
-<dt>理由</dt><dd>ボスはHP9しかなく、攻撃44なら当たれば確実に倒せる(撃破率100%、被害0)。勝敗は移動で届くかどうかだけなので、ダイス2個になる早すぎるおんなで届く確率を上げるのは妥当。リモコンダイスは1〜6しか指定できないが、早すぎるおんなは2〜20なので届く範囲が広い。使ったあとも手札にリモコンダイスなどが残り、余裕もある。</dd>
-<dt>読めなかった点</dt><dd class="note">ナンシーとボスの正確なマス間距離、ターン開始時の移動補正</dd>
+<dt>状況</dt><dd>ゴクチョーは残りHP9/232。ナンシーは攻撃44・防御7で、ゴクチョーのいるマスまで10マスを超えるかもしれない距離にいた。手札はリモコンダイス、早すぎるおんな、攻撃(大)、攻撃(特大)など。味方のテルとユメは同じマスにいる。カード使用は0/3。</dd>
+<dt>推奨</dt><dd class="rec">早すぎるおんなを自分に使い、ゴクチョーに届く可能性を上げる。</dd>
+<dt>実際の行動</dt><dd>早すぎるおんなを自分に使用</dd>
+<dt>理由</dt><dd>ゴクチョーのHPは9しか残っていない。ナンシーは攻撃44で、撃破率100%、最小でも33ダメージが出る。届きさえすれば確実に倒せるので、ダイスを2個にして届く確率を上げるのは理にかなう。リモコンダイスは1〜6しか指定できず、移動補正も無視される。距離が不明なので、2個のダイスのほうが届く範囲が広い。</dd>
+<dt>読めなかった点</dt><dd class="note">ナンシーの手番開始時の正確な位置、ゴクチョーまでの正確な距離、ダイスの出目</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>早すぎるおんなを自分に使う</td><td>ダイス2個(2〜20)で届く範囲が広がる。実際にこれで勝利した。</td></tr><tr><td>リモコンダイスで出目を指定する</td><td>1〜6しか指定できず、距離が足りない可能性がある。</td></tr><tr><td>カードを使わずダイス1個で移動する</td><td>届かない可能性が高く、1ターン無駄にするリスクがある。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>早すぎるおんなを自分に使う</td><td>ダイス2個で届く範囲が広い。結果的に届いて勝利した。</td></tr><tr><td>リモコンダイスで1〜6を指定</td><td>最大6マスまでしか動けない。距離が6以内と確信できないと不安が残る。</td></tr><tr><td>カードを使わず通常のダイス</td><td>届かない可能性が高い。</td></tr></tbody></table>
 </article><article id="t049-1">
-<header><span class="time">19:05</span><span class="type">戦う/スルー</span>
-<span class="pill best">最善</span><span class="note">確度: 中</span></header>
-<div class="shots"><a href="frames/f01714.jpg"><img loading="lazy" src="frames/f01714.jpg" alt="19:05の画面"></a><a href="frames/f01722.jpg"><img loading="lazy" src="frames/f01722.jpg" alt="19:09の画面"></a></div>
+<header><span class="time">19:07</span><span class="type">ショップ</span>
+<span class="pill ok">許容</span><span class="note">確度: 低</span></header>
+<div class="shots"><a href="frames/f01718.jpg"><img loading="lazy" src="frames/f01718.jpg" alt="19:07の画面"></a><a href="frames/f01722.jpg"><img loading="lazy" src="frames/f01722.jpg" alt="19:09の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>移動の途中で看守(2体目、21/23)の近くを通った。目的はボスの撃破。</dd>
-<dt>推奨</dt><dd class="rec">看守とは戦わず、スルーしてボスへ向かう。</dd>
-<dt>実際の行動</dt><dd>看守とは戦わず、ボスまで移動した</dd>
-<dt>理由</dt><dd>ボスのHPが残り9で、倒せば勝ちが確定する。雑魚と戦ってもボス撃破以上の価値はない。ナンシーは自分から戦闘するとバトルカードを捨てるので、寄り道しないのが正しい。実際に戦闘せずボスへ到達したように見える。</dd>
-<dt>読めなかった点</dt><dd class="note">看守を実際に通過したかどうか、看守の防御・攻撃</dd>
+<dt>状況</dt><dd>移動中にショップを通過したとみられる。コインが7から4に減り、手札にガード(特大)が増えた。ショップのバナー自体は写っていない。</dd>
+<dt>推奨</dt><dd class="rec">勝てる見込みが高いなら購入は不要。ただし、何も買わなくても大きな損はない。</dd>
+<dt>実際の行動</dt><dd>3コインでガード(特大)を購入したとみられる</dd>
+<dt>理由</dt><dd>ゴクチョーのHPは9で、ナンシーはカードなしで撃破率100%。この手番で勝てる可能性が高く、ガード(特大)を買う意味は薄い。ただし、届かなかった場合に備える保険にはなる。コインは最大スターのナンシーにとって使い道が少なく、損は小さい。</dd>
+<dt>読めなかった点</dt><dd class="note">購入前の陳列内容、購入したショップの場所</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>スルーしてボスへ向かう</td><td>勝利に直結する。最善。</td></tr><tr><td>看守と戦う</td><td>勝利には無関係で、カードも失う。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>ガード(特大)を3コインで購入</td><td>損は小さいが、勝負を決める行動ではない。</td></tr><tr><td>購入しない</td><td>コインは温存できるが、この局面では使い道がほぼない。</td></tr></tbody></table>
 </article><article id="t049-2">
-<header><span class="time">19:15</span><span class="type">戦闘(攻撃)</span>
-<span class="pill ok">許容</span><span class="note">確度: 高</span></header>
-<div class="shots"><a href="frames/f01728.jpg"><img loading="lazy" src="frames/f01728.jpg" alt="19:15の画面"></a><a href="frames/f01729.jpg"><img loading="lazy" src="frames/f01729.jpg" alt="19:16の画面"></a></div>
+<header><span class="time">19:09</span><span class="type">戦闘(攻撃)</span>
+<span class="pill best">最善</span><span class="note">確度: 高</span></header>
+<div class="shots"><a href="frames/f01722.jpg"><img loading="lazy" src="frames/f01722.jpg" alt="19:09の画面"></a><a href="frames/f01723.jpg"><img loading="lazy" src="frames/f01723.jpg" alt="19:10の画面"></a></div>
 <dl>
-<dt>状況</dt><dd>ゴクチョー(HP9、防御6)と戦闘。ナンシーは攻撃44・HP14。攻撃(特大)と攻撃(大)が手札にある。</dd>
-<dt>推奨</dt><dd class="rec">攻撃カードは使わず、素の攻撃44で殴る。</dd>
-<dt>実際の行動</dt><dd>攻撃カード2枚(+3、+2)を使って攻撃し、ゴクチョーを撃破した</dd>
-<dt>理由</dt><dd>attack_oddsの結果は、カードなしで撃破率100%・最小ダメージ33で、HP9に対して十分。カードは使う意味がない。実際は+3と+2の攻撃カードを使い、44ダメージ(ダイス4)で撃破した。無駄だが、この戦闘で勝利が決まるため実害はなく、ゲームも終了している。</dd>
-<dt>読めなかった点</dt><dd class="note">ゴクチョーの攻撃力、反撃の有無</dd>
+<dt>状況</dt><dd>ゴクチョーは残りHP9/232、防御は6とみられる。ナンシーは攻撃44で、反撃の被害は考慮しなくてよい。ナンシーは戦闘を仕掛けると手札のバトルカードを左から捨てる。</dd>
+<dt>推奨</dt><dd class="rec">戦闘を仕掛けて、カードなしで倒す。</dd>
+<dt>実際の行動</dt><dd>ゴクチョーに戦闘を仕掛けて撃破し、勝利</dd>
+<dt>理由</dt><dd>attack_odds では、カードなしで撃破率100%、最小ダメージ33、期待ダメージ38で、HP9を大きく上回る。カードを使う必要はなく、実際にも1回の攻撃で撃破して勝利した。</dd>
+<dt>読めなかった点</dt><dd class="note">ゴクチョーの正確な防御値、使用したバトルカード</dd>
 </dl>
-<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>カードなしで攻撃</td><td>撃破率100%、被害0。</td></tr><tr><td>攻撃カード2枚を使って攻撃</td><td>撃破率は同じ100%でカードの無駄。ただし勝利で終わるので損失なし。</td></tr></tbody></table>
+<table><thead><tr><th>選択肢</th><th>評価</th></tr></thead><tbody><tr><td>戦闘を仕掛ける(カードなしで撃破率100%)</td><td>確実に倒せる。最善。</td></tr><tr><td>スルーする</td><td>勝利の機会を逃す。</td></tr></tbody></table>
 </article>
 </main></body></html>

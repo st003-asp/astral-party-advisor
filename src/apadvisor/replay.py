@@ -23,6 +23,7 @@ MAX_FRAMES_PER_TURN = 20
 OWNER_FRAMES = 3
 ROSTER_FRAMES = 6
 DIFFICULTIES = ("普通", "困難", "悪夢", "狂気", "極限")
+LOWER_EFFORT = {"max": "xhigh", "xhigh": "high", "high": "medium", "medium": "low"}
 FULL_EDGE, MAP_EDGE, BATTLE_EDGE = 1376, 1152, 800
 EXTRA_FRAMES_FOR_LONG_TURN = 16
 
@@ -302,15 +303,26 @@ def analyze_replay(
         limit = min(max(frames_per_turn, round(len(segment.frames) / 3)), frames_per_turn + EXTRA_FRAMES_FOR_LONG_TURN)
         selected = select_turn_frames(out_dir, segment.frames, limit)
         shown = [f for f, _ in selected]
-        try:
-            review = advisor.review_turn(
+        def run_review(level: str):
+            return advisor.review_turn(
                 [out_dir / f.file for f in shown],
                 max_edges=image_sizes([is_map for _, is_map in selected]),
                 phase=phase,
                 context=_turn_context(context, segment, board_note, position.text()),
                 tile_kinds=tile_kinds,
-                effort=effort,
+                effort=level,
             )
+
+        try:
+            try:
+                review = run_review(effort)
+            except Truncated:
+                # 出来事の多い手番は、思考が長くなって出力の上限を超えることがある。思考を1段浅くしてやり直す
+                lower = LOWER_EFFORT.get(effort)
+                if lower is None:
+                    raise
+                log(f"  [{i}/{len(targets)}] {segment.frames[0].timestamp} 出力が上限を超えたので、思考の深さを {lower} にしてやり直します")
+                review = run_review(lower)
         except Refused as exc:
             log(f"  [{i}/{len(targets)}] {segment.frames[0].timestamp} 拒否されたためスキップ: {exc}")
             continue

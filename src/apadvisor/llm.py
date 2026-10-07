@@ -21,8 +21,9 @@ DEFAULT_MODEL = os.environ.get("APADVISOR_MODEL", "claude-opus-5-5")
 # 安全分類器に誤って拒否された場合、サーバー側で別モデルに自動で振り替える
 FALLBACK_BETAS = ["server-side-fallback-2026-07-01"]
 MAX_TOOL_ROUNDS = 8
-# 思考を含めた1回の出力の上限。SDK はストリーミングなしだと約21000を超える指定を受け付けない
-REVIEW_MAX_TOKENS = 20000
+# 思考を含めた1回の出力の上限。出来事の多い手番では思考が長くなる。
+# SDK はストリーミングなしだと約21000を超える指定を受け付けないので、ストリーミングで受け取る
+REVIEW_MAX_TOKENS = 32000
 FULL_EDGE = 1376  # 手札の小さい文字まで読ませたい画面の解像度
 HAIKU_THINKING_BUDGET = 6000
 _ADVICE_SCHEMA = anthropic.transform_schema(Advice)
@@ -222,6 +223,14 @@ class Advisor:
         text = self._run_with_tools(_system(REVIEW_INSTRUCTIONS, self.map_name), content, _REVIEW_SCHEMA, effort)
         return TurnReview.model_validate_json(text)
 
+    def _create_streaming(self, **kwargs):
+        """ストリーミングで受け取り、最後にまとめた応答を返す(長い出力でもタイムアウトしない)。"""
+        stream = getattr(self.client.beta.messages, "stream", None)
+        if stream is None:  # テスト用の偽クライアント
+            return self.client.beta.messages.create(**kwargs)
+        with stream(**kwargs) as events:
+            return events.get_final_message()
+
     def _run_with_tools(self, system: list[dict], content: list[dict], schema: dict, effort: str) -> str:
         """計算ツールを使わせながら、最後に schema どおりのJSON本文を返させる。
 
@@ -234,7 +243,7 @@ class Advisor:
         options = _model_options(self.model, effort, thinking=True)
         options["output_config"] = {**options.get("output_config", {}), "format": {"type": "json_schema", "schema": schema}}
         for _ in range(MAX_TOOL_ROUNDS):
-            response = self.client.beta.messages.create(
+            response = self._create_streaming(
                 model=self.model,
                 max_tokens=REVIEW_MAX_TOKENS,
                 **options,
