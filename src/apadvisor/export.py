@@ -17,6 +17,7 @@ import cv2
 import numpy as np
 
 from .analyze import Decision
+from .replay import plain_review
 from .report import write_html
 from .schemas import Advice, TurnReview
 from .video import load_frames
@@ -37,12 +38,15 @@ def load_results(out_dir: Path) -> tuple[list[Decision], dict[str, Advice]]:
     frames = load_frames(out_dir) or []
     by_index = {f.index: f for f in frames}
     cache = json.loads((out_dir / "reviews.json").read_text(encoding="utf-8"))
+    # マスの名前(C4 など)は読む人に通じないので、マップが分かっていれば文章から除く
+    roster_path = out_dir / "roster.json"
+    map_name = json.loads(roster_path.read_text(encoding="utf-8")).get("map_name") if roster_path.exists() else None
     decisions: list[Decision] = []
     advice: dict[str, Advice] = {}
     for segment_id in sorted(cache):
         entry = cache[segment_id]
         shown = [by_index[i] for i in entry["frames"]]
-        review = TurnReview(**entry["review"])
+        review = TurnReview(**plain_review(entry["review"], map_name))
         for n, item in enumerate(review.decisions):
             pos = max(1, min(item.image_number, len(shown))) - 1
             decision = Decision(f"{segment_id}-{n}", item.decision_type, [shown[pos]], after=shown[pos + 1 : pos + 2])

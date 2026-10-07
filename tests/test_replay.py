@@ -323,3 +323,22 @@ def test_tile_legend_is_sent_when_icons_exist(monkeypatch):
     assert sum(b["type"] == "image" for b in blocks) == 2
     monkeypatch.setattr(knowledge_base, "tile_icons", lambda: [])
     assert tile_legend(["災厄"]) == []  # アイコンがなければ何も付けない
+
+
+def test_export_removes_tile_ids(tmp_path):
+    from apadvisor.export import load_results
+
+    out = tmp_path / "out"
+    (out / "frames").mkdir(parents=True)
+    cv2.imwrite(str(out / "frames" / "f00000.jpg"), np.zeros((10, 10, 3), np.uint8))
+    (out / "frames.json").write_text(
+        json.dumps({"frames": [{"index": 0, "time_sec": 0.0, "file": "frames/f00000.jpg"}]}), encoding="utf-8"
+    )
+    (out / "roster.json").write_text(json.dumps({"players": [], "map_name": "異変図書館"}), encoding="utf-8")
+    item = dict(REVIEW["decisions"][0], situation="H3のショップから出発", image_number=1)
+    review = dict(REVIEW, decisions=[item], end_position="J5", came_from="J4")
+    (out / "reviews.json").write_text(
+        json.dumps({"t001": {"phase": "my_turn", "frames": [0], "review": review}}, ensure_ascii=False), encoding="utf-8"
+    )
+    decisions, advice = load_results(out)
+    assert advice[decisions[0].id].situation == "ショップから出発"

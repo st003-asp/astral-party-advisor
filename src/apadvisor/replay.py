@@ -162,14 +162,14 @@ class PositionTracker:
         )
 
 
-def _plain(value, map_name: str | None):
+def plain_review(value, map_name: str | None):
     """講評の文章に残ったマスの名前を、マスの種類に置き換える(位置の項目はそのまま)。"""
     if isinstance(value, str):
         return board.without_tile_ids(value, map_name)
     if isinstance(value, list):
-        return [_plain(v, map_name) for v in value]
+        return [plain_review(v, map_name) for v in value]
     if isinstance(value, dict):
-        return {k: v if k in ("end_position", "came_from") else _plain(v, map_name) for k, v in value.items()}
+        return {k: v if k in ("end_position", "came_from") else plain_review(v, map_name) for k, v in value.items()}
     return value
 
 
@@ -347,7 +347,7 @@ def analyze_replay(
             continue
         shown = [by_index[i] for i in entry["frames"]]
         # マスの名前(C4 など)は読む人に通じないので、レポートに出す文章からは除く
-        review = TurnReview(**_plain(entry["review"], map_name))
+        review = TurnReview(**plain_review(entry["review"], map_name))
         for n, item in enumerate(review.decisions):
             pos = max(1, min(item.image_number, len(shown))) - 1
             decision = Decision(f"{segment.id}-{n}", item.decision_type, [shown[pos]], after=shown[pos + 1 : pos + 2])
